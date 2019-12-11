@@ -1,0 +1,40 @@
+from .payload import ChromationPayloadClassFactory as cfactory
+from .logger  import CHROMASPEC_LOGGER_JSON as log
+import json
+import re
+
+def dehex( value ):
+  log.info("value=%s", value)
+  if re.match( '0x[0-9a-fA-F]+', str(value) ):
+    h = int( value, 16 )
+    log.info("return %d", h)
+    return h
+  log.info("return %s", value)
+  return value
+
+def globalizeJsonFile( filename ):
+  log.info("filename=%s", filename)
+  with open(filename) as f:
+    j = json.load(f)["globals"]
+    log.debug("raw json=%s", j)
+    jobjects = dict( [k,dehex(v)] for k,v in j.items() )
+    log.info("return %s", jobjects)
+    return jobjects
+  
+def enclassJsonFile( filename, protocol="command" ):
+  log.info("filename=%s protocol=%s", filename, protocol)
+  with open(filename) as f:
+    j      = json.load(f)
+    p      = j["protocol"][protocol]
+    byID   = {}
+    byName = {}
+    log.debug("raw json=%s", j)
+    log.debug("raw json protocol section=%s", p)
+    for k, v in p.items():
+      log.debug("k=%s v=%s", k, v)
+      c = cfactory( int(k), protocol.capitalize()+p[k]["name"], p[k]["variables"], 
+                            p[k]["sizes"], p[k].get("repeat",None) )
+      byID[c.command_id] = c
+      byName[c.name] = c
+  log.info("return %s, %s", byID, byName)
+  return byID, byName
