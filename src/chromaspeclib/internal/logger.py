@@ -9,6 +9,7 @@ CHROMASPEC_LOGGER_STREAM  =logging.getLogger("chromaspeclib.internal.stream")
 CHROMASPEC_LOGGER_UTIL    =logging.getLogger("chromaspeclib.internal.util")
 CHROMASPEC_LOGGER_PAYLOAD =logging.getLogger("chromaspeclib.internal.payload")
 CHROMASPEC_LOGGER_JSON    =logging.getLogger("chromaspeclib.internal.json")
+CHROMASPEC_LOGGER_DATA    =logging.getLogger("chromaspeclib.internal.data")
 
 CHROMASPEC_LOGGER         .setLevel( logging.ERROR )
 CHROMASPEC_LOGGER_INTERNAL.setLevel( logging.ERROR )
@@ -38,6 +39,6 @@ def debug( includeInternals=False ):
 # If you set the main logging level, everything will print, but if you set it
 # just for one component, then just those and below will be produced
 
-# One level per file isn't sufficient, as the reply and command payload modules
+# One level per file isn't sufficient, as the reply and command data modules
 # are spread out in multiple files
 

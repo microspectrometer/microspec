@@ -1,5 +1,5 @@
 from ..jsonparse import enclassJsonFile
-from ..logger    import CHROMASPEC_LOGGER_PAYLOAD as log
+from ..logger    import CHROMASPEC_LOGGER_DATA as log
 from ...         import CHROMASPEC_ROOTDIR
 import os
 
