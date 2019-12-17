@@ -11,9 +11,10 @@ class ChromationPayload(object):
       log.debug("n=%d", n)
       var   = self.variables[n]
       value = kwargs.get( var, None )
-      self.value[  var] = \
-        value if value is None else ChromationInteger( dehex(value), self.sizes[n] )
+      # Note: use __setitem__ rather than .value[var] to utilize casting functionality
+      #       and set size first because it's part of the ChromationInteger casting
       self.varsize[var] = self.sizes[n]
+      self[        var] = value 
       log.debug("value[%s]=%s size[%s]=%d", var, value, var, self.sizes[n])
     if payload:
       self.unpack(payload)
@@ -34,10 +35,12 @@ class ChromationPayload(object):
   def __setitem__( self, attr, value ):
     log.info("attr=%s value=%s", attr, value)
     if attr != "variables" and attr in self.variables:
-      self.__dict__["value"][attr] = \
-        value if value is None else ChromationInteger( dehex(value), self.varsize[attr] )
+      self.__dict__["value"].update({attr:
+        value if value is None else 
+        ChromationInteger( dehex(value), self.varsize[attr] ) 
+      })
     else:
-      self.__dict__[attr] = value
+      self.__dict__.update({attr: value})
     log.info("return")
 
   def __iter__( self ):
@@ -47,9 +50,12 @@ class ChromationPayload(object):
   def __setattr__( self, attr, value ):
     log.info("attr=%s value=%s", attr, value)
     if attr != "variables" and attr in self.variables:
-      self.__dict__["value"][attr] = ChromationInteger( value, self.varsize[attr] )
+      self.__dict__["value"].update({attr:
+        value if value is None else 
+        ChromationInteger( dehex(value), self.varsize[attr] )
+      })
     else:
-      self.__dict__[attr] = value
+      self.__dict__.update({attr: value})
     log.info("return")
 
   def __getattr__( self, attr ):
@@ -136,9 +142,31 @@ class ChromationRepeatPayload( ChromationPayload ):
     if attr != "variables" and attr in self.variables:
       repeat = self.repeat.get( attr, None )
       if repeat:
-        self.__dict__["value"][attr] = [ ChromationInteger( v, self.varsize[attr] ) for v in value ]
+        self.__dict__["value"].update({attr:
+          [] if value is None else
+          [ ChromationInteger( dehex(v), self.varsize[attr] ) for v in value ]
+        })
       else:
-        self.__dict__["value"][attr] = ChromationInteger( value, self.varsize[attr] )
+        self.__dict__["value"].update({attr:
+          value if value is None else
+          ChromationInteger( dehex(value), self.varsize[attr] )
+        })
+    else:
+      self.__dict__.update({attr: value})
+    log.info("return")
+
+  def __setitem__( self, attr, value ):
+    log.info("attr=%s value=%s", attr, value)
+    if attr != "variables" and attr in self.variables:
+      repeat = self.repeat.get( attr, None )
+      if repeat:
+        self.__dict__["value"][attr] = \
+          [] if value is None else \
+          [ v if v is None else ChromationInteger( dehex(v), self.varsize[attr] ) for v in value ]
+      else:
+        self.__dict__["value"][attr] = \
+          value if value is None else \
+          ChromationInteger( dehex(value), self.varsize[attr] )
     else:
       self.__dict__[attr] = value
     log.info("return")
