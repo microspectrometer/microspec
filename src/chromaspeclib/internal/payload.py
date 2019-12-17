@@ -11,7 +11,8 @@ class ChromationPayload(object):
       log.debug("n=%d", n)
       var   = self.variables[n]
       value = kwargs.get( var, None )
-      self.value[  var] = value
+      self.value[  var] = \
+        value if value is None else ChromationInteger( dehex(value), self.sizes[n] )
       self.varsize[var] = self.sizes[n]
       log.debug("value[%s]=%s size[%s]=%d", var, value, var, self.sizes[n])
     if payload:
@@ -33,14 +34,15 @@ class ChromationPayload(object):
   def __setitem__( self, attr, value ):
     log.info("attr=%s value=%s", attr, value)
     if attr != "variables" and attr in self.variables:
-      self.__dict__["value"][attr] = ChromationInteger( value, self.varsize[attr] )
+      self.__dict__["value"][attr] = \
+        value if value is None else ChromationInteger( dehex(value), self.varsize[attr] )
     else:
       self.__dict__[attr] = value
     log.info("return")
 
   def __iter__( self ):
     log.info("return")
-    return self.variables.iter()
+    return iter(self.variables)
 
   def __setattr__( self, attr, value ):
     log.info("attr=%s value=%s", attr, value)
@@ -64,7 +66,8 @@ class ChromationPayload(object):
   def __str__( self ):
     log.info("")
     s = "<%s name=%s command_id=%s variables=%s values=%s sizes=%s packformat=%s length=%d packed=%s>" % \
-      ( self.__class__.__name__, self.name, self.command_id, self.variables, self.value, self.sizes, self.packformat(), \
+      ( self.__class__.__name__, self.name, self.command_id, self.variables, \
+        self.value, self.sizes, self.packformat(), \
         len(self), self.pack() )
     log.info("return %s", s)
     return s
@@ -186,7 +189,8 @@ class ChromationRepeatPayload( ChromationPayload ):
     used   = 0
     for n in range( 0, len(self.variables) ):
       repeat = self.repeat.get( self.variables[n], None )
-      log.debug("packformat=%s payrest=%s n=%d repeat=%s variables[%d]=%s", packformat, payrest, n, repeat, n, self.variables[n])
+      log.debug("packformat=%s payrest=%s n=%d repeat=%s variables[%d]=%s", 
+                packformat, payrest, n, repeat, n, self.variables[n])
       if repeat:
         size     = self.sizes[n]
         number   = int(self[repeat])
@@ -243,7 +247,7 @@ def _chunkPayload( payload, chopsize ):
   payrest = payload
   paychop = b''
   while chopped < chopsize and payrest:
-    ns = re.match('(\d+)s',payrest)
+    ns = re.match('([0-9]+)s',payrest)
     log.debug("chopped=%d payrest=%s ns=%s", chopped, payrest, ns)
     if ns:
       n = int(ns.groups()[0])

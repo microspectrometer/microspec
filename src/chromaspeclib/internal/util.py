@@ -1,8 +1,9 @@
 from .logger import CHROMASPEC_LOGGER_UTIL as log
 from struct  import unpack, pack
+import re
 
 class ChromationInteger(int):
-  def __new__( self, value, size=1, byteorder="big", signed=True ):
+  def __new__( self, value, size=1, byteorder="big", signed=False ):
     log.info("value=%d size=%d byteorder=%s signed=%s", value, size, byteorder, signed)
     self = int.__new__( ChromationInteger, value )
     self.size      = size
@@ -27,3 +28,13 @@ def isInt( i ):
     log.info("return False")
     return False
   return False
+
+def dehex( value ):
+  log.info("value=%s", value)
+  if re.match( '0x[0-9a-fA-F]+', str(value) ):
+    h = int( value, 16 )
+    log.info("return %d", h)
+    return h
+  log.info("return %s", value)
+  return value
+

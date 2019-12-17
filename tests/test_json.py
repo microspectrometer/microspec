@@ -1,15 +1,9 @@
 import unittest, os
-from chromaspeclib.internal.jsonparse import dehex, globalizeJsonFile, enclassJsonFile
+from chromaspeclib.internal.jsonparse import globalizeJsonFile, enclassJsonFile
 
 jsontest = os.path.realpath( os.path.join( os.path.dirname( __file__ ), "test.json" ) )
 
 class ChromaspecTestJson(unittest.TestCase):
-
-  def test_dehex(self):
-    assert dehex("FF")   == "FF"
-    assert dehex("1")    == "1"
-    assert dehex("0xFF") == 255
-    assert dehex("0xff") == 255
 
   def test_globals(self):
     g = globalizeJsonFile( jsontest )

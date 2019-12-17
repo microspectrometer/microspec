@@ -1,9 +1,9 @@
 import unittest, os
-from chromaspeclib.internal.util import ChromationInteger, isInt
+from chromaspeclib.internal.util import ChromationInteger, isInt, dehex
 
 class ChromaspecTestUtil(unittest.TestCase):
 
-  def test_chromationinteger(self):
+  def test_chromationInteger(self):
     ints = [ 
       [    0, 1,    "big", False,     b'\x00' ],
       [    1, 1,    "big", False,     b'\x01' ],
@@ -20,9 +20,16 @@ class ChromaspecTestUtil(unittest.TestCase):
       b = bytes(ci)
       assert b == i[4]
     
-  def test_isint(self):
+  def test_isInt(self):
     assert isInt(1)     == True
     assert isInt("1")   == False
     assert isInt(None)  == False
     #assert isInt(False) == False # These actually turn out to be True
     #assert isInt(True)  == False # These actually turn out to be True
+
+  def test_dehex(self):
+    assert dehex("FF")   == "FF"
+    assert dehex("1")    == "1"
+    assert dehex("0xFF") == 255
+    assert dehex("0xff") == 255
+

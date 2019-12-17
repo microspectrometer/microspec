@@ -1,16 +1,7 @@
 from .payload import ChromationPayloadClassFactory as cfactory
+from .util    import dehex
 from .logger  import CHROMASPEC_LOGGER_JSON as log
 import json
-import re
-
-def dehex( value ):
-  log.info("value=%s", value)
-  if re.match( '0x[0-9a-fA-F]+', str(value) ):
-    h = int( value, 16 )
-    log.info("return %d", h)
-    return h
-  log.info("return %s", value)
-  return value
 
 def globalizeJsonFile( filename ):
   log.info("filename=%s", filename)
