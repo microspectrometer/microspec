@@ -1,4 +1,4 @@
-import unittest, os
+import unittest, os, pytest
 from chromaspeclib.internal.payload import ChromationPayloadClassFactory, ChromationPayload, ChromationRepeatPayload
 
 class ChromaspecTestPayloadFactory(unittest.TestCase):
@@ -113,20 +113,20 @@ class ChromaspecTestRepeatPayload(ChromaspecTestPayload):
     assert obj.repeat     == { "baz": "foo" }
 
   def test_initKwargs(self):
-    obj = self.klass(foo=1,bar=2,baz=["0xFF"])
-    assert obj.foo        == 1
+    obj = self.klass(foo=3,bar=2,baz=["0xFF",0,17])
+    assert obj.foo        == 3
     assert obj.bar        == 2
-    assert obj.baz        == [255]
+    assert obj.baz        == [255,0,17]
     assert obj.command_id == 99
     assert obj.variables  == ["command_id","foo","bar","baz"]
     assert obj.sizes      == [1,1,2,4]
     assert obj.repeat     == { "baz": "foo" }
 
   def test_initPayload(self):
-    obj = self.klass(b'\x63\x01\x00\x02\x00\x00\x00\xFF')
-    assert obj.foo        == 1
+    obj = self.klass(b'\x63\x03\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11')
+    assert obj.foo        == 3
     assert obj.bar        == 2
-    assert obj.baz        == [255]
+    assert obj.baz        == [255,0,17]
     assert obj.command_id == 99
     assert obj.variables  == ["command_id","foo","bar","baz"]
     assert obj.sizes      == [1,1,2,4]
@@ -134,18 +134,44 @@ class ChromaspecTestRepeatPayload(ChromaspecTestPayload):
 
   def test_unpack(self):
     obj = self.klass()
-    obj.unpack(b'\x63\x01\x00\x02\x00\x00\x00\xFF')
-    assert obj.foo        == 1
+    obj.unpack(b'\x63\x03\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11')
+    assert obj.foo        == 3
     assert obj.bar        == 2
-    assert obj.baz        == [255]
+    assert obj.baz        == [255,0,17]
     assert obj.command_id == 99
     assert obj.variables  == ["command_id","foo","bar","baz"]
     assert obj.sizes      == [1,1,2,4]
 
   def test_str(self):
-    obj = self.klass(b'\x63\x01\x00\x02\x00\x00\x00\xFF')
-    s   = """<grok name=grok command_id=99 variables=['command_id', 'foo', 'bar', 'baz'] values={'command_id': 99, 'foo': 1, 'bar': 2, 'baz': [255]} sizes=[1, 1, 2, 4] packformat=>BBHL length=8 packed=b'c\\x01\\x00\\x02\\x00\\x00\\x00\\xff'>"""
+    obj = self.klass(b'\x63\x03\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11')
+    s   = """<grok name=grok command_id=99 variables=['command_id', 'foo', 'bar', 'baz'] values={'command_id': 99, 'foo': 3, 'bar': 2, 'baz': [255, 0, 17]} sizes=[1, 1, 2, 4] packformat=>BBHLLL length=8 packed=b'c\\x03\\x00\\x02\\x00\\x00\\x00\\xff\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x11'>"""
     assert str(obj) == s
+
+  def test_packformat(self):
+    obj = self.klass(b'\x63\x03\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11')
+    assert obj.packformat() == ">BBHLLL"
+
+  def test_tooFewData(self):
+    obj = self.klass(b'\x63\x03\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11')
+    obj.foo = 4
+    # NOTE: the "repeat" number doesn't follow the list
+    #       and if the number is too large for the data, it will throw an exception
+    assert obj.foo        == 4
+    assert obj.baz        == [255,0,17]
+    with pytest.raises(Exception) as excinfo:
+      b = bytes(obj)
+    assert "pack expected 7 items for packing (got 6)" in str(excinfo.value)
+
+  def test_tooManyData(self):
+    obj = self.klass(b'\x63\x03\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11')
+    obj.foo = 4
+    obj.baz = [255,0,17,42,99]
+    # NOTE: the "repeat" number doesn't follow the list
+    #       though the list does get chopped at bytes() or pack() time
+    assert obj.foo        == 4
+    assert obj.baz        == [255,0,17,42,99]
+    b = bytes(obj)
+    assert b == b'\x63\x04\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x2A'
 
 
 

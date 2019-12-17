@@ -194,10 +194,10 @@ class ChromationRepeatPayload( ChromationPayload ):
     log.info("")
     import itertools
     pv = list( itertools.chain.from_iterable( # flatten repeat items #
-             [ getattr( self, v )[0:int(self[self.repeat.get(v)])] 
-                 if self.repeat.get(v,None) else
-               [ getattr( self, v ) ]
-                 for v in self.variables ]
+             [   getattr( self, v )[0:int(self[self.repeat.get(v)])] 
+               if self.repeat.get(v,None) else
+                 [ getattr( self, v ) ]
+               for v in self.variables ]
            ) )
     log.info("return %s", pv)
     return pv
