@@ -1,4 +1,4 @@
-import unittest, os, pytest
+import unittest, os, pytest, copy
 from chromaspeclib.internal.payload import ChromationPayloadClassFactory, ChromationPayload, ChromationRepeatPayload
 
 class ChromaspecTestPayloadFactory(unittest.TestCase):
@@ -96,6 +96,35 @@ class ChromaspecTestPayload(unittest.TestCase):
     obj = self.klass(b)
     assert obj.pack() == b
 
+  def test_equals(self):
+    b = b'\x63\x01\x00\x02\x00\x00\x00\xFF'
+    obj = self.klass(b)
+    ob2 = self.klass(b)
+    assert obj == ob2
+
+    ob2.name = "fii"
+    assert obj != ob2
+
+    ob2 = self.klass(b)
+    ob2.value[0] = 999
+    assert obj != ob2
+
+    ob2 = self.klass(b)
+    ob2.varsize[0] = 999
+    assert obj != ob2
+
+    ob2 = self.klass(b)
+    ob2.command_id = 999
+    assert obj != ob2
+
+    ob2 = self.klass(b)
+    ob2.variables = ["a","b","c","d"]
+    assert obj != ob2
+
+    ob2 = self.klass(b)
+    ob2.sizes = [999,999,999,999]
+    assert obj != ob2
+
 class ChromaspecTestRepeatPayload(ChromaspecTestPayload):
 
   def __init__(self, *args, **kwargs):
@@ -173,6 +202,13 @@ class ChromaspecTestRepeatPayload(ChromaspecTestPayload):
     b = bytes(obj)
     assert b == b'\x63\x04\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x2A'
 
+  def test_equals(self):
+    super().test_equals()
+    b = b'\x63\x01\x00\x02\x00\x00\x00\xFF'
+    obj = self.klass(b)
+    ob2 = self.klass(b)
+    ob2.repeat = "xxx"
+    assert obj != ob2
 
 
 

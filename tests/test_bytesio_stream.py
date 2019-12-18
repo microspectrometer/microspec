@@ -1,6 +1,7 @@
 import unittest, os, pytest
 from io import BytesIO
 from chromaspeclib.internal.stream import ChromationBytesIOStream
+from chromaspeclib.internal.data   import *
 
 class ChromaspecTestBytesIOStream(unittest.TestCase):
 
@@ -130,7 +131,37 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
     assert     r  ==     d[5:6]
     assert len(r) == len(d[5:6])
 
+  def test_writeManyReadPartialConsume(self):
+    s = ChromationBytesIOStream()
+    d = b'\x00\x01\x02\x03\x04\x05'
+    s.write(d)
+    r = s.read(4)
+    assert     r  ==     d[0:4]
+    assert len(r) == len(d[0:4])
+    s.consume(2)
+    r = s.read(4)
+    assert     r  ==     d[2:6]
+    assert len(r) == len(d[2:6])
+    s.consume(2)
+    r = s.read(4)
+    assert     r  ==     d[4:6]
+    assert len(r) == len(d[4:6])
+    s.consume(2)
+    r = s.read(4)
+    assert     r  ==     d[6:6]
+    assert len(r) == len(d[6:6])
 
+  def test_writeReadCommand(self):
+    s = ChromationBytesIOStream()
+    #for cid in CHROMASPEC_COMMAND_ID.keys():
+    #  if cid < 0:
+    #    # Unimplemented test values in JSON
+    #    continue
+    #  cklass = getCommandByID(cid)
+    #  c      = cklass()
+    #  for v in c:
+    #    c[v] = 1 # dummy data
+    #  cbytes = c.pack()
 
 
 

@@ -5,14 +5,20 @@ from struct  import unpack, pack
 class ChromationPayload(object):
   def __init__( self, payload=None, **kwargs ):
     log.info("payload=%s kwargs=%s", payload, kwargs)
+    # If we don't make a copy of these, editing them edits the class copy.
+    # One should not be changing them, but if one does, one shouldn't break everything,
+    #   and merely making them read-only doesn't fix the issue of mutable sub-objects.
+    self.__dict__["command_id"] = self.__class__.command_id
+    self.__dict__["variables"]  = self.__class__.variables.copy()
+    self.__dict__["sizes"]      = self.__class__.sizes.copy()
     self.value   = {}
     self.varsize = {}
     for n in range( 0, len(self.variables) ):
       log.debug("n=%d", n)
       var   = self.variables[n]
       value = kwargs.get( var, None )
-      # Note: use __setitem__ rather than .value[var] to utilize casting functionality
-      #       and set size first because it's part of the ChromationInteger casting
+      # Use __setitem__ rather than .value[var] to utilize casting functionality
+      #   and set size first because it's part of the ChromationInteger casting
       self.varsize[var] = self.sizes[n]
       self[        var] = value 
       log.debug("value[%s]=%s size[%s]=%d", var, value, var, self.sizes[n])
@@ -119,8 +125,8 @@ class ChromationPayload(object):
 
   def unpack( self, payload ):
     log.info("payload=%s", payload)
-    # NOTE: The payload may be bigger than needed, to accommodate
-    # chopping data down packet by packet
+    # The payload may be bigger than needed, to accommodate
+    #   chopping data down packet by packet
     length = len(self)
     values = unpack( self.packformat(), payload[0:length] )
     log.debug( "unpacked values=%s", values )
@@ -131,11 +137,26 @@ class ChromationPayload(object):
     log.info("return %s", p)
     return p
 
+  def __eq__(self, other):
+    if not isinstance(other, ChromationPayload):
+      return NotImplemented
+    if self.name       != other.name:       return False
+    if self.command_id != other.command_id: return False
+    if self.variables  != other.variables:  return False
+    if self.value      != other.value:      return False
+    if self.sizes      != other.sizes:      return False
+    if self.varsize    != other.varsize:    return False
+    return True
+
 class ChromationRepeatPayload( ChromationPayload ):
   """The difference from the parent class is that the repeat process
   requires packing arrays, and requires partially-gradually unpacking
   the payload, since part of the payload defines how much to continue
   to pack and unpack."""
+
+  def __init__( self, *args, **kwargs ):
+    self.__dict__["repeat"] = self.__class__.repeat.copy()
+    super().__init__(*args,**kwargs)
 
   def __setattr__( self, attr, value ):
     log.info("attr=%s value=%s", attr, value)
@@ -204,7 +225,7 @@ class ChromationRepeatPayload( ChromationPayload ):
 
   def unpack( self, payload ): 
     log.info("payload=%s",payload)
-    # NOTE: The payload may be bigger than needed, to accommodate
+    # The payload may be bigger than needed, to accommodate
     # chopping data down packet by packet
     packformat = super().packformat()
     # The superclass packformat doesn't repeat, so it's used to iterate through
@@ -244,6 +265,13 @@ class ChromationRepeatPayload( ChromationPayload ):
     p = payload[used:]
     log.info("return %s", p)
     return p
+
+  def __eq__(self, other):
+    if not isinstance(other, ChromationRepeatPayload):
+      return NotImplemented
+    if not super().__eq__(other):   return False
+    if self.repeat != other.repeat: return False
+    return True
 
 def ChromationPayloadClassFactory( command_id, name, variables, sizes, repeat=None ):
   log.info("command_id=%d name=%s variables=%s sizes=%s repeat=%s", command_id, name, variables, sizes, repeat)
