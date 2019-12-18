@@ -35,7 +35,7 @@ class ChromationStream(object):
 
   def write( self, buf, *args, **kwargs ):
     log.info("buf=%s args=%s kwargs=%s", buf, args, kwargs)
-    self.buffer = b''
+    #self.buffer = b''
     buf = self.stream.write( bytes(buf), *args, **kwargs )
     log.info("return buf=%s", buf)
     return buf
