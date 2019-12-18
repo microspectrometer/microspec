@@ -99,6 +99,37 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
     assert     r  ==     d[2:3]
     assert len(r) == len(d[2:3])
 
+  def test_writeManyReadInterleaved(self):
+    s = ChromationBytesIOStream()
+    d = b'\x00\x01\x02\x03\x04\x05'
+    s.write(d[0:3])
+    r = s.read(1)
+    assert     r  ==     d[0:1]
+    assert len(r) == len(d[0:1])
+    s.write(d[3:4])
+    s.consume(1)
+    r = s.read(1)
+    assert     r  ==     d[1:2]
+    assert len(r) == len(d[1:2])
+    s.consume(1)
+    s.write(d[4:5])
+    r = s.read(1)
+    assert     r  ==     d[2:3]
+    assert len(r) == len(d[2:3])
+    s.consume(1)
+    r = s.read(1)
+    s.write(d[5:6])
+    assert     r  ==     d[3:4]
+    assert len(r) == len(d[3:4])
+    s.consume(1)
+    r = s.read(1)
+    assert     r  ==     d[4:5]
+    assert len(r) == len(d[4:5])
+    s.consume(1)
+    r = s.read(1)
+    assert     r  ==     d[5:6]
+    assert len(r) == len(d[5:6])
+
 
 
 
