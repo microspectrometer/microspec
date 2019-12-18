@@ -1,7 +1,8 @@
 import unittest, os, pytest
 from io import BytesIO
-from chromaspeclib.internal.stream import ChromationBytesIOStream
-from chromaspeclib.internal.data   import *
+from chromaspeclib.internal.stream       import ChromationBytesIOStream
+from chromaspeclib.internal.data         import *
+from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
 
 class ChromaspecTestBytesIOStream(unittest.TestCase):
 
@@ -153,15 +154,25 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
 
   def test_writeReadCommand(self):
     s = ChromationBytesIOStream()
-    #for cid in CHROMASPEC_COMMAND_ID.keys():
-    #  if cid < 0:
-    #    # Unimplemented test values in JSON
-    #    continue
-    #  cklass = getCommandByID(cid)
-    #  c      = cklass()
-    #  for v in c:
-    #    c[v] = 1 # dummy data
-    #  cbytes = c.pack()
+    w = []
+    for cid in CHROMASPEC_COMMAND_ID.keys():
+      if cid < 0:
+        # Unimplemented test values in JSON
+        continue
+      cklass = getCommandByID(cid)
+      c      = cklass()
+      for v in c:
+        c[v] = 99 # dummy data
+      c.command_id = cklass.command_id # varibles include this, need to undo it
+      s.sendCommand(c)
+      w.append(c)
+    for cid in CHROMASPEC_COMMAND_ID.keys():
+      if cid < 0:
+        # Unimplemented test values in JSON
+        continue
+      c1 = s.receiveCommand()
+      c2 = w.pop(0)
+      assert c1 == c2
 
 
 

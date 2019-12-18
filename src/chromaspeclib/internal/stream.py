@@ -51,6 +51,7 @@ class ChromationStream(object):
       log.error("Command ID not recognized: %d", command_id)
       return None
     command = klass()
+    self.consume( 1 )
     buf = command_id + self.read( len(command) - 1 )
     if len(buf) < len(command):
       log.info("Read only %d of %d bytes", len(buf), len(command))
@@ -60,7 +61,7 @@ class ChromationStream(object):
     except Exception as e:
       log.info("Cannot unpack buf=%s exception=%s", buf, str(e))
       return None
-    self.consume( len(command) )
+    self.consume( len(command) - 1 )
     log.info("return %s", command)
     return command
 
