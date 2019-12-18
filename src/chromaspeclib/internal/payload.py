@@ -32,7 +32,7 @@ class ChromationPayload(object):
       log.info("return %s", self.__dict__["value"][attr])
       return self.__dict__["value"][attr]
     elif attr not in self.__dict__:
-      log.error("Attribute %s not found in payload object")
+      log.error("Attribute %s not found in payload object", attr)
       raise AttributeError
     else:
       log.info("return %s", self.__dict__[attr])
@@ -69,7 +69,7 @@ class ChromationPayload(object):
     if attr != "variables" and attr in self.variables:
       return self.__dict__["value"][attr]
     elif attr not in self.__dict__:
-      log.error("Attribute %s not found in payload object")
+      log.error("Attribute %s not found in payload object", attr)
       raise AttributeError
     else:
       return self.__dict__[attr]

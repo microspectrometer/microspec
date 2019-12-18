@@ -71,7 +71,9 @@ class ChromationStream(object):
 
   def sendReply( self, reply ):
     log.info("reply=%s", reply)
-    return self.write( reply )
+    result = self.write( reply )
+    log.info("return result=%d", result)
+    return result
 
   def receiveReply( self, command_id ):
     log.info("command_id=%d", command_id)
@@ -88,7 +90,7 @@ class ChromationStream(object):
       log.info("serialbuf=%s exception=%s", serialbuf, str(e))
       return None
     self.consume( len(bytes(serial_reply)) )
-    if serial_reply.status != 0 or not sensor_klass:
+    if not hasattr( serial_reply, "status") or serial_reply.status != 0 or not sensor_klass:
       log.info("return serial_reply=%s", serial_reply)
       return serial_reply
     sensorbuf = self.read( CHROMASPEC_MAX_READBUFLEN )
@@ -130,12 +132,6 @@ class ChromationBytesIOStream(ChromationStream):
     self.stream.seek( self.writepos )
     result = super().write( bytes(buf), *args, **kwargs )
     self.writepos += result
-    log.info("return result=%d", result)
-    return result
-
-  def sendReply( self, reply ):
-    log.info("reply=%s", reply)
-    result = self.write( reply )
     log.info("return result=%d", result)
     return result
 
