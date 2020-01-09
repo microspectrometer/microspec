@@ -66,17 +66,18 @@ class ChromationEmulator(object):
     elif command.command_id == CommandGetSensorConfig.command_id:
       return [ SerialGetSensorConfig( status=StatusOK ),
                SensorGetSensorConfig( status=StatusOK, binning=self.binning, gain=self.gain, row_bitmap=self.rows ) ]
-    elif command.command_id == CommandGetSensorConfig.command_id:
+    elif command.command_id == CommandSetSensorConfig.command_id:
       try:
+        #import pdb; pdb.set_trace()
         assert False <= command.binning <= True
         assert command.gain in [ Gain1x, Gain2_5x, Gain4x, Gain5x ]
         assert command.row_bitmap != 0
         assert command.row_bitmap&0x1F != 0
-        self.gain = gain
+        self.gain = command.gain
         self.binning = command.binning
         self.rows = command.row_bitmap
-        return [ SerialSetSensorLED( status=StatusOK ),
-                 SensorSetSensorLED( status=StatusOK ) ]
+        return [ SerialSetSensorConfig( status=StatusOK ),
+                 SensorSetSensorConfig( status=StatusOK ) ]
       except:
         return [ SerialSetSensorConfig( status=StatusOK ),
                  SensorSetSensorConfig( status=StatusError ) ]
