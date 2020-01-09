@@ -85,3 +85,45 @@ class ChromaspecTestEmulator(unittest.TestCase):
     assert e.rows          == rows
     assert e.cycles        == cycles
 
+  def test_chromationEmulatorBadData(self):
+    e = ChromationEmulator()
+    assert e.process( CommandGetBridgeLED(led_num=-1) ) == \
+                    [ SerialGetBridgeLED( status=StatusError, led_num=0, led_setting=LEDOff ) ]
+    assert e.process( CommandGetBridgeLED(led_num=1) ) == \
+                    [ SerialGetBridgeLED( status=StatusError, led_num=0, led_setting=LEDOff ) ]
+    assert e.process( CommandGetSensorLED(led_num=-1) ) == \
+                    [ SerialGetSensorLED( status=StatusOK ),
+                      SensorGetSensorLED( status=StatusError, led_num=0, led_setting=LEDOff ) ]
+    assert e.process( CommandGetSensorLED(led_num=2) ) == \
+                    [ SerialGetSensorLED( status=StatusOK ),
+                      SensorGetSensorLED( status=StatusError, led_num=0, led_setting=LEDOff ) ]
+    assert e.process( CommandSetBridgeLED( led_num=-1, led_setting=LEDOff ) ) == \
+                    [ SerialSetBridgeLED( status=StatusError ) ]
+    assert e.process( CommandSetBridgeLED( led_num=1, led_setting=LEDOff ) ) == \
+                    [ SerialSetBridgeLED( status=StatusError ) ]
+    assert e.process( CommandSetBridgeLED( led_num=0, led_setting=99 ) ) == \
+                    [ SerialSetBridgeLED( status=StatusError ) ]
+    assert e.process( CommandSetSensorLED( led_num=-1, led_setting=LEDOff ) ) == \
+                    [ SerialSetSensorLED( status=StatusOK ),
+                      SensorSetSensorLED( status=StatusError ) ]
+    assert e.process( CommandSetSensorLED( led_num=2, led_setting=LEDOff ) ) == \
+                    [ SerialSetSensorLED( status=StatusOK ),
+                      SensorSetSensorLED( status=StatusError ) ]
+    assert e.process( CommandSetSensorLED( led_num=2, led_setting=99 ) ) == \
+                    [ SerialSetSensorLED( status=StatusOK ),
+                      SensorSetSensorLED( status=StatusError ) ]
+    assert e.process( CommandSetSensorConfig( binning=-1, gain=GainDefault, row_bitmap=RowsDefault ) ) == \
+                    [ SerialSetSensorConfig( status=StatusOK ),
+                      SensorSetSensorConfig( status=StatusError ) ]
+    assert e.process( CommandSetSensorConfig( binning=True, gain=99, row_bitmap=RowsDefault ) ) == \
+                    [ SerialSetSensorConfig( status=StatusOK ),
+                      SensorSetSensorConfig( status=StatusError ) ]
+    assert e.process( CommandSetSensorConfig( binning=True, gain=GainDefault, row_bitmap=0x00 ) ) == \
+                    [ SerialSetSensorConfig( status=StatusOK ),
+                      SensorSetSensorConfig( status=StatusError ) ]
+    assert e.process( CommandSetSensorConfig( binning=True, gain=GainDefault, row_bitmap=0x8000 ) ) == \
+                    [ SerialSetSensorConfig( status=StatusOK ),
+                      SensorSetSensorConfig( status=StatusError ) ]
+    assert e.process( CommandSetExposure( cycles=-1 ) ) == \
+                    [ SerialSetExposure( status=StatusOK ),
+                      SensorSetExposure( status=StatusError ) ]
