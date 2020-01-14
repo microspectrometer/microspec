@@ -2,7 +2,7 @@ from .util   import *
 from .logger import CHROMASPEC_LOGGER_PAYLOAD as log
 from struct  import unpack, pack
 
-class ChromationPayload(object):
+class ChromaSpecPayload(object):
   def __init__( self, payload=None, **kwargs ):
     log.info("payload=%s kwargs=%s", payload, kwargs)
     # If we don't make a copy of these, editing them edits the class copy.
@@ -18,7 +18,7 @@ class ChromationPayload(object):
       var   = self.variables[n]
       value = kwargs.get( var, None )
       # Use __setitem__ rather than .value[var] to utilize casting functionality
-      #   and set size first because it's part of the ChromationInteger casting
+      #   and set size first because it's part of the ChromaSpecInteger casting
       self.varsize[var] = self.sizes[n]
       self[        var] = value 
       log.debug("value[%s]=%s size[%s]=%d", var, value, var, self.sizes[n])
@@ -43,7 +43,7 @@ class ChromationPayload(object):
     if attr != "variables" and attr in self.variables:
       self.__dict__["value"].update({attr:
         value if value is None else 
-        ChromationInteger( dehex(value), self.varsize[attr] ) 
+        ChromaSpecInteger( dehex(value), self.varsize[attr] ) 
       })
     else:
       self.__dict__.update({attr: value})
@@ -58,7 +58,7 @@ class ChromationPayload(object):
     if attr != "variables" and attr in self.variables:
       self.__dict__["value"].update({attr:
         value if value is None else 
-        ChromationInteger( dehex(value), self.varsize[attr] )
+        ChromaSpecInteger( dehex(value), self.varsize[attr] )
       })
     else:
       self.__dict__.update({attr: value})
@@ -138,7 +138,7 @@ class ChromationPayload(object):
     return p
 
   def __eq__(self, other):
-    if not isinstance(other, ChromationPayload):
+    if not isinstance(other, ChromaSpecPayload):
       return NotImplemented
     if self.name       != other.name:       return False
     if self.command_id != other.command_id: return False
@@ -148,7 +148,7 @@ class ChromationPayload(object):
     if self.varsize    != other.varsize:    return False
     return True
 
-class ChromationRepeatPayload( ChromationPayload ):
+class ChromaSpecRepeatPayload( ChromaSpecPayload ):
   """The difference from the parent class is that the repeat process
   requires packing arrays, and requires partially-gradually unpacking
   the payload, since part of the payload defines how much to continue
@@ -165,12 +165,12 @@ class ChromationRepeatPayload( ChromationPayload ):
       if repeat:
         self.__dict__["value"].update({attr:
           [] if value is None else
-          [ ChromationInteger( dehex(v), self.varsize[attr] ) for v in value ]
+          [ ChromaSpecInteger( dehex(v), self.varsize[attr] ) for v in value ]
         })
       else:
         self.__dict__["value"].update({attr:
           value if value is None else
-          ChromationInteger( dehex(value), self.varsize[attr] )
+          ChromaSpecInteger( dehex(value), self.varsize[attr] )
         })
     else:
       self.__dict__.update({attr: value})
@@ -183,11 +183,11 @@ class ChromationRepeatPayload( ChromationPayload ):
       if repeat:
         self.__dict__["value"][attr] = \
           [] if value is None else \
-          [ v if v is None else ChromationInteger( dehex(v), self.varsize[attr] ) for v in value ]
+          [ v if v is None else ChromaSpecInteger( dehex(v), self.varsize[attr] ) for v in value ]
       else:
         self.__dict__["value"][attr] = \
           value if value is None else \
-          ChromationInteger( dehex(value), self.varsize[attr] )
+          ChromaSpecInteger( dehex(value), self.varsize[attr] )
     else:
       self.__dict__[attr] = value
     log.info("return")
@@ -267,16 +267,16 @@ class ChromationRepeatPayload( ChromationPayload ):
     return p
 
   def __eq__(self, other):
-    if not isinstance(other, ChromationRepeatPayload):
+    if not isinstance(other, ChromaSpecRepeatPayload):
       return NotImplemented
     if not super().__eq__(other):   return False
     if self.repeat != other.repeat: return False
     return True
 
-def ChromationPayloadClassFactory( command_id, name, variables, sizes, repeat=None ):
+def ChromaSpecPayloadClassFactory( command_id, name, variables, sizes, repeat=None ):
   log.info("command_id=%d name=%s variables=%s sizes=%s repeat=%s", command_id, name, variables, sizes, repeat)
   if repeat:
-    klass = type( str(name), (ChromationRepeatPayload,), {
+    klass = type( str(name), (ChromaSpecRepeatPayload,), {
       'command_id'   : int(command_id),
       'name'         : name,
       'variables'    : variables,
@@ -284,7 +284,7 @@ def ChromationPayloadClassFactory( command_id, name, variables, sizes, repeat=No
       'repeat'       : repeat,
     } )
   else:
-    klass = type( str(name), (ChromationPayload,), {
+    klass = type( str(name), (ChromaSpecPayload,), {
       'command_id'   : int(command_id),
       'name'         : name,
       'variables'    : variables,

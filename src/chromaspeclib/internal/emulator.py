@@ -1,6 +1,6 @@
 from chromaspeclib.internal.data import *
 
-class ChromationEmulator(object):
+class ChromaSpecEmulator(object):
   
   def __init__(self):
     #TODO: more initialization state

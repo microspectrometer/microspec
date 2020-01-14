@@ -2,10 +2,10 @@ from .logger import CHROMASPEC_LOGGER_UTIL as log
 from struct  import unpack, pack
 import re
 
-class ChromationInteger(int):
+class ChromaSpecInteger(int):
   def __new__( self, value, size=1, byteorder="big", signed=False ):
     log.info("value=%d size=%d byteorder=%s signed=%s", value, size, byteorder, signed)
-    self = int.__new__( ChromationInteger, value )
+    self = int.__new__( ChromaSpecInteger, value )
     self.size      = size
     self.byteorder = byteorder
     self.signed    = signed

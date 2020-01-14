@@ -3,7 +3,7 @@ from chromaspeclib.internal.jsonparse import globalizeJsonFile, enclassJsonFile
 
 jsontest = os.path.realpath( os.path.join( os.path.dirname( __file__ ), "test.json" ) )
 
-class ChromaspecTestJson(unittest.TestCase):
+class ChromaSpecTestJson(unittest.TestCase):
 
   def test_globals(self):
     g = globalizeJsonFile( jsontest )

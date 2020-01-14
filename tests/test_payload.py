@@ -1,28 +1,28 @@
 import unittest, os, pytest, copy
-from chromaspeclib.internal.payload import ChromationPayloadClassFactory, ChromationPayload, ChromationRepeatPayload
+from chromaspeclib.internal.payload import ChromaSpecPayloadClassFactory, ChromaSpecPayload, ChromaSpecRepeatPayload
 
-class ChromaspecTestPayloadFactory(unittest.TestCase):
+class ChromaSpecTestPayloadFactory(unittest.TestCase):
 
   def test_payloadFactoryNormal(self):
-    klass = ChromationPayloadClassFactory( 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4] )
+    klass = ChromaSpecPayloadClassFactory( 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4] )
     assert klass.command_id == 99
     assert klass.__name__   == "grok"
     assert klass.variables  == ["command_id","foo","bar","baz"]
     assert klass.sizes      == [1,1,2,4]
 
   def test_payloadFactoryRepeat(self):
-    klass = ChromationPayloadClassFactory( 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"foo":"bar"} )
+    klass = ChromaSpecPayloadClassFactory( 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"foo":"bar"} )
     assert klass.command_id == 99
     assert klass.__name__   == "grok"
     assert klass.variables  == ["command_id","foo","bar","baz"]
     assert klass.sizes      == [1,1,2,4]
     assert klass.repeat     == {"foo":"bar"}
 
-class ChromaspecTestPayload(unittest.TestCase):
+class ChromaSpecTestPayload(unittest.TestCase):
 
   def __init__(self, *args, **kwargs):
-    super(ChromaspecTestPayload, self).__init__(*args, **kwargs)
-    self.klass = ChromationPayloadClassFactory( 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4] )
+    super(ChromaSpecTestPayload, self).__init__(*args, **kwargs)
+    self.klass = ChromaSpecPayloadClassFactory( 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4] )
 
   def test_initEmpty(self):
     obj = self.klass()
@@ -125,11 +125,11 @@ class ChromaspecTestPayload(unittest.TestCase):
     ob2.sizes = [999,999,999,999]
     assert obj != ob2
 
-class ChromaspecTestRepeatPayload(ChromaspecTestPayload):
+class ChromaSpecTestRepeatPayload(ChromaSpecTestPayload):
 
   def __init__(self, *args, **kwargs):
-    super(ChromaspecTestRepeatPayload, self).__init__(*args, **kwargs)
-    self.klass = ChromationPayloadClassFactory( 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"baz": "foo"} )
+    super(ChromaSpecTestRepeatPayload, self).__init__(*args, **kwargs)
+    self.klass = ChromaSpecPayloadClassFactory( 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"baz": "foo"} )
 
   def test_initEmpty(self):
     obj = self.klass()

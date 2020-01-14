@@ -7,7 +7,7 @@ CHROMASPEC_MAX_READBUFLEN = len(bytes(
   SensorCaptureFrame(pixels=[1]*32765,num_pixels=32765,status=0)
 ))
 
-class ChromationStream(object):
+class ChromaSpecStream(object):
   def __init__( self, stream ):
     log.info("stream=%s", stream)
     self.stream = stream
@@ -108,7 +108,7 @@ class ChromationStream(object):
 
 # Single-threaded test functionality, assumes no partially
 # interleaved reading and writing
-class ChromationBytesIOStream(ChromationStream):
+class ChromaSpecBytesIOStream(ChromaSpecStream):
   def __init__( self, stream=None ):
     log.info("stream=%s", stream)
     if not stream:
@@ -135,5 +135,5 @@ class ChromationBytesIOStream(ChromationStream):
     log.info("return result=%d", result)
     return result
 
-# TODO: ChromationSerialIOStream
+# TODO: ChromaSpecSerialIOStream
 

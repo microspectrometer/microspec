@@ -2,40 +2,40 @@ import unittest, os
 from chromaspeclib.internal.emulator import *
 from chromaspeclib.internal.data import *
 
-class ChromaspecTestEmulator(unittest.TestCase):
+class ChromaSpecTestEmulator(unittest.TestCase):
 
   def test_chromationEmulatorSettings(self):
     #TODO: when we make more settings, test them here
-    e = ChromationEmulator()
+    e = ChromaSpecEmulator()
 
   def test_chromationEmulatorDefaults(self):
-    e = ChromationEmulator()
+    e = ChromaSpecEmulator()
     self.test_chromationEmulatorCompare(e, e)
 
   def test_chromationEmulatorNull(self):
-    e = ChromationEmulator()
+    e = ChromaSpecEmulator()
     assert e.process( CommandNull() ) == []
 
   def test_chromationEmulatorVerify(self):
-    e = ChromationEmulator()
+    e = ChromaSpecEmulator()
     assert e.process( CommandVerify() ) == [ SerialVerify( status=StatusOK ) ]
 
   def test_chromationEmulatorAutoExposure(self):
-    e = ChromationEmulator()
+    e = ChromaSpecEmulator()
     assert e.process( CommandAutoExposure() ) == \
                     [ SerialAutoExposure( status=StatusOK ),
                       SensorAutoExposure( status=StatusOK ) ]
 
   def test_chromationEmulatorCaptureFrame(self):
-    e = ChromationEmulator()
+    e = ChromaSpecEmulator()
     #TODO: need to change this when we make the capture frame emulation better
     assert e.process( CommandCaptureFrame() ) == \
                     [ SerialCaptureFrame( status=StatusOK ),
                       SensorCaptureFrame( status=StatusOK, num_pixels=4, pixels=[111,222,333,444] ) ]
 
   def test_chromationEmulatorReset(self):
-    e1 = ChromationEmulator()
-    e2 = ChromationEmulator()
+    e1 = ChromaSpecEmulator()
+    e2 = ChromaSpecEmulator()
     self.test_chromationEmulatorSet(e2, bled0=LEDGreen, sled0=LEDRed, sled1=LEDGreen,
                                         binning=True, gain=Gain2_5x, rows=0x15, cycles=2345)
     assert e2.process( CommandReset() ) == [ SerialReset(status=StatusOK) ]
@@ -43,8 +43,8 @@ class ChromaspecTestEmulator(unittest.TestCase):
 
   def test_chromationEmulatorCompare(self, emulator=None, control=None):
     #import pdb; pdb.set_trace()
-    e = emulator or ChromationEmulator()
-    c = control  or emulator or ChromationEmulator()
+    e = emulator or ChromaSpecEmulator()
+    c = control  or emulator or ChromaSpecEmulator()
     assert e.process( CommandGetBridgeLED(led_num=0) ) == \
                     [ SerialGetBridgeLED( status=StatusOK, led_num=0, led_setting=c.bridge_led[0] ) ]
     assert e.process( CommandGetSensorLED(led_num=0) ) == \
@@ -62,7 +62,7 @@ class ChromaspecTestEmulator(unittest.TestCase):
 
   def test_chromationEmulatorSet(self, emulator=None, bled0=LEDOff, sled0=LEDOff, sled1=LEDOff,
                                        binning=BinningDefault, gain=GainDefault, rows=RowsDefault, cycles=0):
-    e = emulator or ChromationEmulator()
+    e = emulator or ChromaSpecEmulator()
     assert e.process( CommandSetBridgeLED( led_num=0, led_setting=bled0 ) ) == \
                     [ SerialSetBridgeLED( status=StatusOK ) ]
     assert e.process( CommandSetSensorLED( led_num=0, led_setting=sled0 ) ) == \
@@ -86,7 +86,7 @@ class ChromaspecTestEmulator(unittest.TestCase):
     assert e.cycles        == cycles
 
   def test_chromationEmulatorBadData(self):
-    e = ChromationEmulator()
+    e = ChromaSpecEmulator()
     assert e.process( CommandGetBridgeLED(led_num=-1) ) == \
                     [ SerialGetBridgeLED( status=StatusError, led_num=0, led_setting=LEDOff ) ]
     assert e.process( CommandGetBridgeLED(led_num=1) ) == \

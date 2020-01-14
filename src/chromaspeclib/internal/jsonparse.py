@@ -1,4 +1,4 @@
-from .payload import ChromationPayloadClassFactory as cfactory
+from .payload import ChromaSpecPayloadClassFactory as cfactory
 from .util    import dehex
 from .logger  import CHROMASPEC_LOGGER_JSON as log
 import json

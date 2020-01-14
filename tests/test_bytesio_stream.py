@@ -1,24 +1,24 @@
 import unittest, os, pytest
 from io import BytesIO
-from chromaspeclib.internal.stream       import ChromationBytesIOStream
+from chromaspeclib.internal.stream       import ChromaSpecBytesIOStream
 from chromaspeclib.internal.data         import *
 from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
 
-class ChromaspecTestBytesIOStream(unittest.TestCase):
+class ChromaSpecTestBytesIOStream(unittest.TestCase):
 
   def test_defaultStream(self):
     b = BytesIO()
-    s = ChromationBytesIOStream()
+    s = ChromaSpecBytesIOStream()
     assert b is not s.stream
 
   def test_parameterStream(self):
     b = BytesIO()
-    s = ChromationBytesIOStream(stream=b)
+    s = ChromaSpecBytesIOStream(stream=b)
     assert b is s.stream
 
   def test_underlyingStreamRead1(self):
     b = BytesIO()
-    s = ChromationBytesIOStream(stream=b)
+    s = ChromaSpecBytesIOStream(stream=b)
     d = b'\x00\x01\x02'
     b.write(d)
     r = s.read(1)
@@ -27,7 +27,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
 
   def test_underlyingStreamRead1Fail(self):
     b = BytesIO()
-    s = ChromationBytesIOStream(stream=b)
+    s = ChromaSpecBytesIOStream(stream=b)
     d = b''
     b.write(d)
     r = s.read(1)
@@ -35,7 +35,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
 
   def test_underlyingStreamReadAll(self):
     b = BytesIO()
-    s = ChromationBytesIOStream(stream=b)
+    s = ChromaSpecBytesIOStream(stream=b)
     d = b'\x00\x01\x02'
     b.write(d)
     r = s.read()
@@ -44,7 +44,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
 
   def test_underlyingStreamReadManyFail(self):
     b = BytesIO()
-    s = ChromationBytesIOStream(stream=b)
+    s = ChromaSpecBytesIOStream(stream=b)
     d = b'\x00\x01\x02'
     b.write(d)
     r = s.read(10)
@@ -53,7 +53,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
 
   def test_underlyingStreamWrite(self):
     b = BytesIO()
-    s = ChromationBytesIOStream(stream=b)
+    s = ChromaSpecBytesIOStream(stream=b)
     d = b'\x00\x01\x02'
     s.write(d)
     b.seek(0)
@@ -62,7 +62,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
     assert len(w) == len(d)
 
   def test_write1Read1(self):
-    s = ChromationBytesIOStream()
+    s = ChromaSpecBytesIOStream()
     d = b'\x00'
     s.write(d)
     r = s.read(1)
@@ -74,7 +74,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
     assert len(r) == len(d)
 
   def test_write1Read1Consume1(self):
-    s = ChromationBytesIOStream()
+    s = ChromaSpecBytesIOStream()
     d = b'\x00'
     s.write(d)
     r = s.read(1)
@@ -86,7 +86,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
     assert len(r) == len(b'')
 
   def test_writeManyRead1(self):
-    s = ChromationBytesIOStream()
+    s = ChromaSpecBytesIOStream()
     d = b'\x00\x01\x02'
     s.write(d)
     r = s.read(1)
@@ -102,7 +102,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
     assert len(r) == len(d[2:3])
 
   def test_writeManyReadInterleaved(self):
-    s = ChromationBytesIOStream()
+    s = ChromaSpecBytesIOStream()
     d = b'\x00\x01\x02\x03\x04\x05'
     s.write(d[0:3])
     r = s.read(1)
@@ -133,7 +133,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
     assert len(r) == len(d[5:6])
 
   def test_writeManyReadPartialConsume(self):
-    s = ChromationBytesIOStream()
+    s = ChromaSpecBytesIOStream()
     d = b'\x00\x01\x02\x03\x04\x05'
     s.write(d)
     r = s.read(4)
@@ -153,7 +153,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
     assert len(r) == len(d[6:6])
 
   def test_writeReadCommand(self):
-    s = ChromationBytesIOStream()
+    s = ChromaSpecBytesIOStream()
     w = []
     for cid in CHROMASPEC_COMMAND_ID.keys():
       if cid < 0: continue # Unimplemented test values in JSON
@@ -171,7 +171,7 @@ class ChromaspecTestBytesIOStream(unittest.TestCase):
       assert c1 == c2
 
   def test_writeReadReply(self):
-    s = ChromationBytesIOStream()
+    s = ChromaSpecBytesIOStream()
     w = []
     for cid in CHROMASPEC_COMMAND_ID.keys():
       if cid < 0: continue # Unimplemented test values in JSON

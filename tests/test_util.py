@@ -1,7 +1,7 @@
 import unittest, os
-from chromaspeclib.internal.util import ChromationInteger, isInt, dehex
+from chromaspeclib.internal.util import ChromaSpecInteger, isInt, dehex
 
-class ChromaspecTestUtil(unittest.TestCase):
+class ChromaSpecTestUtil(unittest.TestCase):
 
   def test_chromationInteger(self):
     ints = [ 
@@ -15,7 +15,7 @@ class ChromaspecTestUtil(unittest.TestCase):
       [  255, 1,    "big", False,     b'\xff' ],
     ]
     for i in ints:
-      ci = ChromationInteger( i[0], i[1], i[2], i[3] )
+      ci = ChromaSpecInteger( i[0], i[1], i[2], i[3] )
       assert ci == i[0]
       b = bytes(ci)
       assert b == i[4]
