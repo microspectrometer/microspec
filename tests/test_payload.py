@@ -125,6 +125,20 @@ class ChromaSpecTestPayload(unittest.TestCase):
     ob2.sizes = [999,999,999,999]
     assert obj != ob2
 
+  def test_packValues(self):
+    obj = self.klass(foo=1, bar=2, baz=255)
+    assert bytes(obj) == b'\x63\x01\x00\x02\x00\x00\x00\xFF'
+
+  def test_packValuesMissing(self):
+    obj = self.klass(foo=1, bar=2)
+    assert bytes(obj) == b''
+
+    obj = self.klass(foo=1, baz=255)
+    assert bytes(obj) == b''
+
+    obj = self.klass(bar=2, baz=255)
+    assert bytes(obj) == b''
+
 class ChromaSpecTestRepeatPayload(ChromaSpecTestPayload):
 
   def __init__(self, *args, **kwargs):
@@ -209,6 +223,22 @@ class ChromaSpecTestRepeatPayload(ChromaSpecTestPayload):
     ob2 = self.klass(b)
     ob2.repeat = "xxx"
     assert obj != ob2
+
+  def test_packValues(self):
+    obj = self.klass(foo=1, bar=2, baz=[255])
+    assert bytes(obj) == b'\x63\x01\x00\x02\x00\x00\x00\xFF'
+
+  def test_packValuesMissing(self):
+    obj = self.klass(foo=1, bar=2)
+    with pytest.raises(Exception) as excinfo:
+      b = bytes(obj)
+    assert "pack expected 4 items for packing (got 3)" in str(excinfo.value)
+
+    obj = self.klass(foo=1, baz=[255])
+    assert bytes(obj) == b''
+
+    obj = self.klass(bar=2, baz=[])
+    assert bytes(obj) == b''
 
 
 

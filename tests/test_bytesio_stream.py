@@ -170,6 +170,36 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
       c2 = w.pop(0)
       assert c1 == c2
 
+  def test_partialReadCommand(self):
+    s = ChromaSpecBytesIOStream()
+    c = CommandGetBridgeLED(led_num=0)
+    assert s.stream.getvalue() == b''
+
+    cb = bytes(c)
+    cb1 = cb[0:len(cb)-1]
+    cb2 = cb[len(cb)-1:]
+    s.write(cb1)
+    assert s.buffer            == b''
+    assert s.stream.getvalue() == cb1
+    assert s.readpos           == 0
+
+    r = s.receiveCommand()
+    assert s.buffer            == cb1
+    assert s.stream.getvalue() == cb1
+    assert s.readpos           == 1
+    assert r is None
+
+    s.write(cb2)
+    assert s.buffer            == cb1
+    assert s.stream.getvalue() == cb1+cb2
+    assert s.readpos           == 1
+
+    r = s.receiveCommand()
+    assert s.buffer            == b''
+    assert s.stream.getvalue() == cb1+cb2
+    assert s.readpos           == 2
+    assert r == CommandGetBridgeLED(led_num=0)
+
   def test_writeReadReply(self):
     s = ChromaSpecBytesIOStream()
     w = []

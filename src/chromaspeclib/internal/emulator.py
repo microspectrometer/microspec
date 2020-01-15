@@ -100,4 +100,4 @@ class ChromaSpecEmulator(object):
       #TODO: big todo - play back recorded or make up data etc
       return [ SerialCaptureFrame( status=StatusOK ),
                SensorCaptureFrame( status=StatusOK, num_pixels=4, pixels=[111,222,333,444] ) ]
-    
+    return []

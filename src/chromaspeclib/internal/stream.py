@@ -2,6 +2,8 @@ from .data   import *
 from .logger import CHROMASPEC_LOGGER_STREAM as log
 from struct  import pack, unpack
 from io      import BytesIO
+from serial  import Serial
+from serial.tools import list_ports
 
 CHROMASPEC_MAX_READBUFLEN = len(bytes(
   SensorCaptureFrame(pixels=[1]*32765,num_pixels=32765,status=0)
@@ -35,7 +37,6 @@ class ChromaSpecStream(object):
 
   def write( self, buf, *args, **kwargs ):
     log.info("buf=%s args=%s kwargs=%s", buf, args, kwargs)
-    #self.buffer = b''
     buf = self.stream.write( bytes(buf), *args, **kwargs )
     log.info("return buf=%s", buf)
     return buf
@@ -55,6 +56,7 @@ class ChromaSpecStream(object):
     buf = command_id + self.read( len(command) - 1 )
     if len(buf) < len(command):
       log.info("Read only %d of %d bytes", len(buf), len(command))
+      self.pushback( command_id )
       return None
     try:
       command.unpack( buf )
@@ -89,8 +91,14 @@ class ChromaSpecStream(object):
     except Exception as e:
       log.info("serialbuf=%s exception=%s", serialbuf, str(e))
       return None
+    if isinstance( serial_reply, SerialNull ):
+      log.info("serial reply is SerialNull")
+      return serial_reply
+    if not hasattr( serial_reply, "status") or serial_reply.status is None:
+      log.info("serial reply is empty")
+      return None
     self.consume( len(bytes(serial_reply)) )
-    if not hasattr( serial_reply, "status") or serial_reply.status != 0 or not sensor_klass:
+    if serial_reply.status != 0 or not sensor_klass:
       log.info("return serial_reply=%s", serial_reply)
       return serial_reply
     sensorbuf = self.read( CHROMASPEC_MAX_READBUFLEN )
@@ -100,6 +108,10 @@ class ChromaSpecStream(object):
     except Exception as e:
       log.info("serialbuf=%s exception=%s pushing back serialbuf=%s", 
         sensorbuf, str(e), serialbuf)
+      self.pushback(serialbuf)
+      return None
+    if sensor_reply.status is None:
+      log.info("sensor reply is empty")
       self.pushback(serialbuf)
       return None
     self.consume( len(bytes(sensor_reply)) )
@@ -121,8 +133,10 @@ class ChromaSpecBytesIOStream(ChromaSpecStream):
     log.info("args=%s kwargs=%s", args, kwargs)
     log.info("readpos=%d", self.readpos)
     self.stream.seek( self.readpos )
-    buf = super().read( bytelen=bytelen, *args, **kwargs )
-    self.readpos += len(buf)
+    pre  = self.stream.tell()
+    buf  = super().read( bytelen=bytelen, *args, **kwargs )
+    post = self.stream.tell()
+    self.readpos += post - pre
     log.info("return buf=%s", buf)
     return buf
 
@@ -135,5 +149,21 @@ class ChromaSpecBytesIOStream(ChromaSpecStream):
     log.info("return result=%d", result)
     return result
 
-# TODO: ChromaSpecSerialIOStream
+class ChromaSpecSerialIOStream(ChromaSpecStream):
+  def __init__(self, serial_number=None, device=None, timeout=0, *args, **kwargs):
+    log.info("serial_number=%s device=%s timeout=%s args=%s kwargs=%s", serial_number, device, timeout, args, kwargs)
+    self.serial = Serial(rtscts=True, dsrdtr=True)
+    self.serial.baudrate = 115200
+    self.serial.timeout  = timeout
+    if serial_number:
+      self.serial.port = list_ports.grep(serial_number).device
+      log.info("search for serial_number=%s found port=%s", serial_number, port)
+    elif device:
+      self.serial.port = device
+      log.info("using device=%s", device)
+    else:
+      self.serial.port = list_ports.grep("CHROMATION").device
+      log.info("defaulting to searching for CHROMATION hardware, found port=%s", port)
+    self.serial.open()
+    super().__init__( self.serial, *args, **kwargs )
 

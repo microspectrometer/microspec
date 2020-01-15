@@ -22,6 +22,7 @@ class ChromaSpecPayload(object):
       self.varsize[var] = self.sizes[n]
       self[        var] = value 
       log.debug("value[%s]=%s size[%s]=%d", var, value, var, self.sizes[n])
+    self["command_id"] = self.command_id
     if payload:
       self.unpack(payload)
     log.info("return")
@@ -268,9 +269,15 @@ class ChromaSpecRepeatPayload( ChromaSpecPayload ):
 
   def __eq__(self, other):
     if not isinstance(other, ChromaSpecRepeatPayload):
+      log.info("return NotImplemented")
       return NotImplemented
-    if not super().__eq__(other):   return False
-    if self.repeat != other.repeat: return False
+    if not super().__eq__(other):   
+      log.info("return False")
+      return False
+    if self.repeat != other.repeat: 
+      log.info("return False")
+      return False
+    log.info("return True")
     return True
 
 def ChromaSpecPayloadClassFactory( command_id, name, variables, sizes, repeat=None ):
