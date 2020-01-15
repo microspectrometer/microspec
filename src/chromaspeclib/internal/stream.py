@@ -87,7 +87,7 @@ class ChromaSpecStream(object):
     if not serial_klass:
       log.error("Command ID not recognized: %d", command_id)
       return None
-    serialbuf = self.read(CHROMASPEC_MAX_READBUFLEN)
+    serialbuf = self.read(0)
     log.info("serialbuf=%s", serialbuf)
     try:
       serial_reply = serial_klass(serialbuf)
@@ -106,7 +106,7 @@ class ChromaSpecStream(object):
     if serial_reply.status != 0 or not sensor_klass:
       log.info("return serial_reply=%s", serial_reply)
       return serial_reply
-    sensorbuf = self.read(CHROMASPEC_MAX_READBUFLEN)
+    sensorbuf = self.read(0)
     log.info("serialbuf=%s", sensorbuf)
     try:
       sensor_reply = sensor_klass(sensorbuf)
