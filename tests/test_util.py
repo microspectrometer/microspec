@@ -4,18 +4,18 @@ from chromaspeclib.internal.util import ChromaSpecInteger, isInt, dehex
 class ChromaSpecTestUtil(unittest.TestCase):
 
   def test_chromationInteger(self):
-    ints = [ 
-      [    0, 1,    "big", False,     b'\x00' ],
-      [    1, 1,    "big", False,     b'\x01' ],
-      [    1, 2,    "big", False, b'\x00\x01' ],
-      [    1, 2, "little", False, b'\x01\x00' ],
-      [ -128, 1,    "big",  True,     b'\x80' ],
-      [  127, 1,    "big",  True,     b'\x7f' ],
-      [   -1, 1,    "big",  True,     b'\xff' ],
-      [  255, 1,    "big", False,     b'\xff' ],
+    ints = [
+      [   0, 1,    "big", False,     b'\x00'],
+      [   1, 1,    "big", False,     b'\x01'],
+      [   1, 2,    "big", False, b'\x00\x01'],
+      [   1, 2, "little", False, b'\x01\x00'],
+      [-128, 1,    "big",  True,     b'\x80'],
+      [ 127, 1,    "big",  True,     b'\x7f'],
+      [  -1, 1,    "big",  True,     b'\xff'],
+      [ 255, 1,    "big", False,     b'\xff'],
     ]
     for i in ints:
-      ci = ChromaSpecInteger( i[0], i[1], i[2], i[3] )
+      ci = ChromaSpecInteger(i[0], i[1], i[2], i[3])
       assert ci == i[0]
       b = bytes(ci)
       assert b == i[4]

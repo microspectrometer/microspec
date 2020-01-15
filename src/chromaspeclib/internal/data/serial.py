@@ -13,17 +13,17 @@ CHROMASPEC_SERIAL_ID, CHROMASPEC_SERIAL_NAME = \
     "serial"
   )
 
-globals().update( [v.name,v] for k,v in CHROMASPEC_SERIAL_ID.items() )
+globals().update([v.name,v] for k,v in CHROMASPEC_SERIAL_ID.items())
 
 __all__ = list(CHROMASPEC_SERIAL_NAME.keys())+["getSerialReplyByID","getSerialReplyByName"]
 
-def getSerialReplyByID( cid ):
+def getSerialReplyByID(cid):
   log.info("cid=%d", cid)
   com = CHROMASPEC_SERIAL_ID.get(cid)
   log.info("return %s", com)
   return com
 
-def getSerialReplyByName( name ):
+def getSerialReplyByName(name):
   log.info("name=%s", name)
   com = CHROMASPEC_SERIAL_NAME.get(name)
   log.info("return %s", com)

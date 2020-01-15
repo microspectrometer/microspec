@@ -11,9 +11,9 @@ import os
 # If chromaspeclib is in /foo/bar/chromaspec/src/chromaspeclib then
 # CHROMASPEC_ROOTDIR will be /foo/bar/chromaspec
 
-CHROMASPEC_ROOTDIR = os.path.realpath( 
+CHROMASPEC_ROOTDIR = os.path.realpath(
                        os.path.join(
-                         os.path.dirname( __file__ ), # chromaspeclib
+                         os.path.dirname(__file__), # chromaspeclib
                          "..",                        # src
                          ".."                         # chromaspec
                        )

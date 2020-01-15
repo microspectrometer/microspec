@@ -3,22 +3,22 @@ from struct  import unpack, pack
 import re
 
 class ChromaSpecInteger(int):
-  def __new__( self, value, size=1, byteorder="big", signed=False ):
+  def __new__(self, value, size=1, byteorder="big", signed=False):
     log.info("value=%d size=%d byteorder=%s signed=%s", value, size, byteorder, signed)
-    self = int.__new__( ChromaSpecInteger, value )
+    self = int.__new__(ChromaSpecInteger, value)
     self.size      = size
     self.byteorder = byteorder
     self.signed    = signed
     log.info("return %s", self)
     return self
 
-  def __bytes__( self ):
+  def __bytes__(self):
     log.info("")
-    b = self.to_bytes( self.size, self.byteorder, signed=self.signed )
+    b = self.to_bytes(self.size, self.byteorder, signed=self.signed)
     log.info("return %s", b)
     return b
 
-def isInt( i ):
+def isInt(i):
   log.info("int=%s", i)
   try:
     if int(i) == i:
@@ -29,10 +29,10 @@ def isInt( i ):
     return False
   return False
 
-def dehex( value ):
+def dehex(value):
   log.info("value=%s", value)
-  if re.match( '0x[0-9a-fA-F]+', str(value) ):
-    h = int( value, 16 )
+  if re.match('0x[0-9a-fA-F]+', str(value)):
+    h = int(value, 16)
     log.info("return %d", h)
     return h
   log.info("return %s", value)

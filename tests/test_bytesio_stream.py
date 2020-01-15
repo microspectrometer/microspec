@@ -324,7 +324,7 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
         w.append(r2)
     for cid in CHROMASPEC_COMMAND_ID.keys():
       if cid < 0: continue # Unimplemented test values in JSON
-      r1 = s.receiveReply( cid )
+      r1 = s.receiveReply(cid)
       print("received %s"%(r1))
       r2 = w.pop(0)
       print("popped %s"%(r2))

@@ -1,7 +1,7 @@
 import logging
 
 CHROMASPEC_LOG_FORMAT="%(asctime)-15s:%(filename)s:%(funcName)s:%(lineno)d: %(message)s"
-logging.basicConfig( format=CHROMASPEC_LOG_FORMAT )
+logging.basicConfig(format=CHROMASPEC_LOG_FORMAT)
 
 CHROMASPEC_LOGGER         =logging.getLogger("chromaspeclib")
 CHROMASPEC_LOGGER_INTERNAL=logging.getLogger("chromaspeclib.internal")
@@ -11,23 +11,23 @@ CHROMASPEC_LOGGER_PAYLOAD =logging.getLogger("chromaspeclib.internal.payload")
 CHROMASPEC_LOGGER_JSON    =logging.getLogger("chromaspeclib.internal.json")
 CHROMASPEC_LOGGER_DATA    =logging.getLogger("chromaspeclib.internal.data")
 
-CHROMASPEC_LOGGER         .setLevel( logging.ERROR )
-CHROMASPEC_LOGGER_INTERNAL.setLevel( logging.ERROR )
+CHROMASPEC_LOGGER         .setLevel(logging.ERROR)
+CHROMASPEC_LOGGER_INTERNAL.setLevel(logging.ERROR)
 
-def verbose( includeInternals=False ):
-  CHROMASPEC_LOGGER           .setLevel( logging.WARNING )
+def verbose(includeInternals=False):
+  CHROMASPEC_LOGGER           .setLevel(logging.WARNING)
   if includeInternals:
-    CHROMASPEC_LOGGER_INTERNAL.setLevel( logging.WARNING )
+    CHROMASPEC_LOGGER_INTERNAL.setLevel(logging.WARNING)
   
-def quiet( includeInternals=False ):
-  CHROMASPEC_LOGGER           .setLevel( logging.ERROR )
+def quiet(includeInternals=False):
+  CHROMASPEC_LOGGER           .setLevel(logging.ERROR)
   if includeInternals:
-    CHROMASPEC_LOGGER_INTERNAL.setLevel( logging.ERROR )
+    CHROMASPEC_LOGGER_INTERNAL.setLevel(logging.ERROR)
   
-def debug( includeInternals=False ):
-  CHROMASPEC_LOGGER           .setLevel( logging.DEBUG )
+def debug(includeInternals=False):
+  CHROMASPEC_LOGGER           .setLevel(logging.DEBUG)
   if includeInternals:
-    CHROMASPEC_LOGGER_INTERNAL.setLevel( logging.DEBUG )
+    CHROMASPEC_LOGGER_INTERNAL.setLevel(logging.DEBUG)
   
 # Level uses:
 # DEBUG:   Every substantial loop and branch

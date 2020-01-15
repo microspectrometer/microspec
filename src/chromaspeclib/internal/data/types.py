@@ -11,7 +11,7 @@ CHROMASPEC_GLOBAL = \
     )
   )
 
-globals().update( [[k,v] for k,v in CHROMASPEC_GLOBAL.items()] )
+globals().update([[k,v] for k,v in CHROMASPEC_GLOBAL.items()])
 
 __all__ = list(CHROMASPEC_GLOBAL.keys())
 

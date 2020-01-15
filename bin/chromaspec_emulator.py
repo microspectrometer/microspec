@@ -24,11 +24,11 @@ while True:
   if not command:
     continue
   print("got command=%s",command)
-  reply = emulator.process( command )
+  reply = emulator.process(command)
   if reply:
     print("processed reply=%s",reply)
     for packet in reply:
-      serial.sendReply( packet )
+      serial.sendReply(packet)
   else:
     print("processed no reply")
 
