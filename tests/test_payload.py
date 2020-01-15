@@ -68,9 +68,14 @@ class ChromaSpecTestPayload(unittest.TestCase):
       var.append(v)
     assert var == ["command_id","foo","bar","baz"]
 
-  def test_str(self):
+  def test_repr(self):
     obj = self.klass(b'\x63\x01\x00\x02\x00\x00\x00\xFF')
     s   = """<grok name=grok command_id=99 variables=['command_id', 'foo', 'bar', 'baz'] values={'command_id': 99, 'foo': 1, 'bar': 2, 'baz': 255} sizes=[1, 1, 2, 4] packformat=>BBHL length=8 packed=b'c\\x01\\x00\\x02\\x00\\x00\\x00\\xff'>"""
+    assert repr(obj) == s
+
+  def test_str(self):
+    obj = self.klass(b'\x63\x01\x00\x02\x00\x00\x00\xFF')
+    s   = """grok(command_id=99, foo=1, bar=2, baz=255)"""
     assert str(obj) == s
 
   def test_bytes(self):
@@ -185,9 +190,14 @@ class ChromaSpecTestRepeatPayload(ChromaSpecTestPayload):
     assert obj.variables  == ["command_id","foo","bar","baz"]
     assert obj.sizes      == [1,1,2,4]
 
-  def test_str(self):
+  def test_repr(self):
     obj = self.klass(b'\x63\x03\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11')
     s   = """<grok name=grok command_id=99 variables=['command_id', 'foo', 'bar', 'baz'] values={'command_id': 99, 'foo': 3, 'bar': 2, 'baz': [255, 0, 17]} sizes=[1, 1, 2, 4] packformat=>BBHLLL length=8 packed=b'c\\x03\\x00\\x02\\x00\\x00\\x00\\xff\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x11'>"""
+    assert repr(obj) == s
+
+  def test_str(self):
+    obj = self.klass(b'\x63\x03\x00\x02\x00\x00\x00\xFF\x00\x00\x00\x00\x00\x00\x00\x11')
+    s   = """grok(command_id=99, foo=3, bar=2, baz=[255, 0, 17])"""
     assert str(obj) == s
 
   def test_packformat(self):

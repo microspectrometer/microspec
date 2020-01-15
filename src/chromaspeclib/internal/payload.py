@@ -77,12 +77,19 @@ class ChromaSpecPayload(object):
       return self.__dict__[attr]
     log.info("return")
 
-  def __str__( self ):
+  def __repr__( self ):
     log.info("")
     s = "<%s name=%s command_id=%s variables=%s values=%s sizes=%s packformat=%s length=%d packed=%s>" % \
       ( self.__class__.__name__, self.name, self.command_id, self.variables, \
         self.value, self.sizes, self.packformat(), \
         len(self), self.pack() )
+    log.info("return %s", s)
+    return s
+
+  def __str__( self ):
+    log.info("")
+    s = "%s(%s)" % ( self.__class__.__name__, \
+        ", ".join( [ "%s=%s"%(k, v) for k, v in self.value.items() ] ) )
     log.info("return %s", s)
     return s
 

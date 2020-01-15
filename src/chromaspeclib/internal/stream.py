@@ -14,6 +14,7 @@ class ChromaSpecStream(object):
     log.info("stream=%s", stream)
     self.stream = stream
     self.buffer = b''
+    log.info("return")
 
   def read( self, bytelen=0, *args, **kwargs ):
     log.info("bytelen=%d args=%s kwargs=%s", bytelen, args, kwargs)
@@ -30,10 +31,12 @@ class ChromaSpecStream(object):
   def consume( self, bytelen ):
     log.info("bytelen=%d", bytelen)
     self.buffer = self.buffer[bytelen:]
+    log.info("return")
 
   def pushback( self, buf ):
     log.info("buf=%d", buf)
     self.buffer = buf + self.buffer
+    log.info("return")
 
   def write( self, buf, *args, **kwargs ):
     log.info("buf=%s args=%s kwargs=%s", buf, args, kwargs)
@@ -121,7 +124,7 @@ class ChromaSpecStream(object):
     return sensor_reply
 
 # Single-threaded test functionality, assumes no partially
-# interleaved reading and writing
+# interleaved reading and writing by multiple threads
 class ChromaSpecBytesIOStream(ChromaSpecStream):
   def __init__( self, stream=None ):
     log.info("stream=%s", stream)
@@ -168,4 +171,5 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
       log.info("defaulting to searching for CHROMATION hardware, found port=%s", port)
     self.serial.open()
     super().__init__( self.serial, *args, **kwargs )
+    log.info("return")
 

@@ -4,9 +4,9 @@ from chromaspeclib.internal.stream       import ChromaSpecBytesIOStream
 from chromaspeclib.internal.data         import *
 from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
 
-from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_STREAM
-import logging
-CHROMASPEC_LOGGER_STREAM.setLevel(logging.DEBUG)
+#from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_STREAM
+#import logging
+#CHROMASPEC_LOGGER_STREAM.setLevel(logging.DEBUG)
 
 class ChromaSpecTestBytesIOStream(unittest.TestCase):
 
