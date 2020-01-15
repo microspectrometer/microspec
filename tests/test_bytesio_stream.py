@@ -4,6 +4,10 @@ from chromaspeclib.internal.stream       import ChromaSpecBytesIOStream
 from chromaspeclib.internal.data         import *
 from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
 
+from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_STREAM
+import logging
+CHROMASPEC_LOGGER_STREAM.setLevel(logging.DEBUG)
+
 class ChromaSpecTestBytesIOStream(unittest.TestCase):
 
   def test_defaultStream(self):
@@ -199,6 +203,91 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     assert s.stream.getvalue() == cb1+cb2
     assert s.readpos           == 2
     assert r == CommandGetBridgeLED(led_num=0)
+
+  def test_partialReadSerialReply(self):
+    s = ChromaSpecBytesIOStream()
+    r = SerialGetBridgeLED(status=0, led_num=0, led_setting=1)
+    assert s.stream.getvalue() == b''
+
+    rb = bytes(r)
+    rb1 = rb[0:len(rb)-1]
+    rb2 = rb[len(rb)-1:]
+    s.write(rb1)
+    assert s.buffer            == b''
+    assert s.stream.getvalue() == rb1
+    assert s.readpos           == 0
+
+    x = s.receiveReply(r.command_id)
+    assert s.buffer            == rb1
+    assert s.stream.getvalue() == rb1
+    assert s.readpos           == 1
+    assert x is None
+
+    s.write(rb2)
+    assert s.buffer            == rb1
+    assert s.stream.getvalue() == rb1+rb2
+    assert s.readpos           == 1
+
+    x = s.receiveReply(r.command_id)
+    assert s.buffer            == b''
+    assert s.stream.getvalue() == rb1+rb2
+    assert s.readpos           == 2
+    assert x == SerialGetBridgeLED(status=0, led_num=0, led_setting=1)
+
+  def test_partialReadSerialAndSensorReply(self):
+    s = ChromaSpecBytesIOStream()
+    r1 = SerialGetSensorLED(status=0)
+    r2 = SensorGetSensorLED(status=1, led_setting=2)
+    assert s.stream.getvalue() == b''
+
+    r1b = bytes(r1)
+    r2b = bytes(r2)
+    rb = r1b + r2b
+    rb1 = rb[0:len(rb)-1]
+    rb2 = rb[len(rb)-1:]
+    s.write(rb1)
+    assert s.buffer            == b''
+    assert s.stream.getvalue() == rb1
+    assert s.readpos           == 0
+
+    x = s.receiveReply(r1.command_id)
+    assert s.buffer            == rb1
+    assert s.stream.getvalue() == rb1
+    assert s.readpos           == 2
+    assert x is None
+
+    s.write(rb2)
+    assert s.buffer            == rb1
+    assert s.stream.getvalue() == rb1+rb2
+    assert s.readpos           == 2
+
+    x = s.receiveReply(r1.command_id)
+    assert s.buffer            == b''
+    assert s.stream.getvalue() == rb1+rb2
+    assert s.readpos           == 3
+    assert x == SensorGetSensorLED(status=1, led_setting=2)
+
+  def test_partialReadSerialNonzerostatusAndSensorReply(self):
+    s = ChromaSpecBytesIOStream()
+    r1 = SerialGetSensorLED(status=1)
+    r2 = SensorGetSensorLED(status=0, led_setting=2)
+    assert s.stream.getvalue() == b''
+
+    r1b = bytes(r1)
+    r2b = bytes(r2)
+    rb = r1b + r2b
+    rb1 = rb[0:len(rb)-1]
+    rb2 = rb[len(rb)-1:]
+    s.write(rb1)
+    assert s.buffer            == b''
+    assert s.stream.getvalue() == rb1
+    assert s.readpos           == 0
+
+    x = s.receiveReply(r1.command_id)
+    assert s.buffer            == rb1[1:]
+    assert s.stream.getvalue() == rb1
+    assert s.readpos           == 2
+    assert x == SerialGetSensorLED(status=1)
 
   def test_writeReadReply(self):
     s = ChromaSpecBytesIOStream()

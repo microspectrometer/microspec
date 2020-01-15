@@ -97,7 +97,9 @@ class ChromaSpecStream(object):
     if not hasattr( serial_reply, "status") or serial_reply.status is None:
       log.info("serial reply is empty")
       return None
-    self.consume( len(bytes(serial_reply)) )
+    seriallen = len(bytes(serial_reply))
+    self.consume(seriallen)
+    serialbuf = serialbuf[0:seriallen]
     if serial_reply.status != 0 or not sensor_klass:
       log.info("return serial_reply=%s", serial_reply)
       return serial_reply

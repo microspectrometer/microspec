@@ -22,7 +22,8 @@ class ChromaSpecPayload(object):
       self.varsize[var] = self.sizes[n]
       self[        var] = value 
       log.debug("value[%s]=%s size[%s]=%d", var, value, var, self.sizes[n])
-    self["command_id"] = self.command_id
+    if "command_id" in self.value:
+      self["command_id"] = self.command_id
     if payload:
       self.unpack(payload)
     log.info("return")
