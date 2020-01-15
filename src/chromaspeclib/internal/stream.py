@@ -201,8 +201,19 @@ class ChromaSpecEmulatedStream(ChromaSpecSerialIOStream):
       def cleanup():
         log.warning("Cleanup: killing passthru process")
         passthru.kill()
-        log.warning("Cleanup: removing temp directory %s"%(tempdir))
-        os.rmdir(tempdir)
+        try:
+          log.warning("Cleanup: removing hardware file %s"%(hardware))
+          os.remove(hardware)
+        except:
+          pass # possibly a race condition with socat dying and not removing this quickly enough
+        try:
+          log.warning("Cleanup: removing software file %s"%(software))
+          os.remove(software)
+        except:
+          pass # possibly a race condition with socat dying and not removing this quickly enough
+        if os.path.isdir(tempdir):
+          log.warning("Cleanup: removing temp directory %s"%(tempdir))
+          os.rmdir(tempdir)
         log.warning("Cleanup: done")
       atexit.register(cleanup)
 
