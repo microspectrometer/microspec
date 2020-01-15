@@ -5,6 +5,13 @@ from io      import BytesIO
 from serial  import Serial
 from serial.tools import list_ports
 
+import subprocess
+import tempfile
+import atexit
+import select
+import sys 
+import os
+
 CHROMASPEC_MAX_READBUFLEN = len(bytes(
   SensorCaptureFrame(pixels=[1]*32765,num_pixels=32765,status=0)
 ))
@@ -173,3 +180,32 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
     super().__init__(self.serial, *args, **kwargs)
     log.info("return")
 
+class ChromaSpecEmulatedStream(ChromaSpecSerialIOStream):
+  def __init__(self, hardware=None, timeout=None, *args, **kwargs):
+    log.info("hardware=%s timeout=%s args=%s kwargs=%s", hardware, timeout, args, kwargs)
+    if not hardware:
+      tempdir = tempfile.mkdtemp()
+      hardware = os.path.join(tempdir, "chromation.hardware")
+      software = os.path.join(tempdir, "chromation.software")
+      #TODO: make this work for PC as well as MAC
+      # Note: the -D is there to print something, anything, to stderr, so we can wait for it
+      passthru = subprocess.Popen(["socat", "-D", "PTY,mode=666,link=%s"%(hardware),
+                                                  "PTY,mode=666,link=%s"%(software)],
+                                  stderr=subprocess.PIPE)
+      r, w, x = select.select([passthru.stderr],[],[],1)
+      #import pdb; pdb.set_trace();
+      if not r:
+        log.error("Cannot create socat process to mediate USB emulation!")
+        sys.exit(1)
+      super().__init__(device=hardware, timeout=timeout)
+      def cleanup():
+        log.warning("Cleanup: killing passthru process")
+        passthru.kill()
+        log.warning("Cleanup: removing temp directory %s"%(tempdir))
+        os.rmdir(tempdir)
+        log.warning("Cleanup: done")
+      atexit.register(cleanup)
+
+    super().__init__(device=hardware, timeout=timeout)
+    self.hardware = hardware
+    self.software = software
