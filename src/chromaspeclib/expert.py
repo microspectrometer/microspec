@@ -1,5 +1,6 @@
 from chromaspeclib.internal.stream import *
 from chromaspeclib.internal.logger import CHROMASPEC_LOGGER as log
+from chromaspeclib.internal.data   import CommandNull
 import time
 
 # The intended difference between this and the Simple interface is to provide more
@@ -8,10 +9,12 @@ import time
 # contrast to the one routine per command structure of the Simple interface.
 
 class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
-  def __init__(self, serial_number=None, device=None, timeout=None, retry_timeout=0.001, *args, **kwargs):
+  def __init__(self, serial_number=None, device=None, timeout=0.01, retry_timeout=0.001, *args, **kwargs):
     log.info("serial_number=%s, device=%s, timeout=%s, retry_timeout=%s, args=%s, kwargs=%s",
              serial_number, device, timeout, retry_timeout, args, kwargs)
-    super().__init__(serial_number=serial_number, device=device, timeout=timeout, *args, **kwargs)
+    super().__init__(serial_number=serial_number, 
+                     device=device, timeout=timeout, 
+                     *args, **kwargs)
     self.retry_timeout = retry_timeout
     self.current_command = []
     log.info("return")
@@ -66,4 +69,13 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     log.info("return %s", reply)
     return reply
 
-
+  def flush(self, timeout=0.1):
+    log.info("flushing stream by sending a null and clearing all data from the line")
+    self.sendCommand(CommandNull())
+    old_timeout = self.timeout
+    self.timeout = timeout
+    self.read(None)
+    self.stream.reset_input_buffer()
+    self.buffer = b''
+    self.timeout = old_timeout
+    self.current_command = []

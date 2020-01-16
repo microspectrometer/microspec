@@ -24,11 +24,11 @@ class ChromaSpecStream(object):
     log.info("return")
 
   def read(self, bytelen=0, *args, **kwargs):
-    log.info("bytelen=%d args=%s kwargs=%s", bytelen, args, kwargs)
+    log.info("bytelen=%s args=%s kwargs=%s", bytelen, args, kwargs)
     if bytelen:
       if bytelen > len(self.buffer):
         self.buffer += self.stream.read(bytelen-len(self.buffer), *args, **kwargs)
-      log.info("return buffer[:%d]=%s",bytelen,self.buffer[:bytelen])
+      log.info("return buffer[:%s]=%s",bytelen,self.buffer[:bytelen])
       return self.buffer[:bytelen]
     else:
       self.buffer += self.stream.read(*args, **kwargs)
@@ -36,12 +36,12 @@ class ChromaSpecStream(object):
       return self.buffer
 
   def consume(self, bytelen):
-    log.info("bytelen=%d", bytelen)
+    log.info("bytelen=%s", bytelen)
     self.buffer = self.buffer[bytelen:]
     log.info("return")
 
   def pushback(self, buf):
-    log.info("buf=%d", buf)
+    log.info("buf=%s", buf)
     self.buffer = buf + self.buffer
     log.info("return")
 
@@ -52,23 +52,27 @@ class ChromaSpecStream(object):
     return buf
 
   def receiveCommand(self):
-    log.info("")
+    log.info("read 1")
     command_id = self.read(1)
     if len(command_id) < 1:
       log.info("Did not read one byte of command_id")
       return None
     klass = getCommandByID(unpack(b'B', command_id)[0])
     if not klass:
-      log.error("Command ID not recognized: %d", command_id)
+      log.error("Command ID not recognized: %s", command_id)
       return None
     command = klass()
     self.consume(1)
-    buf = command_id + self.read(len(command) - 1)
+    if len(command) > 1:
+      buf = command_id + self.read(len(command) - 1)
+    else:
+      buf = command_id
     if len(buf) < len(command):
-      log.info("Read only %d of %d bytes", len(buf), len(command))
+      log.info("Read only %s of %s bytes", len(buf), len(command))
       self.pushback(command_id)
       return None
     try:
+      log.info("unpack %s", buf)
       command.unpack(buf)
     except Exception as e:
       log.info("Cannot unpack buf=%s exception=%s", buf, str(e))
@@ -84,15 +88,15 @@ class ChromaSpecStream(object):
   def sendReply(self, reply):
     log.info("reply=%s", reply)
     result = self.write(reply)
-    log.info("return result=%d", result)
+    log.info("return result=%s", result)
     return result
 
   def receiveReply(self, command_id):
-    log.info("command_id=%d", command_id)
+    log.info("command_id=%s", command_id)
     serial_klass = getSerialReplyByID(command_id)
     sensor_klass = getSensorReplyByID(command_id)
     if not serial_klass:
-      log.error("Command ID not recognized: %d", command_id)
+      log.error("Command ID not recognized: %s", command_id)
       return None
     serialbuf = self.read(0)
     log.info("serialbuf=%s", serialbuf)
@@ -118,7 +122,7 @@ class ChromaSpecStream(object):
     try:
       sensor_reply = sensor_klass(sensorbuf)
     except Exception as e:
-      log.info("serialbuf=%s exception=%s pushing back serialbuf=%s", 
+      log.info("sensorbuf=%s exception=%s pushing back serialbuf=%s", 
         sensorbuf, str(e), serialbuf)
       self.pushback(serialbuf)
       return None
@@ -141,9 +145,9 @@ class ChromaSpecBytesIOStream(ChromaSpecStream):
     self.writepos = 0
     super().__init__(stream)
 
-  def read(self, bytelen=0, *args, **kwargs):
-    log.info("args=%s kwargs=%s", args, kwargs)
-    log.info("readpos=%d", self.readpos)
+  def read(self, bytelen=None, *args, **kwargs):
+    log.info("bytelen=%s args=%s kwargs=%s", bytelen, args, kwargs)
+    log.info("readpos=%s", self.readpos)
     self.stream.seek(self.readpos)
     pre  = self.stream.tell()
     buf  = super().read(bytelen=bytelen, *args, **kwargs)
@@ -154,17 +158,17 @@ class ChromaSpecBytesIOStream(ChromaSpecStream):
 
   def write(self, buf, *args, **kwargs):
     log.info("buf=%s args=%s kwargs=%s", buf, args, kwargs)
-    log.info("writepos=%d", self.writepos)
+    log.info("writepos=%s", self.writepos)
     self.stream.seek(self.writepos)
     result = super().write(bytes(buf), *args, **kwargs)
     self.writepos += result
-    log.info("return result=%d", result)
+    log.info("return result=%s", result)
     return result
 
 class ChromaSpecSerialIOStream(ChromaSpecStream):
   def __init__(self, serial_number=None, device=None, timeout=0, *args, **kwargs):
     log.info("serial_number=%s device=%s timeout=%s args=%s kwargs=%s", serial_number, device, timeout, args, kwargs)
-    self.serial = Serial(rtscts=True, dsrdtr=True)
+    self.serial = Serial(*args, **kwargs)
     self.serial.baudrate = 115200
     self.serial.timeout  = timeout
     if serial_number:
@@ -177,8 +181,18 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
       self.serial.port = list_ports.grep("CHROMATION").device
       log.info("defaulting to searching for CHROMATION hardware, found port=%s", port)
     self.serial.open()
-    super().__init__(self.serial, *args, **kwargs)
+    super().__init__(self.serial)
     log.info("return")
+
+  def read(self, bytelen=0, *args, **kwargs):
+    log.info("bytelen=%s args=%s kwargs=%s", bytelen, args, kwargs)
+    if not bytelen:
+      waiting  = self.stream.inWaiting()
+      inbuffer = len(self.buffer)
+      waitfor  = waiting+inbuffer
+      log.info("serial stream bytelen=%s waiting=%s inbuffer=%d setting to %s", bytelen, waiting, inbuffer, waitfor)
+      bytelen = waitfor
+    return super().read(bytelen, *args, **kwargs)
 
 class ChromaSpecEmulatedStream(ChromaSpecSerialIOStream):
   def __init__(self, hardware=None, timeout=None, *args, **kwargs):
@@ -189,14 +203,16 @@ class ChromaSpecEmulatedStream(ChromaSpecSerialIOStream):
       software = os.path.join(tempdir, "chromation.software")
       #TODO: make this work for PC as well as MAC
       # Note: the -D is there to print something, anything, to stderr, so we can wait for it
-      passthru = subprocess.Popen(["socat", "-D", "PTY,mode=666,link=%s"%(hardware),
-                                                  "PTY,mode=666,link=%s"%(software)],
+      passthru = subprocess.Popen(["socat", "-D", "PTY,raw,echo=0,link=%s"%(hardware),
+                                                  "PTY,raw,echo=0,link=%s"%(software)],
                                   stderr=subprocess.PIPE)
+
+      # Wait at most a second for socat to come up and announce itself, by which time the
+      # files it needs to create should be there:
       r, w, x = select.select([passthru.stderr],[],[],1)
       #import pdb; pdb.set_trace();
       if not r:
-        log.error("Cannot create socat process to mediate USB emulation!")
-        sys.exit(1)
+        raise Exception("Cannot create socat process to mediate USB emulation!")
       super().__init__(device=hardware, timeout=timeout)
       def cleanup():
         log.warning("Cleanup: killing passthru process")

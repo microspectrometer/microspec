@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser(
   description="Create software instance of Chromation hardware for use with testing access software")
 parser.add_argument("-v", "--verbose", help="Print verbose trace",                action="count", default=0)
 parser.add_argument("-d", "--debug",   help="Internal debugging",                 action="count", default=0)
-parser.add_argument("-t", "--timeout", help="Timeout in (partial float) seconds", nargs=1,        default=0,
+parser.add_argument("-t", "--timeout", help="Timeout in (partial float) seconds", nargs=1,        default=[0],
                                                                                   action="store", type=int)
 parser.add_argument("-f", "--file",    help="File to use as a pipe - default create anew and print location", 
                                                                                                   default=None)
@@ -24,6 +24,9 @@ if args.verbose or args.debug:
 
 serial   = ChromaSpecEmulatedStream(device=args.file, timeout=args.timeout[0])
 emulator = ChromaSpecEmulator()
+
+if args.file is None:
+  print("Connect to socket: %s"%(serial.software))
 
 while True:
   log.info("Waiting for command...")
