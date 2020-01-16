@@ -174,8 +174,12 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
       self.serial.port = device
       log.info("using device=%s", device)
     else:
-      self.serial.port = list_ports.grep("CHROMATION").device
-      log.info("defaulting to searching for CHROMATION hardware, found port=%s", port)
+      try:
+        self.serial.port = list(list_ports.grep("CHROMATION"))[0].device
+        log.info("defaulting to searching for CHROMATION hardware, found port=%s", self.serial.port)
+      except Exception as e:
+        log.error("Cannot find CHROMATION device")
+        raise e
     self.serial.open()
     super().__init__(self.serial)
     log.info("return")
