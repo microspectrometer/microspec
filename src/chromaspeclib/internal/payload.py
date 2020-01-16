@@ -1,6 +1,8 @@
 from .util   import *
 from .logger import CHROMASPEC_LOGGER_PAYLOAD as log
 from struct  import unpack, pack
+import itertools
+import re
 
 class ChromaSpecPayload(object):
   def __init__(self, payload=None, **kwargs):
@@ -222,7 +224,6 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
 
   def packvalues(self):
     log.info("")
-    import itertools
     pv = list(itertools.chain.from_iterable(# flatten repeat items #
              [  getattr(self, v)[0:int(self[self.repeat.get(v)])] 
                if self.repeat.get(v,None) else
@@ -308,7 +309,6 @@ def ChromaSpecPayloadClassFactory(command_id, name, variables, sizes, repeat=Non
   log.info("return %s", klass)
   return klass
   
-import re
 _payloadSize = {'B' : 1, 'H': 2, 'L': 4, 's': 1}
 # NOTE: currently unused but possibly useful for later if there are
 #       more mixed-format packets, like repeating multi-blobs of data

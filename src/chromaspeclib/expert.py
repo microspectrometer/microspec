@@ -35,8 +35,9 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
       
   def sendCommand(self, command):
     log.info("command=%s", command)
-    self.current_command.append(command)
     super().sendCommand(command)
+    log.info("appending command=%s to current_command=%s", command, self.current_command)
+    self.current_command.append(command)
     log.info("return")
 
   def receiveReply(self):
@@ -48,12 +49,15 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     since = time.time() - start
     timeout = self.timeout if self.timeout else 0
     remain = timeout - since
+    log.info("start=%s reply=%s since=%s timeout=%s remain=%s"%(start,reply,since,timeout,remain))
     while not reply and remain > 0:
       log.info("no reply yet, timeout remaining=%s", remain)
+      print("no reply yet, timeout remaining=", remain)
       time.sleep( self.retry_timeout if remain > self.retry_timeout else remain )
       reply = super().receiveReply(self.current_command[0].command_id)
       since = time.time() - start
       remain = timeout - since
+      log.info("start=%s reply=%s since=%s timeout=%s remain=%s"%(start,reply,since,timeout,remain))
     if reply:
       log.info("popping command since reply was found")
       self.current_command.pop(0)

@@ -12,10 +12,6 @@ import select
 import sys 
 import os
 
-CHROMASPEC_MAX_READBUFLEN = len(bytes(
-  SensorCaptureFrame(pixels=[1]*32765,num_pixels=32765,status=0)
-))
-
 class ChromaSpecStream(object):
   def __init__(self, stream):
     log.info("stream=%s", stream)
