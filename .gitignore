@@ -1,0 +1,5 @@
+.git
+__pycache__
+*.pyc
+*.sw?
+.pytest_cache
