@@ -1,6 +1,6 @@
-from chromaspeclib.internal.stream import *
-from chromaspeclib.internal.logger import CHROMASPEC_LOGGER as log
-from chromaspeclib.internal.data   import CommandNull
+from .internal.stream import *
+from .internal.data   import CommandNull
+from .logger          import CHROMASPEC_LOGGER as log
 import time
 
 # The intended difference between this and the Simple interface is to provide more
@@ -65,11 +65,9 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     return reply
 
   def sendAndReceive(self, command):
+    log.info("command=%s", command)
     self.sendCommand(command)
     reply = self.receiveReply()
-    if not reply:
-      log.info("popping command anyways since reply was not found")
-      self.current_command.pop(0)
     log.info("return %s", reply)
     return reply
 
@@ -78,8 +76,9 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     self.sendCommand(CommandNull())
     old_timeout = self.timeout
     self.timeout = timeout
-    self.read(None)
+    self.read(0)
     self.stream.reset_input_buffer()
     self.buffer = b''
     self.timeout = old_timeout
     self.current_command = []
+    log.info("return")
