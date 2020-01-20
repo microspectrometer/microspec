@@ -169,6 +169,7 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
       c.command_id = cklass.command_id # varibles include this, need to undo it
       self.sendCommand(b, s, c)
       w.append(c)
+    self.small_wait()
     for cid in CHROMASPEC_COMMAND_ID.keys():
       if cid < 0: continue # Unimplemented test values in JSON
       c1 = s.receiveCommand()
@@ -188,17 +189,19 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     self.assert_readpos( s,        0  )
     assert s.buffer            == b''
 
+    self.small_wait()
     r = s.receiveCommand()
     self.assert_getvalue(s.stream, cb1)
     self.assert_readpos( s,        1  )
     assert s.buffer            == cb1
     assert r is None
 
-    s.write(cb2)
+    self.write_direct(b, s, cb2)
     self.assert_getvalue(s.stream, cb1+cb2)
     self.assert_readpos( s,        1      )
     assert s.buffer            == cb1
 
+    self.small_wait()
     r = s.receiveCommand()
     self.assert_getvalue(s.stream, cb1+cb2)
     self.assert_readpos( s,        2      )
@@ -218,21 +221,23 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     self.assert_readpos( s,        0  )
     assert s.buffer            == b''
 
+    self.small_wait()
     x = s.receiveReply(r.command_id)
     self.assert_getvalue(s.stream, rb1)
     self.assert_readpos( s,        1  )
     assert s.buffer            == rb1
     assert x is None
 
-    s.write(rb2)
+    self.write_direct(b, s, rb2)
     self.assert_getvalue(s.stream, rb1+rb2)
     self.assert_readpos( s,        1      )
     assert s.buffer            == rb1
 
+    self.small_wait()
     x = s.receiveReply(r.command_id)
     self.assert_getvalue(s.stream, rb1+rb2)
     self.assert_readpos( s,        2      )
-    assert s.buffer            == b''
+    assert s.buffer+s.read(0)  == b''
     assert x == SerialGetBridgeLED(status=0, led_num=0, led_setting=1)
 
   def test_partialReadSerialAndSensorReply(self):
@@ -251,6 +256,7 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     self.assert_readpos( s,        0  )
     assert s.buffer            == b''
 
+    self.small_wait()
     x = s.receiveReply(r1.command_id)
     self.assert_getvalue(s.stream, rb1)
     self.assert_readpos( s,        2  )
@@ -262,6 +268,7 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     self.assert_readpos( s,        2      )
     assert s.buffer            == rb1
 
+    self.small_wait()
     x = s.receiveReply(r1.command_id)
     self.assert_getvalue(s.stream, rb1+rb2)
     self.assert_readpos( s,        3      )
@@ -284,6 +291,7 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     self.assert_readpos( s,        0  )
     assert s.buffer            == b''
 
+    self.small_wait()
     x = s.receiveReply(r1.command_id)
     self.assert_getvalue(s.stream, rb1)
     self.assert_readpos( s,        2  )
@@ -323,6 +331,7 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
         print("sending sensor %s"%(r1))
         self.sendReply(b, s, r2)
         w.append(r2)
+    self.small_wait()
     for cid in CHROMASPEC_COMMAND_ID.keys():
       if cid < 0: continue # Unimplemented test values in JSON
       r1 = s.receiveReply(cid)
@@ -359,6 +368,9 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
 
   def assert_readpos(self, stream, pos):
     assert stream.readpos == pos
+
+  def small_wait(self):
+    pass
 
 
 

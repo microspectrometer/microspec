@@ -1,4 +1,4 @@
-import unittest, os, pytest, psutil
+import unittest, os, pytest, psutil, time
 from io import BytesIO
 from chromaspeclib.internal.stream       import ChromaSpecEmulatedStream, \
                                                 ChromaSpecSerialIOStream
@@ -63,6 +63,9 @@ class ChromaSpecTestEmulatedStream(ChromaSpecTestBytesIOStream):
   def sendReply(self, b, s, *args, **kwargs):
     return b.sendCommand(*args, **kwargs)
 
+  def small_wait(self):
+    time.sleep(0.1)
+
   def assert_getvalue(self, stream, value):
     pass
 
@@ -71,6 +74,16 @@ class ChromaSpecTestEmulatedStream(ChromaSpecTestBytesIOStream):
   
   def test_parameterStream(self):
     pass
+
+  def test_partialReadSerialNonzerostatusAndSensorReply(self):
+    super().test_partialReadSerialNonzerostatusAndSensorReply()
+    # This (necessarily) leaves the buffer in a partial state, needs to be cleaned up
+    self.hardware.stream.reset_input_buffer()
+    self.hardware.buffer = b''
+    self.hardware.current_command = []
+    self.software.stream.reset_input_buffer()
+    self.software.buffer = b''
+    self.software.current_command = []
 
 """
   def test_underlyingStreamRead1(self):
