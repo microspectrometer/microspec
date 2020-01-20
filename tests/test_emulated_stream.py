@@ -9,13 +9,22 @@ from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
 from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_INTERNAL
 import logging
 
-class ChromaSpecTestEmulatedStream(unittest.TestCase):
+from test_bytesio_stream import ChromaSpecTestBytesIOStream
+
+class ChromaSpecTestEmulatedStream(ChromaSpecTestBytesIOStream):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.num_socats_before = self.num_running_socats()
+    # Note: 0.2 second is way more than needed, but most of these are tests of proper functionality,
+    # not failures and partial reads. For those cases, the timeout is set explicitly.
+    #
+    # Note: for testing low-level reads and writes, write to the hardware directly here and read
+    # from software, as the separate running process is reading from hardware and will respond to
+    # writes to the software side, thus messing up the tests. However, if you pretend to be the
+    # hardware side and only write, it's not reading from that side of the socket.
     self.emulator = ChromaSpecEmulator()
-    self.hardware = ChromaSpecEmulatedStream(timeout=0.1)
-    self.software = ChromaSpecSerialIOStream(device=self.hardware.software, timeout=0.1)
+    self.hardware = ChromaSpecEmulatedStream(timeout=0.2)
+    self.software = ChromaSpecSerialIOStream(device=self.hardware.software, timeout=0.2)
 
   def num_running_socats(self):
     num = 0
@@ -34,6 +43,36 @@ class ChromaSpecTestEmulatedStream(unittest.TestCase):
     assert os.path.exists(self.hardware.hardware) == True
     assert os.path.exists(self.hardware.software) == True
 
+  # Note: overrides of the BytesIO tests, so that we can use the same tests without having
+  # to cut-and-paste
+  def generate_streams(self):
+    return self.hardware, self.software
+
+  def seek(self, stream, pos):
+    return None
+
+  def write_underlying(self, b, s, *args, **kwargs):
+    return b.write(*args, **kwargs)
+
+  def write_direct(self, b, s, *args, **kwargs):
+    return b.write(*args, **kwargs)
+
+  def sendCommand(self, b, s, *args, **kwargs):
+    return b.sendCommand(*args, **kwargs)
+
+  def sendReply(self, b, s, *args, **kwargs):
+    return b.sendCommand(*args, **kwargs)
+
+  def assert_getvalue(self, stream, value):
+    pass
+
+  def assert_readpos(self, stream, pos):
+    pass
+  
+  def test_parameterStream(self):
+    pass
+
+"""
   def test_underlyingStreamRead1(self):
     CHROMASPEC_LOGGER_INTERNAL.setLevel(logging.DEBUG)
     d = b'\x00\x01\x02'
@@ -48,47 +87,37 @@ class ChromaSpecTestEmulatedStream(unittest.TestCase):
     assert len(r) == 1
     CHROMASPEC_LOGGER_INTERNAL.setLevel(logging.ERROR)
   
-  """
   def test_underlyingStreamRead1Fail(self):
-    b = BytesIO()
-    s = ChromaSpecBytesIOStream(stream=b)
+    b = self.hardware
+    s = self.software
     d = b''
     b.write(d)
     r = s.read(1)
     assert len(r) == 0
 
   def test_underlyingStreamReadAll(self):
-    b = BytesIO()
-    s = ChromaSpecBytesIOStream(stream=b)
+    b = self.hardware
+    s = self.software
     d = b'\x00\x01\x02'
     b.write(d)
-    r = s.read()
+    r = s.read(3)
     assert     r  ==     d
     assert len(r) == len(d)
 
   def test_underlyingStreamReadManyFail(self):
-    b = BytesIO()
-    s = ChromaSpecBytesIOStream(stream=b)
+    b = self.hardware
+    s = self.software
     d = b'\x00\x01\x02'
     b.write(d)
     r = s.read(10)
     assert     r  ==     d
     assert len(r) == len(d)
 
-  def test_underlyingStreamWrite(self):
-    b = BytesIO()
-    s = ChromaSpecBytesIOStream(stream=b)
-    d = b'\x00\x01\x02'
-    s.write(d)
-    b.seek(0)
-    w = b.read()
-    assert     w  ==     d
-    assert len(w) == len(d)
-
   def test_write1Read1(self):
-    s = ChromaSpecBytesIOStream()
+    b = self.hardware
+    s = self.software
     d = b'\x00'
-    s.write(d)
+    b.write(d)
     r = s.read(1)
     assert     r  ==     d
     assert len(r) == len(d)
@@ -98,9 +127,10 @@ class ChromaSpecTestEmulatedStream(unittest.TestCase):
     assert len(r) == len(d)
 
   def test_write1Read1Consume1(self):
-    s = ChromaSpecBytesIOStream()
+    b = self.hardware
+    s = self.software
     d = b'\x00'
-    s.write(d)
+    b.write(d)
     r = s.read(1)
     assert     r  ==     d
     assert len(r) == len(d)
@@ -110,9 +140,10 @@ class ChromaSpecTestEmulatedStream(unittest.TestCase):
     assert len(r) == len(b'')
 
   def test_writeManyRead1(self):
-    s = ChromaSpecBytesIOStream()
+    b = self.hardware
+    s = self.software
     d = b'\x00\x01\x02'
-    s.write(d)
+    b.write(d)
     r = s.read(1)
     assert     r  ==     d[0:1]
     assert len(r) == len(d[0:1])
@@ -126,7 +157,8 @@ class ChromaSpecTestEmulatedStream(unittest.TestCase):
     assert len(r) == len(d[2:3])
 
   def test_writeManyReadInterleaved(self):
-    s = ChromaSpecBytesIOStream()
+    b = self.hardware
+    s = self.software
     d = b'\x00\x01\x02\x03\x04\x05'
     s.write(d[0:3])
     r = s.read(1)
@@ -355,6 +387,7 @@ class ChromaSpecTestEmulatedStream(unittest.TestCase):
         print("popped additional %s"%(r2))
       assert r1 == r2
 """
+
 
 
 

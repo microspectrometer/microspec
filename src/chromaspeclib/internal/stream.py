@@ -141,7 +141,7 @@ class ChromaSpecBytesIOStream(ChromaSpecStream):
     self.writepos = 0
     super().__init__(stream)
 
-  def read(self, bytelen=None, *args, **kwargs):
+  def read(self, bytelen=0, *args, **kwargs):
     log.info("bytelen=%s args=%s kwargs=%s", bytelen, args, kwargs)
     log.info("readpos=%s", self.readpos)
     self.stream.seek(self.readpos)
