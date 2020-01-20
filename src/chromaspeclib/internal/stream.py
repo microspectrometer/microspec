@@ -195,44 +195,83 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
     return super().read(bytelen, *args, **kwargs)
 
 class ChromaSpecEmulatedStream(ChromaSpecSerialIOStream):
-  def __init__(self, hardware=None, timeout=None, *args, **kwargs):
-    log.info("hardware=%s timeout=%s args=%s kwargs=%s", hardware, timeout, args, kwargs)
-    if not hardware:
+  def __init__(self, hardware=None, software=None, timeout=None, socat=False, fork=False, *args, **kwargs):
+    log.info("hardware=%s software=%s timeout=%s args=%s kwargs=%s", hardware, software, timeout, args, kwargs)
+    cleanup_hardware = False
+    cleanup_software = False
+    cleanup_tempdir  = False
+
+    if not hardware or not software:
       tempdir = tempfile.mkdtemp()
+      cleanup_tempdir = True
+
+    if not hardware:
       hardware = os.path.join(tempdir, "chromation.hardware")
+      cleanup_hardware = True
+
+    if not software:
       software = os.path.join(tempdir, "chromation.software")
+      cleanup_software = True
+
+    if socat:
+      log.info("forking socat process")
       #TODO: make this work for PC as well as MAC
       # Note: the -D is there to print something, anything, to stderr, so we can wait for it
-      passthru = subprocess.Popen(["socat", "-D", "PTY,raw,echo=0,link=%s"%(hardware),
-                                                  "PTY,raw,echo=0,link=%s"%(software)],
-                                  stderr=subprocess.PIPE)
-
+      socat = subprocess.Popen(["socat", "-D", "PTY,raw,echo=0,link=%s"%(hardware),
+                                               "PTY,raw,echo=0,link=%s"%(software)],
+                               stderr=subprocess.PIPE)
+  
       # Wait at most a second for socat to come up and announce itself, by which time the
       # files it needs to create should be there:
-      r, w, x = select.select([passthru.stderr],[],[],1)
+      r, w, x = select.select([socat.stderr],[],[],1)
       #import pdb; pdb.set_trace();
       if not r:
         raise Exception("Cannot create socat process to mediate USB emulation!")
-      super().__init__(device=hardware, timeout=timeout)
+  
       def cleanup():
-        log.warning("Cleanup: killing passthru process")
-        passthru.kill()
-        try:
-          log.warning("Cleanup: removing hardware file %s"%(hardware))
-          os.remove(hardware)
-        except:
-          pass # possibly a race condition with socat dying and not removing this quickly enough
-        try:
-          log.warning("Cleanup: removing software file %s"%(software))
-          os.remove(software)
-        except:
-          pass # possibly a race condition with socat dying and not removing this quickly enough
-        if os.path.isdir(tempdir):
-          log.warning("Cleanup: removing temp directory %s"%(tempdir))
-          os.rmdir(tempdir)
+        log.warning("Cleanup: killing socat process")
+        socat.kill()
+        if cleanup_hardware:
+          try:
+            log.warning("Cleanup: removing hardware file %s"%(hardware))
+            os.remove(hardware)
+          except:
+            pass # possibly a race condition with socat dying and not removing this quickly enough
+        if cleanup_software:
+          try:
+            log.warning("Cleanup: removing software file %s"%(software))
+            os.remove(software)
+          except:
+            pass # possibly a race condition with socat dying and not removing this quickly enough
+        if cleanup_tempdir:
+          if os.path.isdir(tempdir):
+            log.warning("Cleanup: removing temp directory %s"%(tempdir))
+            os.rmdir(tempdir)
         log.warning("Cleanup: done")
       atexit.register(cleanup)
+      self.socat = socat
 
-    super().__init__(device=hardware, timeout=timeout)
+    if fork:
+      log.info("forking emulator process")
+      # -p so that we can capture the stdout to make sure it's up and running
+      fork = subprocess.Popen(["chromaspec_emulator.py", "-t", "10", "-p", "-f", hardware],
+                              stdout=subprocess.PIPE)
+
+      # Wait at most a second for emulator to come up and announce itself, by which time it
+      # should have it's socket open and waiting
+      r, w, x = select.select([fork.stdout],[],[],1)
+      #import pdb; pdb.set_trace();
+      if not r:
+        raise Exception("Cannot create emulator process for USB emulation!")
+  
+      def cleanup():
+        log.warning("Cleanup: killing emulator process")
+        fork.kill()
+        log.warning("Cleanup: done")
+      atexit.register(cleanup)
+      self.fork = fork
+
     self.hardware = hardware
     self.software = software
+
+    super().__init__(device=hardware, timeout=timeout)

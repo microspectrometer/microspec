@@ -1,6 +1,5 @@
-from .internal.stream import *
-from .internal.data   import CommandNull
-from .logger          import CHROMASPEC_LOGGER as log
+from chromaspeclib.datatypes import CommandNull
+from chromaspeclib.logger    import CHROMASPEC_LOGGER as log
 import time
 
 # The intended difference between this and the Simple interface is to provide more
@@ -8,6 +7,7 @@ import time
 # replies. It requires creating Command objects and then passing them along, in 
 # contrast to the one routine per command structure of the Simple interface.
 
+from chromaspeclib.internal.stream import ChromaSpecSerialIOStream
 class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
   def __init__(self, serial_number=None, device=None, timeout=0.01, retry_timeout=0.001, *args, **kwargs):
     log.info("serial_number=%s, device=%s, timeout=%s, retry_timeout=%s, args=%s, kwargs=%s",
@@ -76,7 +76,7 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     self.sendCommand(CommandNull())
     old_timeout = self.timeout
     self.timeout = timeout
-    self.read(0)
+    self.stream.read(None)
     self.stream.reset_input_buffer()
     self.buffer = b''
     self.timeout = old_timeout
