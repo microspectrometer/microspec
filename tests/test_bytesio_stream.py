@@ -4,9 +4,7 @@ from chromaspeclib.internal.stream       import ChromaSpecBytesIOStream
 from chromaspeclib.internal.data         import *
 from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
 
-#from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_STREAM
-#import logging
-#CHROMASPEC_LOGGER_STREAM.setLevel(logging.DEBUG)
+from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_TEST as log
 
 class ChromaSpecTestBytesIOStream(unittest.TestCase):
 
@@ -307,17 +305,17 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
       r1      = r1klass()
       for v in r1:
         r1[v] = 99 # dummy data
-      r1.command_id = r1klass.command_id # varibles include this, need to undo it
-      if hasattr(r1, "status"):          # the null replies don't have this
-        r1.status   = 0                  # set status 0 otherwise we trigger a different check
-      print("sending serial %s"%(r1))
+      r1.command_id = r1klass.command_id                       # varibles include this, need to undo it
+      if r1.__dict__["value"].get("status", None) is not None: # the null replies don't have this
+        r1.status   = 0                                        # set status 0 otherwise we trigger a different check
+      log.info("sending serial %s"%(r1))
       self.sendReply(b, s, r1)
       w.append(r1)
       r2klass = getSensorReplyByID(cid)
       if r2klass:
         r2      = r2klass()
         for v in r2:
-          if hasattr(r2, "repeat"):
+          if r2.__dict__.get("repeat", None) is not None:
             if r2.repeat.get(v):
               r2[v] = [99]*99
               r2[r2.repeat[v]] = 99
@@ -325,24 +323,24 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
               r2[v] = 99 # dummy data
           else:
             r2[v] = 99 # dummy data
-        r2.command_id = r2klass.command_id # varibles include this, need to undo it
-        if hasattr(r1, "status"):          # the null replies don't have this
-          r2.status   = 0                  # set status 0 otherwise we trigger a different check
-        print("sending sensor %s"%(r1))
+        r2.command_id = r2klass.command_id                       # varibles include this, need to undo it
+        if r2.__dict__["value"].get("status", None) is not None: # the null replies don't have this
+          r2.status   = 0                                        # set status 0 otherwise we trigger a different check
+        log.info("sending sensor %s"%(r1))
         self.sendReply(b, s, r2)
         w.append(r2)
     self.small_wait()
     for cid in CHROMASPEC_COMMAND_ID.keys():
       if cid < 0: continue # Unimplemented test values in JSON
       r1 = s.receiveReply(cid)
-      print("received %s"%(r1))
+      log.info("received %s"%(r1))
       r2 = w.pop(0)
-      print("popped %s"%(r2))
+      log.info("popped %s"%(r2))
       if getSensorReplyByID(cid):
         # If there's a sensor reply, we'll only get that half back with this call,
         #   never the serial reply portion
         r2 = w.pop(0)
-        print("popped additional %s"%(r2))
+        log.info("popped additional %s"%(r2))
       assert r1 == r2
 
   # Note: all of these are here so we can override them in the emulator test and change where we're

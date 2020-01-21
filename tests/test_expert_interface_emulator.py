@@ -11,7 +11,6 @@ class ChromaSpecTestExpertInterfaceEmulator(_ChromaSpecTestExpertInterface):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    import pdb; pdb.set_trace()
     self.hardware = ChromaSpecEmulatedStream(socat=True, fork=True, timeout=0.1)
     self.software = ChromaSpecExpertInterface(device=self.hardware.software, timeout=1)
 

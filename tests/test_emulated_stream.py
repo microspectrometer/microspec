@@ -6,8 +6,8 @@ from chromaspeclib.internal.emulator     import ChromaSpecEmulator
 from chromaspeclib.internal.data         import *
 from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
 
-from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_INTERNAL
-import logging
+#from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_INTERNAL
+#import logging
 
 from test_bytesio_stream import ChromaSpecTestBytesIOStream
 
@@ -26,7 +26,7 @@ class ChromaSpecTestEmulatedStream(ChromaSpecTestBytesIOStream):
     super().__init__(*args, **kwargs)
     self.num_socats_before = self.num_running_socats()
     self.emulator = ChromaSpecEmulator()
-    self.hardware = ChromaSpecEmulatedStream(timeout=0.1, spawn=True, fork=False)
+    self.hardware = ChromaSpecEmulatedStream(timeout=0.1, socat=True, fork=False)
     self.software = ChromaSpecSerialIOStream(device=self.hardware.software, timeout=0.1)
 
   def num_running_socats(self):
