@@ -94,6 +94,9 @@ class ChromaSpecStream(object):
     if not serial_klass:
       log.error("Command ID not recognized: %s", command_id)
       return None
+    if serial_klass is SerialNull:
+      log.info("serial reply is SerialNull")
+      return serial_klass()
     serialbuf = self.read(0)
     log.info("serialbuf=%s", serialbuf)
     try:
@@ -101,9 +104,6 @@ class ChromaSpecStream(object):
     except Exception as e:
       log.info("serialbuf=%s exception=%s", serialbuf, str(e))
       return None
-    if isinstance(serial_reply, SerialNull):
-      log.info("serial reply is SerialNull")
-      return serial_reply
     if not hasattr(serial_reply, "status") or serial_reply.status is None:
       log.info("serial reply is empty")
       return None

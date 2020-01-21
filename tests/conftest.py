@@ -1,5 +1,4 @@
 import pytest
-from tabulate import tabulate
 
 @pytest.fixture(scope="class")
 def class_results(request):
