@@ -68,7 +68,6 @@ class ChromaSpecEmulator(object):
               SensorGetSensorConfig(status=StatusOK, binning=self.binning, gain=self.gain, row_bitmap=self.rows)]
     elif command.command_id == CommandSetSensorConfig.command_id:
       try:
-        #import pdb; pdb.set_trace()
         assert False <= command.binning <= True
         assert command.gain in [Gain1x, Gain2_5x, Gain4x, Gain5x]
         assert command.row_bitmap != 0

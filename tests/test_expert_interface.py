@@ -12,14 +12,12 @@ class ChromaSpecTestExpertInterface(unittest.TestCase):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    self.hardware = None
-    self.software = None
-    self.emulator = ChromaSpecEmulator()
-    self.min      = 0
 
   @classmethod
   def setUpClass(cls):
     cls.setup = False
+    cls.emulator = ChromaSpecEmulator()
+    cls.min      = 0
 
   def setUp(self):
     if self.__class__.setup:
@@ -30,9 +28,10 @@ class ChromaSpecTestExpertInterface(unittest.TestCase):
       self.software.sendCommand(command)
       r  = self.software.receiveReply()
       t2 = timer()    
+      r.led_setting = 0
       assert r == SerialGetBridgeLED(status=1, led_setting=0)
-      self.min += t2 - t1
-    self.min /= 100
+      self.__class__.min += t2 - t1
+    self.__class__.min /= 100
     self.results.append([command.__class__.__name__ + "(Reference)", self.min*1000])
     self.__class__.setup = True
 
@@ -53,7 +52,7 @@ def generateTest(command_class):
     else:
       for var in command:
         command[var]  = 0
-    replies = self.emulator.process(command)
+    replies = self.__class__.emulator.process(command)
     if replies:
       expected_reply = replies.pop()
     else:
@@ -64,15 +63,23 @@ def generateTest(command_class):
       self.software.sendCommand(command)
       r  = self.software.receiveReply()
       t2 = timer()    
+      if command_class is CommandCaptureFrame:
+        # Fake it - can't possibly predict capture data
+        r.num_pixels = expected_reply.num_pixels
+        r.pixels     = expected_reply.pixels
       assert r == expected_reply
       avg += t2 - t1
     avg /= 100
-    avg -= self.min
+    avg -= self.__class__.min
     self.results.append([command.__class__.__name__, avg*1000])
   return test
 
 for command_id, command_class in CHROMASPEC_COMMAND_ID.items():
   if command_id < 0:
     continue
-  setattr(ChromaSpecTestExpertInterface, "test_sending"+command_class.__name__, generateTest(command_class))
+  order = "0"
+  if   command_class.__name__[0:12] == "CommandReset": order = "0"
+  elif command_class.__name__[0:10] == "CommandSet":   order = "1"
+  else:                                                order = "2"
+  setattr(ChromaSpecTestExpertInterface, "test_"+order+"sending"+command_class.__name__, generateTest(command_class))
 
