@@ -1,13 +1,13 @@
 import unittest, os, pytest, time
 from timeit import default_timer as timer
 from tabulate import tabulate
-from chromaspeclib.expert                import ChromaSpecExpertInterface
+from chromaspeclib.simple                import ChromaSpecSimpleInterface
 from chromaspeclib.internal.emulator     import ChromaSpecEmulator
 from chromaspeclib.internal.data         import *
 from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
 
 @pytest.mark.usefixtures("class_results")
-class ChromaSpecTestExpertInterface(unittest.TestCase):
+class ChromaSpecTestSimpleInterface(unittest.TestCase):
   __test__ = False # Abstract test class #
 
   def __init__(self, *args, **kwargs):
@@ -25,14 +25,13 @@ class ChromaSpecTestExpertInterface(unittest.TestCase):
     command = CommandGetBridgeLED(led_num=255)
     for i in range(0,100):
       t1 = timer()    
-      self.software.sendCommand(command)
-      r  = self.software.receiveReply()
+      r  = self.software.getBridgeLED(led_num=255)
       t2 = timer()    
       r.led_setting = 0
       assert r == SerialGetBridgeLED(status=1, led_setting=0)
       self.__class__.min += t2 - t1
     self.__class__.min /= 100
-    self.results.append(["Expert."+command.__class__.__name__ + "(Reference)", self.min*1000])
+    self.results.append(["Simple."+command.__class__.__name__ + "(Reference)", self.min*1000])
     self.__class__.setup = True
 
   @classmethod
@@ -59,9 +58,10 @@ def generateTest(command_class):
       expected_reply = SerialNull()
     avg = 0
     for i in range(0,100):
+      kwargs = dict([ [k, command[k]] for k in command ])
+      cname  = command.__class__.__name__[7:8].lower() + command.__class__.__name__[8:]
       t1 = timer()    
-      self.software.sendCommand(command)
-      r  = self.software.receiveReply()
+      r  = getattr(self.software, cname)(**kwargs)
       t2 = timer()    
       if command_class is CommandCaptureFrame:
         # Fake it - can't possibly predict capture data
@@ -71,7 +71,7 @@ def generateTest(command_class):
       avg += t2 - t1
     avg /= 100
     avg -= self.__class__.min
-    self.results.append(["Expert."+command.__class__.__name__, avg*1000])
+    self.results.append(["Simple."+command.__class__.__name__, avg*1000])
   return test
 
 for command_id, command_class in CHROMASPEC_COMMAND_ID.items():
@@ -81,5 +81,5 @@ for command_id, command_class in CHROMASPEC_COMMAND_ID.items():
   if   command_class.__name__[0:12] == "CommandReset": order = "0"
   elif command_class.__name__[0:10] == "CommandSet":   order = "1"
   else:                                                order = "2"
-  setattr(ChromaSpecTestExpertInterface, "test_"+order+"sending"+command_class.__name__, generateTest(command_class))
+  setattr(ChromaSpecTestSimpleInterface, "test_"+order+"sending"+command_class.__name__, generateTest(command_class))
 
