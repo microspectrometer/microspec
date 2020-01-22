@@ -15,7 +15,9 @@ def get_constant(c):
 
 def print_format(csv, response):
   current_time = datetime.datetime.now().strftime("%Y-%m-%dT%T.%f%z")
-  if csv:
+  if response is None:
+    print("%s,%s"%(current_time,None))
+  elif csv:
     print("%s,%s"%(current_time,response.csv()))
   else:
     print("%s,%s"%(current_time,str(response)))
@@ -58,7 +60,6 @@ if __name__ == "__main__":
     log.info("Connecting to default hardware")
     si       = ChromaSpecSimpleInterface(timeout=timeout)
 
-  import pdb; pdb.set_trace()
   getcmd  = get_command(args.command)
   command = getcmd[0].lower() + getcmd[1:]
   kwargs  = dict([ [s.split("=")[0],get_constant(s.split("=")[1])]  for s in args.arguments ])
