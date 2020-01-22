@@ -95,6 +95,14 @@ class ChromaSpecPayload(object):
     log.info("return %s", s)
     return s
 
+  def csv(self):
+    log.info("")
+    s = "%s,%s"%(self.__class__.__name__, \
+          ",".join([ str(s) for s in flatten(self.value.items()) ])
+        )
+    log.info("return %s", s)
+    return s
+
   def __bytes__(self):
     log.info("")
     b = self.pack()

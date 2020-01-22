@@ -1,6 +1,7 @@
 from .logger import CHROMASPEC_LOGGER_UTIL as log
 from struct  import unpack, pack
 import re
+import itertools
 
 class ChromaSpecInteger(int):
   def __new__(self, value, size=1, byteorder="big", signed=False):
@@ -35,6 +36,21 @@ def dehex(value):
     h = int(value, 16)
     log.info("return %d", h)
     return h
+  elif re.match('[Tt](?:rue)?', str(value)):
+    log.info("return 1")
+    return 1
+  elif re.match('[Ff](?:alse)?', str(value)):
+    log.info("return 0")
+    return 0
   log.info("return %s", value)
   return value
 
+def _flatten(_list):
+  for item in _list:
+    if isinstance(item, list) or isinstance(item, tuple):
+      yield from flatten(item)
+    else:
+      yield item
+
+def flatten(_list):
+  return list(_flatten(_list))
