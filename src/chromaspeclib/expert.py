@@ -1,6 +1,5 @@
-from chromaspeclib.internal.stream import *
-from chromaspeclib.internal.logger import CHROMASPEC_LOGGER as log
-from chromaspeclib.internal.data   import CommandNull
+from chromaspeclib.datatypes import CommandNull
+from chromaspeclib.logger    import CHROMASPEC_LOGGER as log
 import time
 
 # The intended difference between this and the Simple interface is to provide more
@@ -8,6 +7,7 @@ import time
 # replies. It requires creating Command objects and then passing them along, in 
 # contrast to the one routine per command structure of the Simple interface.
 
+from chromaspeclib.internal.stream import ChromaSpecSerialIOStream
 class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
   def __init__(self, serial_number=None, device=None, timeout=0.01, retry_timeout=0.001, *args, **kwargs):
     log.info("serial_number=%s, device=%s, timeout=%s, retry_timeout=%s, args=%s, kwargs=%s",
@@ -50,9 +50,8 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     timeout = self.timeout if self.timeout else 0
     remain = timeout - since
     log.info("start=%s reply=%s since=%s timeout=%s remain=%s"%(start,reply,since,timeout,remain))
-    while not reply and remain > 0:
+    while reply is None and remain > 0:
       log.info("no reply yet, timeout remaining=%s", remain)
-      print("no reply yet, timeout remaining=", remain)
       time.sleep( self.retry_timeout if remain > self.retry_timeout else remain )
       reply = super().receiveReply(self.current_command[0].command_id)
       since = time.time() - start
@@ -65,11 +64,9 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     return reply
 
   def sendAndReceive(self, command):
+    log.info("command=%s", command)
     self.sendCommand(command)
     reply = self.receiveReply()
-    if not reply:
-      log.info("popping command anyways since reply was not found")
-      self.current_command.pop(0)
     log.info("return %s", reply)
     return reply
 
@@ -78,8 +75,9 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     self.sendCommand(CommandNull())
     old_timeout = self.timeout
     self.timeout = timeout
-    self.read(None)
+    self.stream.read(None)
     self.stream.reset_input_buffer()
     self.buffer = b''
     self.timeout = old_timeout
     self.current_command = []
+    log.info("return")
