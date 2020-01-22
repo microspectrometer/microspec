@@ -35,6 +35,13 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
       
   def sendCommand(self, command):
     log.info("command=%s", command)
+    try:
+      if bytes(command) == b'':
+        log.warning("Error packing payload for command '%s'", str(command))
+        raise Exception("Unable to send partial command '%s'"%(str(command)))
+    except:
+      log.warning("Error packing payload for command '%s'", str(command))
+      raise Exception("Unable to send partial command '%s'"%(str(command)))
     super().sendCommand(command)
     log.info("appending command=%s to current_command=%s", command, self.current_command)
     self.current_command.append(command)
