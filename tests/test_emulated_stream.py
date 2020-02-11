@@ -47,8 +47,8 @@ class ChromaSpecTestEmulatedStream(ChromaSpecTestBytesIOStream):
     assert os.path.exists(self.hardware.hardware) == True
     assert os.path.exists(self.hardware.software) == True
 
-  def test_partialReadSerialNonzerostatusAndSensorReply(self):
-    super().test_partialReadSerialNonzerostatusAndSensorReply()
+  def test_partialReadBridgeNonzerostatusAndSensorReply(self):
+    super().test_partialReadBridgeNonzerostatusAndSensorReply()
     # This (necessarily) leaves the buffer in a partial state, needs to be cleaned up
     self.hardware.stream.reset_input_buffer()
     self.hardware.buffer = b''

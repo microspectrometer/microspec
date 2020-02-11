@@ -10,20 +10,20 @@ CHROMASPEC_SERIAL_ID, CHROMASPEC_SERIAL_NAME = \
       "cfg",
       "chromaspec.json"
     ),
-    "serial"
+    "bridge"
   )
 
 globals().update([v.name,v] for k,v in CHROMASPEC_SERIAL_ID.items())
 
-__all__ = list(CHROMASPEC_SERIAL_NAME.keys())+["getSerialReplyByID","getSerialReplyByName"]
+__all__ = list(CHROMASPEC_SERIAL_NAME.keys())+["getBridgeReplyByID","getBridgeReplyByName"]
 
-def getSerialReplyByID(cid):
+def getBridgeReplyByID(cid):
   log.info("cid=%d", cid)
   com = CHROMASPEC_SERIAL_ID.get(cid)
   log.info("return %s", com)
   return com
 
-def getSerialReplyByName(name):
+def getBridgeReplyByName(name):
   log.info("name=%s", name)
   com = CHROMASPEC_SERIAL_NAME.get(name)
   log.info("return %s", com)

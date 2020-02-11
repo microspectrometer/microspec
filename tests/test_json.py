@@ -23,16 +23,16 @@ class ChromaSpecTestJson(unittest.TestCase):
     assert cname["Commandc"]().sizes[2]     == 4
     assert cname["Commandc"]().repeat["b"]  == "a"
 
-  def test_serial(self):
-    cid, cname = enclassJsonFile(jsontest, protocol="serial")
-    assert cid  [0        ]().name         == "Seriala"
+  def test_bridge(self):
+    cid, cname = enclassJsonFile(jsontest, protocol="bridge")
+    assert cid  [0        ]().name         == "Bridgea"
     assert cid  [1        ]().variables[0] == "command_id"
     assert cid  [2        ]().sizes[2]     == 4
     assert cid  [2        ]().repeat["b"]  == "a"
-    assert cname["Seriala"]().name         == "Seriala"
-    assert cname["Serialb"]().variables[0] == "command_id"
-    assert cname["Serialc"]().sizes[2]     == 4
-    assert cname["Serialc"]().repeat["b"]  == "a"
+    assert cname["Bridgea"]().name         == "Bridgea"
+    assert cname["Bridgeb"]().variables[0] == "command_id"
+    assert cname["Bridgec"]().sizes[2]     == 4
+    assert cname["Bridgec"]().repeat["b"]  == "a"
 
   def test_sensor(self):
     cid, cname = enclassJsonFile(jsontest, protocol="sensor")

@@ -29,7 +29,7 @@ class ChromaSpecTestExpertInterface(unittest.TestCase):
       r  = self.software.receiveReply()
       t2 = timer()    
       r.led_setting = 0
-      assert r == SerialGetBridgeLED(status=1, led_setting=0)
+      assert r == BridgeGetBridgeLED(status=1, led_setting=0)
       self.__class__.min += t2 - t1
     self.__class__.min /= 100
     self.results.append(["Expert."+command.__class__.__name__ + "(Reference)", self.min*1000])
@@ -56,7 +56,7 @@ def generateTest(command_class):
     if replies:
       expected_reply = replies.pop()
     else:
-      expected_reply = SerialNull()
+      expected_reply = BridgeNull()
     avg = 0
     for i in range(0,100):
       t1 = timer()    

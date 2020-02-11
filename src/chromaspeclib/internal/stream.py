@@ -90,42 +90,42 @@ class ChromaSpecStream(object):
 
   def receiveReply(self, command_id):
     log.info("command_id=%s", command_id)
-    serial_klass = getSerialReplyByID(command_id)
+    bridge_klass = getBridgeReplyByID(command_id)
     sensor_klass = getSensorReplyByID(command_id)
-    if not serial_klass:
+    if not bridge_klass:
       log.error("Command ID not recognized: %s", command_id)
       return None
-    if serial_klass is SerialNull:
-      log.info("serial reply is SerialNull")
-      return serial_klass()
-    serialbuf = self.read(0)
-    log.info("serialbuf=%s", serialbuf)
+    if bridge_klass is BridgeNull:
+      log.info("bridge reply is BridgeNull")
+      return bridge_klass()
+    bridgebuf = self.read(0)
+    log.info("bridgebuf=%s", bridgebuf)
     try:
-      serial_reply = serial_klass(serialbuf)
+      bridge_reply = bridge_klass(bridgebuf)
     except Exception as e:
-      log.info("serialbuf=%s exception=%s", serialbuf, str(e))
+      log.info("bridgebuf=%s exception=%s", bridgebuf, str(e))
       return None
-    if not hasattr(serial_reply, "status") or serial_reply.status is None:
-      log.info("serial reply is empty")
+    if not hasattr(bridge_reply, "status") or bridge_reply.status is None:
+      log.info("bridge reply is empty")
       return None
-    seriallen = len(bytes(serial_reply))
-    self.consume(seriallen)
-    serialbuf = serialbuf[0:seriallen]
-    if serial_reply.status != 0 or not sensor_klass:
-      log.info("return serial_reply=%s", serial_reply)
-      return serial_reply
+    bridgelen = len(bytes(bridge_reply))
+    self.consume(bridgelen)
+    bridgebuf = bridgebuf[0:bridgelen]
+    if bridge_reply.status != 0 or not sensor_klass:
+      log.info("return bridge_reply=%s", bridge_reply)
+      return bridge_reply
     sensorbuf = self.read(0)
-    log.info("serialbuf=%s", sensorbuf)
+    log.info("bridgebuf=%s", sensorbuf)
     try:
       sensor_reply = sensor_klass(sensorbuf)
     except Exception as e:
-      log.info("sensorbuf=%s exception=%s pushing back serialbuf=%s", 
-        sensorbuf, str(e), serialbuf)
-      self.pushback(serialbuf)
+      log.info("sensorbuf=%s exception=%s pushing back bridgebuf=%s", 
+        sensorbuf, str(e), bridgebuf)
+      self.pushback(bridgebuf)
       return None
     if sensor_reply.status is None:
       log.info("sensor reply is empty")
-      self.pushback(serialbuf)
+      self.pushback(bridgebuf)
       return None
     self.consume(len(bytes(sensor_reply)))
     log.info("return sensor_reply=%s", sensor_reply)
