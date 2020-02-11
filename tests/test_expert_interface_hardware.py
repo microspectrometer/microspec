@@ -6,13 +6,17 @@ from chromaspeclib.expert            import ChromaSpecExpertInterface
 #from chromaspeclib.internal.emulator import ChromaSpecEmulator
 from chromaspeclib.internal.data     import *
 
-class ChromaSpecTestExpertInterfaceEmulator(ChromaSpecTestExpertInterface):
+class ChromaSpecTestExpertInterfaceHardware(ChromaSpecTestExpertInterface):
   __test__ = True
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    self.hardware = None
-    self.software = ChromaSpecExpertInterface(timeout=0.1)
+
+  @classmethod
+  def setUpClass(cls):
+    super().setUpClass()
+    cls.hardware = None
+    cls.software = ChromaSpecExpertInterface(timeout=0.1)
 
 
 

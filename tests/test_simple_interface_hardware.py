@@ -4,11 +4,15 @@ from test_simple_interface           import ChromaSpecTestSimpleInterface
 from chromaspeclib.simple            import ChromaSpecSimpleInterface
 from chromaspeclib.internal.data     import *
 
-class ChromaSpecTestSimpleInterfaceEmulator(ChromaSpecTestSimpleInterface):
+class ChromaSpecTestSimpleInterfaceHardware(ChromaSpecTestSimpleInterface):
   __test__ = True
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
+
+  @classmethod
+  def setUpClass(cls):
+    super().setUpClass()
     self.hardware = None
     self.software = ChromaSpecSimpleInterface(timeout=0.1)
 
