@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 from chromaspeclib.datatypes  import *
 from chromaspeclib.logger     import CHROMASPEC_LOGGER_STREAM as log
 from chromaspeclib.exceptions import ChromaSpecConnectionException, ChromaSpecEmulationException

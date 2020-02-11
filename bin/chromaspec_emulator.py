@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 import sys
 import argparse
 parser = argparse.ArgumentParser(

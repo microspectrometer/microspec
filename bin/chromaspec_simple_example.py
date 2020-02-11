@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 from chromaspeclib.simple    import ChromaSpecSimpleInterface
 from chromaspeclib.datatypes import *
 

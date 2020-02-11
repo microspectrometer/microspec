@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 import unittest, os, pytest, time
 from timeit   import default_timer as timer
 from tabulate import tabulate

@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 import unittest, os, pytest, psutil, time, sys
 from io import BytesIO
 from chromaspeclib.internal.stream   import ChromaSpecEmulatedStream, \

@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 from chromaspeclib.logger import CHROMASPEC_LOGGER_JSON as log
 from .payload import ChromaSpecPayloadClassFactory as cfactory
 from .util    import dehex

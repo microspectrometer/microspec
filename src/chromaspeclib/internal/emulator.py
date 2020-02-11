@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 from chromaspeclib.datatypes import *
 
 class ChromaSpecEmulator(object):
