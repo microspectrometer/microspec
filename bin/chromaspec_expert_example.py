@@ -2,10 +2,10 @@
 from chromaspeclib.expert    import ChromaSpecExpertInterface
 from chromaspeclib.datatypes import *
 
-#xi = ChromaSpecExpertInterface(timeout=0.1)
+xi = ChromaSpecExpertInterface(timeout=0.1)
 #xi = ChromaSpecExpertInterface(timeout=0.1, device="COM3")
 #xi = ChromaSpecExpertInterface(timeout=0.1, device="/dev/cu.usbserial-CHROMATION09310")
-xi = ChromaSpecExpertInterface(timeout=0.1, emulation=True)
+#xi = ChromaSpecExpertInterface(timeout=0.1, emulation=True)
 
 xi.sendCommand(CommandSetBridgeLED(led_num=0, led_setting=LEDOff))
 print(xi.receiveReply())
