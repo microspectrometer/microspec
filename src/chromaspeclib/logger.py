@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 import logging
 
 CHROMASPEC_LOG_FORMAT="%(asctime)-15s:%(filename)s:%(funcName)s:%(lineno)d: %(message)s"

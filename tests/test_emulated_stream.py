@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 import unittest, os, pytest, psutil, time, sys
 from io import BytesIO
 from chromaspeclib.internal.stream   import ChromaSpecEmulatedStream, \
@@ -47,8 +51,8 @@ class ChromaSpecTestEmulatedStream(ChromaSpecTestBytesIOStream):
     assert os.path.exists(self.hardware.hardware) == True
     assert os.path.exists(self.hardware.software) == True
 
-  def test_partialReadSerialNonzerostatusAndSensorReply(self):
-    super().test_partialReadSerialNonzerostatusAndSensorReply()
+  def test_partialReadBridgeNonzerostatusAndSensorReply(self):
+    super().test_partialReadBridgeNonzerostatusAndSensorReply()
     # This (necessarily) leaves the buffer in a partial state, needs to be cleaned up
     self.hardware.stream.reset_input_buffer()
     self.hardware.buffer = b''

@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 import unittest, os
 from chromaspeclib.internal.util import ChromaSpecInteger, isInt, dehex
 

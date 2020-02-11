@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 from chromaspeclib.expert            import ChromaSpecExpertInterface
 from chromaspeclib.logger            import CHROMASPEC_LOGGER as log
 from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_NAME

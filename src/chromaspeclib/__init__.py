@@ -1,5 +1,8 @@
 import os
 
+__copyright__ = """Copyright 2020 Chromation, Inc"""
+__license__   = """All Rights Reserved by Chromation, Inc"""
+
 # Specifically located in the __init__.py of the base chromaspeclib
 # package, so that the ../ (src) ../ (chromaspec) directory can be found,
 # so that, in turn, the cfg and other directories can be referenced

@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 from chromaspeclib.logger import CHROMASPEC_LOGGER_PAYLOAD as log
 from .util    import *
 from struct   import unpack, pack

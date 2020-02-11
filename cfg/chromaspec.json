@@ -32,7 +32,7 @@
       ,"10": { "name": "SetExposure",     "variables": [ "command_id", "cycles"                        ], "sizes": [1,2] }
       ,"11": { "name": "CaptureFrame",    "variables": [ "command_id"                                  ], "sizes": [1] }
     },
-    "serial":
+    "bridge":
     {
        "0":  { "name": "Null",            "variables": [                         ], "sizes": [] }
       ,"1":  { "name": "GetBridgeLED",    "variables": [ "status", "led_setting" ], "sizes": [1,1] }

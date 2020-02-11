@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 import unittest, os, pytest, time
 from timeit   import default_timer as timer
 from tabulate import tabulate
@@ -28,7 +32,7 @@ class ChromaSpecTestSimpleInterface(unittest.TestCase):
       r  = self.software.getBridgeLED(led_num=255)
       t2 = timer()    
       r.led_setting = 0
-      assert r == SerialGetBridgeLED(status=1, led_setting=0)
+      assert r == BridgeGetBridgeLED(status=1, led_setting=0)
       self.__class__.min += t2 - t1
     self.__class__.min /= 100
     self.results.append(["Simple."+command.__class__.__name__ + "(Reference)", self.min*1000])
@@ -55,7 +59,7 @@ def generateTest(command_class):
     if replies:
       expected_reply = replies.pop()
     else:
-      expected_reply = SerialNull()
+      expected_reply = BridgeNull()
     avg = 0
     for i in range(0,100):
       kwargs = dict([ [k, command[k]] for k in command ])

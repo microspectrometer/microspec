@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 import unittest, os, pytest
 from io import BytesIO
 from chromaspeclib.internal.stream   import ChromaSpecBytesIOStream
@@ -205,9 +209,9 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     assert s.buffer            == b''
     assert r == CommandGetBridgeLED(led_num=0)
 
-  def test_partialReadSerialReply(self):
+  def test_partialReadBridgeReply(self):
     b, s = self.generate_streams()
-    r = SerialGetBridgeLED(status=0, led_num=0, led_setting=1)
+    r = BridgeGetBridgeLED(status=0, led_num=0, led_setting=1)
     self.assert_getvalue(s.stream, b'')
 
     rb = bytes(r)
@@ -235,11 +239,11 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     self.assert_getvalue(s.stream, rb1+rb2)
     self.assert_readpos( s,        2      )
     assert s.buffer+s.read(0)  == b''
-    assert x == SerialGetBridgeLED(status=0, led_num=0, led_setting=1)
+    assert x == BridgeGetBridgeLED(status=0, led_num=0, led_setting=1)
 
-  def test_partialReadSerialAndSensorReply(self):
+  def test_partialReadBridgeAndSensorReply(self):
     b, s = self.generate_streams()
-    r1 = SerialGetSensorLED(status=0)
+    r1 = BridgeGetSensorLED(status=0)
     r2 = SensorGetSensorLED(status=1, led_setting=2)
     self.assert_getvalue(s.stream, b'')
 
@@ -272,9 +276,9 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     assert s.buffer            == b''
     assert x == SensorGetSensorLED(status=1, led_setting=2)
 
-  def test_partialReadSerialNonzerostatusAndSensorReply(self):
+  def test_partialReadBridgeNonzerostatusAndSensorReply(self):
     b, s = self.generate_streams()
-    r1 = SerialGetSensorLED(status=1)
+    r1 = BridgeGetSensorLED(status=1)
     r2 = SensorGetSensorLED(status=0, led_setting=2)
     self.assert_getvalue(s.stream, b'')
 
@@ -293,21 +297,21 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
     self.assert_getvalue(s.stream, rb1)
     self.assert_readpos( s,        2  )
     assert s.buffer            == rb1[1:]
-    assert x == SerialGetSensorLED(status=1)
+    assert x == BridgeGetSensorLED(status=1)
 
   def test_writeReadReply(self):
     b, s = self.generate_streams()
     w = []
     for cid in CHROMASPEC_COMMAND_ID.keys():
       if cid < 0: continue # Unimplemented test values in JSON
-      r1klass = getSerialReplyByID(cid)
+      r1klass = getBridgeReplyByID(cid)
       r1      = r1klass()
       for v in r1:
         r1[v] = 99 # dummy data
       r1.command_id = r1klass.command_id                       # varibles include this, need to undo it
       if r1.__dict__["value"].get("status", None) is not None: # the null replies don't have this
         r1.status   = 0                                        # set status 0 otherwise we trigger a different check
-      log.info("sending serial %s"%(r1))
+      log.info("sending bridge %s"%(r1))
       self.sendReply(b, s, r1)
       w.append(r1)
       r2klass = getSensorReplyByID(cid)
@@ -337,7 +341,7 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
       log.info("popped %s"%(r2))
       if getSensorReplyByID(cid):
         # If there's a sensor reply, we'll only get that half back with this call,
-        #   never the serial reply portion
+        #   never the bridge reply portion
         r2 = w.pop(0)
         log.info("popped additional %s"%(r2))
       assert r1 == r2

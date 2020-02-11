@@ -15,7 +15,7 @@
       ,"2":  { "name": "c", "variables": [ "command_id", "a", "b" ], "sizes": [1,1,4],
                             "repeat":    { "b": "a" } }
     },
-    "serial":
+    "bridge":
     {
        "0":  { "name": "a", "variables": [ "command_id"           ], "sizes": [1] }
       ,"1":  { "name": "b", "variables": [ "command_id", "a"      ], "sizes": [1,1] }

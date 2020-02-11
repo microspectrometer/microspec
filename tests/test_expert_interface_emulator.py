@@ -1,3 +1,7 @@
+
+# Copyright 2020 by Chromation, Inc
+# All Rights Reserved by Chromation, Inc
+
 import unittest, os, pytest, sys
 from timeit import default_timer as timer
 from test_expert_interface import ChromaSpecTestExpertInterface
