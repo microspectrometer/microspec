@@ -7,11 +7,14 @@ import time
 # replies. It requires creating Command objects and then passing them along, in 
 # contrast to the one routine per command structure of the Simple interface.
 
-from chromaspeclib.internal.stream import ChromaSpecSerialIOStream
+from chromaspeclib.internal.stream import ChromaSpecSerialIOStream, ChromaSpecEmulatedStream
 class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
-  def __init__(self, serial_number=None, device=None, timeout=0.01, retry_timeout=0.001, *args, **kwargs):
-    log.info("serial_number=%s, device=%s, timeout=%s, retry_timeout=%s, args=%s, kwargs=%s",
-             serial_number, device, timeout, retry_timeout, args, kwargs)
+  def __init__(self, serial_number=None, device=None, timeout=0.01, retry_timeout=0.001, emulation=False, *args, **kwargs):
+    log.info("serial_number=%s, device=%s, timeout=%s, retry_timeout=%s, emulation=%s, args=%s, kwargs=%s",
+             serial_number, device, timeout, retry_timeout, emulation, args, kwargs)
+    if emulation:
+      self.emulation = ChromaSpecEmulatedStream(socat=True, fork=True, timeout=timeout)
+      device = self.emulation.software
     super().__init__(serial_number=serial_number, 
                      device=device, timeout=timeout, 
                      *args, **kwargs)

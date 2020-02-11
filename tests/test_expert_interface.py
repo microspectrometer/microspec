@@ -1,10 +1,10 @@
 import unittest, os, pytest, time
 from timeit import default_timer as timer
 from tabulate import tabulate
-from chromaspeclib.expert                import ChromaSpecExpertInterface
-from chromaspeclib.internal.emulator     import ChromaSpecEmulator
-from chromaspeclib.internal.data         import *
-from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
+from chromaspeclib.expert            import ChromaSpecExpertInterface
+from chromaspeclib.internal.emulator import ChromaSpecEmulator
+from chromaspeclib.datatypes         import *
+from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_ID
 
 @pytest.mark.usefixtures("class_results")
 class ChromaSpecTestExpertInterface(unittest.TestCase):

@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 from chromaspeclib.internal.emulator import ChromaSpecEmulator
 from chromaspeclib.internal.stream   import ChromaSpecEmulatedStream
-from chromaspeclib.internal.logger   import debug
+from chromaspeclib.logger            import debug
 import logging
 
 log = logging.getLogger("chromaspec_emulator")

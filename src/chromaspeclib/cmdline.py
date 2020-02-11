@@ -1,7 +1,7 @@
-from chromaspeclib.simple import ChromaSpecSimpleInterface
-from chromaspeclib.logger import debug, CHROMASPEC_LOGGER as log
-from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_NAME as commands
-from chromaspeclib.internal.data.types   import CHROMASPEC_GLOBAL       as constants
+from chromaspeclib.simple            import ChromaSpecSimpleInterface
+from chromaspeclib.logger            import debug, CHROMASPEC_LOGGER as log
+from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_NAME as commands
+from chromaspeclib.datatypes.types   import CHROMASPEC_GLOBAL       as constants
 import time, datetime, sys
 
 cmdname = dict([ [s[7:].lower(), s[7:]] for s    in commands.keys() ])
@@ -39,8 +39,8 @@ if __name__ == "__main__":
   parser.add_argument("arguments",        help="Key=value pairs for command",        nargs="*",      default=[]   )
   args = parser.parse_args()
   
-  from chromaspeclib.internal.stream       import ChromaSpecEmulatedStream
-  from chromaspeclib.internal.logger       import debug
+  from chromaspeclib.internal.stream import ChromaSpecEmulatedStream
+  from chromaspeclib.logger          import debug
   if args.debug or args.verbose: 
     debug(args.debug>0)
 

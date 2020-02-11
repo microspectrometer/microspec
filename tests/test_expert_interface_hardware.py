@@ -1,9 +1,9 @@
 import unittest, os, pytest
 from timeit import default_timer as timer
-from test_expert_interface             import ChromaSpecTestExpertInterface
-from chromaspeclib.expert              import ChromaSpecExpertInterface
-from chromaspeclib.internal.data       import *
-from chromaspeclib.internal.exceptions import *
+from test_expert_interface    import ChromaSpecTestExpertInterface
+from chromaspeclib.expert     import ChromaSpecExpertInterface
+from chromaspeclib.datatypes  import *
+from chromaspeclib.exceptions import *
 
 @pytest.mark.xfail(raises=ChromaSpecConnectionException, strict=False, reason="Hardware not connected")
 class ChromaSpecTestExpertInterfaceHardware(ChromaSpecTestExpertInterface):

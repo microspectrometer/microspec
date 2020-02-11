@@ -1,5 +1,5 @@
-from .logger import CHROMASPEC_LOGGER_UTIL as log
-from struct  import unpack, pack
+from chromaspeclib.logger import CHROMASPEC_LOGGER_UTIL as log
+from struct import unpack, pack
 import re
 import itertools
 

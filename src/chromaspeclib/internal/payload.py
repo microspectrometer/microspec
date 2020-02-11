@@ -1,6 +1,6 @@
-from .util   import *
-from .logger import CHROMASPEC_LOGGER_PAYLOAD as log
-from struct  import unpack, pack
+from chromaspeclib.logger import CHROMASPEC_LOGGER_PAYLOAD as log
+from .util    import *
+from struct   import unpack, pack
 import itertools
 import re
 

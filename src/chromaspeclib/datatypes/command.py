@@ -1,6 +1,6 @@
-from ..jsonparse import enclassJsonFile
-from ..logger    import CHROMASPEC_LOGGER_DATA as log
-from ...         import CHROMASPEC_ROOTDIR
+from chromaspeclib.internal.jsonparse import enclassJsonFile
+from chromaspeclib.logger             import CHROMASPEC_LOGGER_DATA as log
+from chromaspeclib                    import CHROMASPEC_ROOTDIR
 import os
 
 CHROMASPEC_COMMAND_ID, CHROMASPEC_COMMAND_NAME = \

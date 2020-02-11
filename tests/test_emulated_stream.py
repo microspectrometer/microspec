@@ -1,10 +1,10 @@
 import unittest, os, pytest, psutil, time, sys
 from io import BytesIO
-from chromaspeclib.internal.stream       import ChromaSpecEmulatedStream, \
-                                                ChromaSpecSerialIOStream
-from chromaspeclib.internal.emulator     import ChromaSpecEmulator
-from chromaspeclib.internal.data         import *
-from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
+from chromaspeclib.internal.stream   import ChromaSpecEmulatedStream, \
+                                            ChromaSpecSerialIOStream
+from chromaspeclib.internal.emulator import ChromaSpecEmulator
+from chromaspeclib.datatypes         import *
+from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_ID
 
 #from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_INTERNAL
 #import logging

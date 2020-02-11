@@ -1,6 +1,6 @@
-from .data        import *
-from .logger      import CHROMASPEC_LOGGER_STREAM as log
-from .exceptions  import ChromaSpecConnectionException, ChromaSpecEmulationException
+from chromaspeclib.datatypes  import *
+from chromaspeclib.logger     import CHROMASPEC_LOGGER_STREAM as log
+from chromaspeclib.exceptions import ChromaSpecConnectionException, ChromaSpecEmulationException
 from struct       import pack, unpack
 from io           import BytesIO
 from serial       import Serial
