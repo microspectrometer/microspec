@@ -37,7 +37,7 @@ class ChromaSpecPayload(object):
       return self.__dict__["value"][attr]
     elif attr not in self.__dict__:
       log.warning("Attribute %s not found in payload object", attr)
-      raise AttributeError
+      raise AttributeError("%s has no attribute %s"%(self.__class__.__name__, attr))
     else:
       log.info("return %s", self.__dict__[attr])
       return self.__dict__[attr]
@@ -74,7 +74,7 @@ class ChromaSpecPayload(object):
       return self.__dict__["value"][attr]
     elif attr not in self.__dict__:
       log.warning("Attribute %s not found in payload object", attr)
-      raise AttributeError
+      raise AttributeError("%s has no attribute %s"%(self.__class__.__name__, attr))
     else:
       return self.__dict__[attr]
     log.info("return")

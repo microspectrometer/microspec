@@ -19,13 +19,23 @@ xi.sendCommand(CommandGetSensorLED(led_num=0))
 xi.sendCommand(CommandGetSensorLED(led_num=1))
 print(xi.receiveReply())
 print(xi.receiveReply())
-print(xi.receiveReply())
+reply = xi.receiveReply()
+print(reply.status)
+print(reply.led_setting)
 
-print(xi.sendAndReceive(CommandSetSensorConfig(binning=True, gain=Gain1x, row_bitmap=0x1F)))
-print(xi.sendAndReceive(CommandSetExposure(cycles=100)))
+command = CommandSetSensorConfig(binning=True, gain=Gain1x, row_bitmap=0x1F)
+print(xi.sendAndReceive(command))
+
+command = CommandSetExposure()
+command.cycles = 100
+print(xi.sendAndReceive(command))
 
 import time
 for i in range(0,5):
-  print(xi.sendAndReceive(CommandCaptureFrame()))
+  reply = xi.sendAndReceive(CommandCaptureFrame())
+  print(reply.status)
+  print(reply.num_pixels)
+  pixels = [str(pixel) for pixel in reply.pixels]
+  print("first 3 pixels: %s"%(",".join(pixels[:3])))
   time.sleep(0.5)
 
