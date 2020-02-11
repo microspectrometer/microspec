@@ -1,8 +1,9 @@
-from .data   import *
-from .logger import CHROMASPEC_LOGGER_STREAM as log
-from struct  import pack, unpack
-from io      import BytesIO
-from serial  import Serial
+from chromaspeclib.datatypes  import *
+from chromaspeclib.logger     import CHROMASPEC_LOGGER_STREAM as log
+from chromaspeclib.exceptions import ChromaSpecConnectionException, ChromaSpecEmulationException
+from struct       import pack, unpack
+from io           import BytesIO
+from serial       import Serial
 from serial.tools import list_ports
 
 import subprocess
@@ -164,9 +165,10 @@ class ChromaSpecBytesIOStream(ChromaSpecStream):
 class ChromaSpecSerialIOStream(ChromaSpecStream):
   def __init__(self, serial_number=None, device=None, timeout=0, *args, **kwargs):
     log.info("serial_number=%s device=%s timeout=%s args=%s kwargs=%s", serial_number, device, timeout, args, kwargs)
-    self.serial = Serial(*args, **kwargs)
+    self.serial          = Serial(*args, **kwargs)
     self.serial.baudrate = 115200
     self.serial.timeout  = timeout
+    self.serial.port     = None
     if serial_number:
       self.serial.port = list_ports.grep(serial_number).device
       log.info("search for serial_number=%s found port=%s", serial_number, port)
@@ -174,13 +176,23 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
       self.serial.port = device
       log.info("using device=%s", device)
     else:
-      try:
-        self.serial.port = list(list_ports.grep("CHROMATION"))[0].device
+      ports = list(list_ports.grep("CHROMATION"))
+      if ports:
+        self.serial.port = ports[0].device
         log.info("defaulting to searching for CHROMATION hardware, found port=%s", self.serial.port)
-      except Exception as e:
+      if not self.serial.port:
+        for port in list_ports.comports(True):
+          if port.vid == 1027 and port.pid == 24597:
+            self.serial.port = port.device
+            break
+      if not self.serial.port:
         log.error("Cannot find CHROMATION device")
-        raise e
-    self.serial.open()
+        raise ChromaSpecConnectionException("Cannot find CHROMATION device")
+    try:
+      self.serial.open()
+    except Exception as e:
+      log.error("Cannot open device: check if port is already in use, such as another ChromaSpec interface is using it: %s"%(e))
+      raise ChromaSpecConnectionException(str(e))
     super().__init__(self.serial)
     log.info("return")
 
@@ -226,7 +238,7 @@ class ChromaSpecEmulatedStream(ChromaSpecSerialIOStream):
       r, w, x = select.select([socat.stderr],[],[],1)
       #import pdb; pdb.set_trace();
       if not r:
-        raise Exception("Cannot create socat process to mediate USB emulation!")
+        raise ChromaSpecEmulationException("Cannot create socat process to mediate USB emulation!")
   
       def cleanup():
         log.warning("Cleanup: killing socat process")
@@ -262,7 +274,7 @@ class ChromaSpecEmulatedStream(ChromaSpecSerialIOStream):
       r, w, x = select.select([fork.stdout],[],[],1)
       #import pdb; pdb.set_trace();
       if not r:
-        raise Exception("Cannot create emulator process for USB emulation!")
+        raise ChromaSpecEmulationException("Cannot create emulator process for USB emulation!")
   
       def cleanup():
         log.warning("Cleanup: killing emulator process")

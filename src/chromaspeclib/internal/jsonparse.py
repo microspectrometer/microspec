@@ -1,6 +1,6 @@
+from chromaspeclib.logger import CHROMASPEC_LOGGER_JSON as log
 from .payload import ChromaSpecPayloadClassFactory as cfactory
 from .util    import dehex
-from .logger  import CHROMASPEC_LOGGER_JSON as log
 import json
 
 def globalizeJsonFile(filename):

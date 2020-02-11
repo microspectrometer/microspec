@@ -28,8 +28,17 @@ class ChromaSpecTestUtil(unittest.TestCase):
     #assert isInt(True)  == False # These actually turn out to be True
 
   def test_dehex(self):
-    assert dehex("FF")   == "FF"
-    assert dehex("1")    == "1"
-    assert dehex("0xFF") == 255
-    assert dehex("0xff") == 255
+    assert dehex("T")     == True
+    assert dehex("True")  == True
+    assert dehex("F")     == False
+    assert dehex("False") == False
+    assert dehex("t")     == True
+    assert dehex("true")  == True
+    assert dehex("f")     == False
+    assert dehex("false") == False
+    assert dehex("foo")   == "foo"
+    assert dehex("FF")    == "FF"
+    assert dehex("1")     == "1"
+    assert dehex("0xFF")  == 255
+    assert dehex("0xff")  == 255
 

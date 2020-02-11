@@ -1,6 +1,6 @@
 import unittest, os
 from chromaspeclib.internal.emulator import *
-from chromaspeclib.internal.data import *
+from chromaspeclib.datatypes         import *
 
 class ChromaSpecTestEmulator(unittest.TestCase):
 

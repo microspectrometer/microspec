@@ -1,5 +1,5 @@
-from ..jsonparse import globalizeJsonFile
-from ...         import CHROMASPEC_ROOTDIR
+from chromaspeclib.internal.jsonparse import globalizeJsonFile
+from chromaspeclib                    import CHROMASPEC_ROOTDIR
 import os
 
 CHROMASPEC_GLOBAL = \

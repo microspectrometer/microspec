@@ -1,4 +1,4 @@
-from chromaspeclib.internal.data import *
+from chromaspeclib.datatypes import *
 
 class ChromaSpecEmulator(object):
   

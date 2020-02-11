@@ -1,10 +1,9 @@
 import unittest, os, pytest
 from io import BytesIO
-from chromaspeclib.internal.stream       import ChromaSpecBytesIOStream
-from chromaspeclib.internal.data         import *
-from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
-
-from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_TEST as log
+from chromaspeclib.internal.stream   import ChromaSpecBytesIOStream
+from chromaspeclib.datatypes         import *
+from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_ID
+from chromaspeclib.logger            import CHROMASPEC_LOGGER_TEST as log
 
 class ChromaSpecTestBytesIOStream(unittest.TestCase):
 
