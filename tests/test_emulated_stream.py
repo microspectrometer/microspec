@@ -1,4 +1,4 @@
-import unittest, os, pytest, psutil, time
+import unittest, os, pytest, psutil, time, sys
 from io import BytesIO
 from chromaspeclib.internal.stream       import ChromaSpecEmulatedStream, \
                                                 ChromaSpecSerialIOStream
@@ -11,6 +11,7 @@ from chromaspeclib.internal.data.command import CHROMASPEC_COMMAND_ID
 
 from test_bytesio_stream import ChromaSpecTestBytesIOStream
 
+@pytest.mark.skipif(sys.platform not in ["darwin","linux"], reason="Emulation currently only runs on linux and MacOS")
 class ChromaSpecTestEmulatedStream(ChromaSpecTestBytesIOStream):
   def __init__(self, *args, **kwargs):
     # Note: 0.1 second is way more than needed, but most of these are tests of proper functionality,

@@ -18,7 +18,10 @@ class ChromaSpecTestExpertInterfaceHardware(ChromaSpecTestExpertInterface):
     cls.hardware = None
     cls.software = ChromaSpecExpertInterface(timeout=0.1)
 
-
+  @classmethod
+  def tearDownClass(cls):
+    super().tearDownClass()
+    del cls.software
 
 
 

@@ -13,9 +13,13 @@ class ChromaSpecTestSimpleInterfaceHardware(ChromaSpecTestSimpleInterface):
   @classmethod
   def setUpClass(cls):
     super().setUpClass()
-    self.hardware = None
-    self.software = ChromaSpecSimpleInterface(timeout=0.1)
+    cls.hardware = None
+    cls.software = ChromaSpecSimpleInterface(timeout=0.1)
 
+  @classmethod
+  def tearDownClass(cls):
+    super().tearDownClass()
+    del cls.software
 
 
 

@@ -1,4 +1,4 @@
-import unittest, os, pytest
+import unittest, os, pytest, sys
 from timeit import default_timer as timer
 from test_simple_interface           import ChromaSpecTestSimpleInterface
 from chromaspeclib.simple            import ChromaSpecSimpleInterface
@@ -8,6 +8,7 @@ from chromaspeclib.internal.data     import *
 
 from tabulate import tabulate
 
+@pytest.mark.skipif(sys.platform not in ["darwin","linux"], reason="Emulation currently only runs on linux and MacOS")
 class ChromaSpecTestSimpleInterfaceEmulator(ChromaSpecTestSimpleInterface):
   __test__ = True
 
