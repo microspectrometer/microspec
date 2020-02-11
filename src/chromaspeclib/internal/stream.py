@@ -1,8 +1,9 @@
-from .data   import *
-from .logger import CHROMASPEC_LOGGER_STREAM as log
-from struct  import pack, unpack
-from io      import BytesIO
-from serial  import Serial
+from .data        import *
+from .logger      import CHROMASPEC_LOGGER_STREAM as log
+from .exceptions  import ChromaSpecConnectionException, ChromaSpecEmulationException
+from struct       import pack, unpack
+from io           import BytesIO
+from serial       import Serial
 from serial.tools import list_ports
 
 import subprocess
@@ -186,12 +187,12 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
             break
       if not self.serial.port:
         log.error("Cannot find CHROMATION device")
-        raise Exception("Cannot find CHROMATION device")
+        raise ChromaSpecConnectionException("Cannot find CHROMATION device")
     try:
       self.serial.open()
     except Exception as e:
       log.error("Cannot open device: check if port is already in use, such as another ChromaSpec interface is using it: %s"%(e))
-      raise e
+      raise ChromaSpecConnectionException(str(e))
     super().__init__(self.serial)
     log.info("return")
 
@@ -237,7 +238,7 @@ class ChromaSpecEmulatedStream(ChromaSpecSerialIOStream):
       r, w, x = select.select([socat.stderr],[],[],1)
       #import pdb; pdb.set_trace();
       if not r:
-        raise Exception("Cannot create socat process to mediate USB emulation!")
+        raise ChromaSpecEmulationException("Cannot create socat process to mediate USB emulation!")
   
       def cleanup():
         log.warning("Cleanup: killing socat process")
@@ -273,7 +274,7 @@ class ChromaSpecEmulatedStream(ChromaSpecSerialIOStream):
       r, w, x = select.select([fork.stdout],[],[],1)
       #import pdb; pdb.set_trace();
       if not r:
-        raise Exception("Cannot create emulator process for USB emulation!")
+        raise ChromaSpecEmulationException("Cannot create emulator process for USB emulation!")
   
       def cleanup():
         log.warning("Cleanup: killing emulator process")
