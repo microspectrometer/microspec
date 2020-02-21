@@ -5,6 +5,8 @@ Welcome to Chromation's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   mdinclude:: source/README.md
+
    modules
 
 Indices and tables
