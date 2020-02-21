@@ -13,6 +13,8 @@ from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_NAME
 # lowercased. You can also look at the names of the commands in the JSON cfg file, or the
 # pydoc for this class.
 
+__all__ = [ "ChromaSpecSimpleInterface" ]
+
 def _generateFunction(command):
   cname = command.__name__
   name  = cname[7:8].lower()+cname[8:]
@@ -48,4 +50,3 @@ class ChromaSpecSimpleInterface(_ChromaSpecSimpleInterface):
     log.info("return %s", reply)
     return reply
 
-__all__ = [ ChromaSpecSimpleInterface ]
