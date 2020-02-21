@@ -16,6 +16,7 @@ Since everything is Python in this library, with the exception of some documenta
 * `python -m pip install tabulate`
 * `python -m pip install sphinx`
 * `python -m pip install recommonmark`
+* `python -m pip install m2r`
 
 NOTE: The prerequisite for the emulator is to be running on Linux or MacOSX and installing the `socat` executable. The emulator does not work on other platforms.
 
@@ -196,24 +197,24 @@ chromaspec_emulator.py -v -f chromaspec_emulator.py
 
 ## FAQ
 
-* Why can it not find my hardware? It's plugged in.
-* On Windows, sometimes VCP is not set. Go to Device Manager:
-  * Right-click on USB Serial Converter
-  * Select Properties
-  * Go to tab "Advanced"
-  * Check "Load VCP"
+1. Why can it not find my hardware? It's plugged in.
+  * On Windows, sometimes VCP is not set. Go to Device Manager:
+    * Right-click on USB Serial Converter
+    * Select Properties
+    * Go to tab "Advanced"
+    * Check "Load VCP"
 
-* It's still not connecting.
-* Depending on the setup of the machine, you may need to be explicit about the device, rather than letting it auto-detect. Use "-f COM3" or "device='COM3'" if you know it's connected to the third COM port.
+2. It's still not connecting.
+  * Depending on the setup of the machine, you may need to be explicit about the device, rather than letting it auto-detect. Use "-f COM3" or "device='COM3'" if you know it's connected to the third COM port.
 
-* It says permission denied on the port.
-* You might have two interfaces connected to it at the same time. You can't have two on the same machine, let alone the same program, connected to a single USB port. So either another task is using that port, or your code has an old interface still lying around actively connected.
+3. It says permission denied on the port.
+  * You might have two interfaces connected to it at the same time. You can't have two on the same machine, let alone the same program, connected to a single USB port. So either another task is using that port, or your code has an old interface still lying around actively connected.
 
-* The emulator won't work on Windows.
-* The emulator only works on Linux and MacOSX and only if you have `socat` installed.
+4. The emulator won't work on Windows.
+  * The emulator only works on Linux and MacOSX and only if you have `socat` installed.
 
-* It's continually returning None.
-* Try increaing the timeout.
+5. It's continually returning None.
+  * Try increaing the timeout.
 
 ## Authors
 
@@ -222,5 +223,6 @@ chromaspec_emulator.py -v -f chromaspec_emulator.py
 ## License
 
 Copyright 2020 by Chromation, Inc
+
 All Rights Reserved by Chromation, Inc
 

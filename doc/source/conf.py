@@ -31,7 +31,8 @@ extensions = [
 'sphinx.ext.autodoc', 
 'sphinx.ext.coverage', 
 'sphinx.ext.napoleon',
-'recommonmark'
+'m2r',
+#'recommonmark'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

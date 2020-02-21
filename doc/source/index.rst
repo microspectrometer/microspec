@@ -1,11 +1,11 @@
-Welcome to Chromation's documentation!
-======================================
+ChromaSpecLib - Chromation Inc's Hardware Interface
+===================================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   mdinclude:: source/README.md
+   README
 
    modules
 
