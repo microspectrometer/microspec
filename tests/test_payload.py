@@ -115,16 +115,12 @@ class ChromaSpecTestPayload(unittest.TestCase):
     assert obj != ob2
 
     ob2 = self.klass(b)
-    ob2.value[0] = 999
-    assert obj != ob2
-
-    ob2 = self.klass(b)
     ob2.varsize[0] = 999
     assert obj != ob2
 
     ob2 = self.klass(b)
     ob2.command_id = 999
-    assert obj != ob2
+    assert obj == ob2
 
     ob2 = self.klass(b)
     ob2.variables = ["a","b","c","d"]

@@ -19,11 +19,11 @@ __all__ = [ "ChromaSpecSimpleInterface" ]
 def _generateFunction(command):
   cname = command.__name__
   name  = cname[7:8].lower()+cname[8:]
-  kwargs_param = ", ".join(["%s=None"%(v  ) for v in command.variables if v != "command_id"])
-  kwargs_data  = ", ".join(["%s=%s"  %(v,v) for v in command.variables if v != "command_id"])
+  kwargs_param = "".join(["%s=None, "%(v  ) for v in command.variables if v != "command_id"])
+  kwargs_data  = "".join(["%s=%s, "  %(v,v) for v in command.variables if v != "command_id"])
   # Generate the parameter list for the function, so that later, documentation introspection finds it properly
-  code = """def func(self, %s):
-    return self.sendAndReceive(command(%s))
+  code = """def func(self, %s**kwargs):
+    return self.sendAndReceive(command(%s**kwargs))
   """ % (kwargs_param, kwargs_data)
   scope = locals().copy()
   exec(code, scope)

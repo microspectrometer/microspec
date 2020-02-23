@@ -15,9 +15,11 @@ class ChromaSpecPayload(object):
     # One should not be changing them, but if one does, one shouldn't break everything,
     #   and merely making them read-only doesn't fix the issue of mutable sub-objects.
     self.__dict__["command_id"] = self.__class__.command_id
-    self.__dict__["variables"]  = self.__class__.variables.copy()
-    self.__dict__["sizes"]      = self.__class__.sizes.copy()
-    self.value   = {}
+    #self.__dict__["variables"]  = self.__class__.variables.copy()
+    #self.__dict__["sizes"]      = self.__class__.sizes.copy()
+    self.variables  = self.__class__.variables.copy()
+    self.sizes      = self.__class__.sizes.copy()
+    #self.value   = {}
     self.varsize = {}
     for n in range(0, len(self.variables)):
       log.debug("n=%d", n)
@@ -26,68 +28,89 @@ class ChromaSpecPayload(object):
       # Use __setitem__ rather than .value[var] to utilize casting functionality
       #   and set size first because it's part of the ChromaSpecInteger casting
       self.varsize[var] = self.sizes[n]
-      self[       var] = value 
+      #self[        var] = value 
+      setattr(self, var, value)
       log.debug("value[%s]=%s size[%s]=%d", var, value, var, self.sizes[n])
-    if "command_id" in self.value:
-      self["command_id"] = self.command_id
     if payload:
       self.unpack(payload)
     log.info("return")
 
   def __getitem__(self, attr):
     log.info("attr=%s", attr)
+    log.info("return %s", self.__dict__[attr])
+    return self.__dict__[attr]
+  """
     if attr != "variables" and attr in self.variables:
       log.info("return %s", self.__dict__["value"][attr])
-      return self.__dict__["value"][attr]
+      return self.__dict__[attr]#["value"][attr]
     elif attr not in self.__dict__:
       log.warning("Attribute %s not found in payload object", attr)
       raise AttributeError("%s has no attribute %s"%(self.__class__.__name__, attr))
     else:
       log.info("return %s", self.__dict__[attr])
       return self.__dict__[attr]
+  """
 
   def __setitem__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
+    """
     if attr != "variables" and attr in self.variables:
-      self.__dict__["value"].update({attr:
+      self.__dict__.update({attr:#["value"].update({attr:
         value if value is None else 
         ChromaSpecInteger(dehex(value), self.varsize[attr]) 
      })
     else:
       self.__dict__.update({attr: value})
+    """
+    if attr == "command_id":
+      pass
+    elif attr in self.variables and value is not None:
+      self.__dict__.update({attr: ChromaSpecInteger(dehex(value), self.varsize[attr])})
+    else:
+      self.__dict__[attr] = value
     log.info("return")
-
-  def __iter__(self):
-    log.info("return")
-    return iter(self.variables)
 
   def __setattr__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
+    """
     if attr != "variables" and attr in self.variables:
-      self.__dict__["value"].update({attr:
+      self.__dict__.update({attr:#["value"].update({attr:
         value if value is None else 
         ChromaSpecInteger(dehex(value), self.varsize[attr])
      })
     else:
       self.__dict__.update({attr: value})
+    """
+    if attr == "command_id":
+      pass
+    elif attr in self.variables and value is not None:
+      self.__dict__.update({attr: ChromaSpecInteger(dehex(value), self.varsize[attr])})
+    else:
+      self.__dict__[attr] = value
     log.info("return")
 
+  """
   def __getattr__(self, attr):
     log.info("attr=%s", attr)
     if attr != "variables" and attr in self.variables:
-      return self.__dict__["value"][attr]
+      return self.__dict__[attr]#["value"][attr]
     elif attr not in self.__dict__:
       log.warning("Attribute %s not found in payload object", attr)
       raise AttributeError("%s has no attribute %s"%(self.__class__.__name__, attr))
     else:
       return self.__dict__[attr]
     log.info("return")
+  """
+
+  def __iter__(self):
+    log.info("return")
+    return iter(self.variables)
 
   def __repr__(self):
     log.info("")
     s = "<%s name=%s command_id=%s variables=%s values=%s sizes=%s packformat=%s length=%d packed=%s>" % \
       (self.__class__.__name__, self.name, self.command_id, self.variables, \
-        self.value, self.sizes, self.packformat(), \
+        self.values(), self.sizes, self.packformat(), \
         len(self), self.pack())
     log.info("return %s", s)
     return s
@@ -95,14 +118,14 @@ class ChromaSpecPayload(object):
   def __str__(self):
     log.info("")
     s = "%s(%s)" % (self.__class__.__name__, \
-        ", ".join(["%s=%s"%(k, v) for k, v in self.value.items()]))
+        ", ".join(["%s=%s"%(k, v) for k, v in self.values().items()]))
     log.info("return %s", s)
     return s
 
   def csv(self):
     log.info("")
     s = "%s,%s"%(self.__class__.__name__, \
-          ",".join([ str(s) for s in flatten(self.value.items()) ])
+          ",".join([ str(s) for s in flatten(self.values().items()) ])
         )
     log.info("return %s", s)
     return s
@@ -119,6 +142,12 @@ class ChromaSpecPayload(object):
     log.info("return %s", l)
     return l
 
+  def values(self):
+    log.info("")
+    v = {k: getattr(self, k) for k in self.variables}
+    log.info("return %s", v)
+    return v
+    
   def packformat(self):
     log.info("")
     packformat = ">"
@@ -139,7 +168,7 @@ class ChromaSpecPayload(object):
 
   def pack(self):
     log.info("")
-    if None in self.value.values():
+    if None in self.values().values():#value.values():
       log.warning("Marshalling a payload that is missing values, returning ''");
       return b''
     p = pack(self.packformat(), *self.packvalues())
@@ -166,9 +195,11 @@ class ChromaSpecPayload(object):
     if self.name       != other.name:       return False
     if self.command_id != other.command_id: return False
     if self.variables  != other.variables:  return False
-    if self.value      != other.value:      return False
+    if self.values()   != other.values():   return False
     if self.sizes      != other.sizes:      return False
     if self.varsize    != other.varsize:    return False
+    #for v in self.variables:
+    #  if getattr(self, v) != getattr(other, v): return False
     return True
 
 class ChromaSpecRepeatPayload(ChromaSpecPayload):
@@ -183,15 +214,17 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
 
   def __setattr__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
-    if attr != "variables" and attr in self.variables:
+    if attr == "command_id":
+      pass
+    elif attr in self.variables:
       repeat = self.repeat.get(attr, None)
       if repeat:
-        self.__dict__["value"].update({attr:
+        self.__dict__.update({attr:#["value"].update({attr:
           [] if value is None else
           [ChromaSpecInteger(dehex(v), self.varsize[attr]) for v in value]
        })
       else:
-        self.__dict__["value"].update({attr:
+        self.__dict__.update({attr:#["value"].update({attr:
           value if value is None else
           ChromaSpecInteger(dehex(value), self.varsize[attr])
        })
@@ -201,14 +234,16 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
 
   def __setitem__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
-    if attr != "variables" and attr in self.variables:
+    if attr == "command_id":
+      pass
+    elif attr in self.variables:
       repeat = self.repeat.get(attr, None)
       if repeat:
-        self.__dict__["value"][attr] = \
+        self.__dict__[attr] = \
           [] if value is None else \
           [v if v is None else ChromaSpecInteger(dehex(v), self.varsize[attr]) for v in value]
       else:
-        self.__dict__["value"][attr] = \
+        self.__dict__[attr] = \
           value if value is None else \
           ChromaSpecInteger(dehex(value), self.varsize[attr])
     else:
@@ -304,20 +339,20 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
 def ChromaSpecPayloadClassFactory(command_id, name, variables, sizes, repeat=None):
   log.info("command_id=%d name=%s variables=%s sizes=%s repeat=%s", command_id, name, variables, sizes, repeat)
   if repeat:
-    klass = type(str(name), (ChromaSpecRepeatPayload,), {
+    klass = type(str(name), (ChromaSpecRepeatPayload,), dict({
       'command_id'   : int(command_id),
       'name'         : name,
       'variables'    : variables,
       'sizes'        : sizes,
       'repeat'       : repeat,
-    })
+    }, **dict([[v, None] for v in variables if v != "command_id"])))
   else:
-    klass = type(str(name), (ChromaSpecPayload,), {
+    klass = type(str(name), (ChromaSpecPayload,), dict({
       'command_id'   : int(command_id),
       'name'         : name,
       'variables'    : variables,
       'sizes'        : sizes,
-    })
+    }, **dict([[v, None] for v in variables if v != "command_id"])))
   log.info("return %s", klass)
   return klass
   
