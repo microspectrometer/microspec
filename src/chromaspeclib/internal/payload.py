@@ -11,24 +11,12 @@ import re
 class ChromaSpecPayload(object):
   def __init__(self, payload=None, **kwargs):
     log.info("payload=%s kwargs=%s", payload, kwargs)
-    # If we don't make a copy of these, editing them edits the class copy.
-    # One should not be changing them, but if one does, one shouldn't break everything,
-    #   and merely making them read-only doesn't fix the issue of mutable sub-objects.
-    self.__dict__["command_id"] = self.__class__.command_id
-    #self.__dict__["variables"]  = self.__class__.variables.copy()
-    #self.__dict__["sizes"]      = self.__class__.sizes.copy()
-    self.variables  = self.__class__.variables.copy()
-    self.sizes      = self.__class__.sizes.copy()
-    #self.value   = {}
     self.varsize = {}
     for n in range(0, len(self.variables)):
       log.debug("n=%d", n)
       var   = self.variables[n]
       value = kwargs.get(var, None)
-      # Use __setitem__ rather than .value[var] to utilize casting functionality
-      #   and set size first because it's part of the ChromaSpecInteger casting
       self.varsize[var] = self.sizes[n]
-      #self[        var] = value 
       setattr(self, var, value)
       log.debug("value[%s]=%s size[%s]=%d", var, value, var, self.sizes[n])
     if payload:
@@ -37,32 +25,13 @@ class ChromaSpecPayload(object):
 
   def __getitem__(self, attr):
     log.info("attr=%s", attr)
-    log.info("return %s", self.__dict__[attr])
-    return self.__dict__[attr]
-  """
-    if attr != "variables" and attr in self.variables:
-      log.info("return %s", self.__dict__["value"][attr])
-      return self.__dict__[attr]#["value"][attr]
-    elif attr not in self.__dict__:
-      log.warning("Attribute %s not found in payload object", attr)
-      raise AttributeError("%s has no attribute %s"%(self.__class__.__name__, attr))
-    else:
-      log.info("return %s", self.__dict__[attr])
-      return self.__dict__[attr]
-  """
+    value = getattr(self, attr)
+    log.info("return %s", value)
+    return value
 
   def __setitem__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
-    """
-    if attr != "variables" and attr in self.variables:
-      self.__dict__.update({attr:#["value"].update({attr:
-        value if value is None else 
-        ChromaSpecInteger(dehex(value), self.varsize[attr]) 
-     })
-    else:
-      self.__dict__.update({attr: value})
-    """
-    if attr == "command_id":
+    if attr in self.const:
       pass
     elif attr in self.variables and value is not None:
       self.__dict__.update({attr: ChromaSpecInteger(dehex(value), self.varsize[attr])})
@@ -72,35 +41,13 @@ class ChromaSpecPayload(object):
 
   def __setattr__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
-    """
-    if attr != "variables" and attr in self.variables:
-      self.__dict__.update({attr:#["value"].update({attr:
-        value if value is None else 
-        ChromaSpecInteger(dehex(value), self.varsize[attr])
-     })
-    else:
-      self.__dict__.update({attr: value})
-    """
-    if attr == "command_id":
+    if attr in self.const:
       pass
     elif attr in self.variables and value is not None:
       self.__dict__.update({attr: ChromaSpecInteger(dehex(value), self.varsize[attr])})
     else:
       self.__dict__[attr] = value
     log.info("return")
-
-  """
-  def __getattr__(self, attr):
-    log.info("attr=%s", attr)
-    if attr != "variables" and attr in self.variables:
-      return self.__dict__[attr]#["value"][attr]
-    elif attr not in self.__dict__:
-      log.warning("Attribute %s not found in payload object", attr)
-      raise AttributeError("%s has no attribute %s"%(self.__class__.__name__, attr))
-    else:
-      return self.__dict__[attr]
-    log.info("return")
-  """
 
   def __iter__(self):
     log.info("return")
@@ -168,7 +115,7 @@ class ChromaSpecPayload(object):
 
   def pack(self):
     log.info("")
-    if None in self.values().values():#value.values():
+    if None in self.values().values():
       log.warning("Marshalling a payload that is missing values, returning ''");
       return b''
     p = pack(self.packformat(), *self.packvalues())
@@ -198,8 +145,6 @@ class ChromaSpecPayload(object):
     if self.values()   != other.values():   return False
     if self.sizes      != other.sizes:      return False
     if self.varsize    != other.varsize:    return False
-    #for v in self.variables:
-    #  if getattr(self, v) != getattr(other, v): return False
     return True
 
 class ChromaSpecRepeatPayload(ChromaSpecPayload):
@@ -214,17 +159,17 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
 
   def __setattr__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
-    if attr == "command_id":
+    if attr in self.const:
       pass
     elif attr in self.variables:
       repeat = self.repeat.get(attr, None)
       if repeat:
-        self.__dict__.update({attr:#["value"].update({attr:
+        self.__dict__.update({attr:
           [] if value is None else
           [ChromaSpecInteger(dehex(v), self.varsize[attr]) for v in value]
        })
       else:
-        self.__dict__.update({attr:#["value"].update({attr:
+        self.__dict__.update({attr:
           value if value is None else
           ChromaSpecInteger(dehex(value), self.varsize[attr])
        })
@@ -234,7 +179,7 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
 
   def __setitem__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
-    if attr == "command_id":
+    if attr in self.const:
       pass
     elif attr in self.variables:
       repeat = self.repeat.get(attr, None)
@@ -271,7 +216,7 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
 
   def packvalues(self):
     log.info("")
-    pv = list(itertools.chain.from_iterable(# flatten repeat items #
+    pv = list(itertools.chain.from_iterable(
              [  getattr(self, v)[0:int(self[self.repeat.get(v)])] 
                if self.repeat.get(v,None) else
                  [getattr(self, v)]
@@ -345,6 +290,7 @@ def ChromaSpecPayloadClassFactory(command_id, name, variables, sizes, repeat=Non
       'variables'    : variables,
       'sizes'        : sizes,
       'repeat'       : repeat,
+      'const'        : ['command_id', 'name', 'variables', 'sizes', 'repeat', 'const'],
     }, **dict([[v, None] for v in variables if v != "command_id"])))
   else:
     klass = type(str(name), (ChromaSpecPayload,), dict({
@@ -352,6 +298,7 @@ def ChromaSpecPayloadClassFactory(command_id, name, variables, sizes, repeat=Non
       'name'         : name,
       'variables'    : variables,
       'sizes'        : sizes,
+      'const'        : ['command_id', 'name', 'variables', 'sizes', 'const'],
     }, **dict([[v, None] for v in variables if v != "command_id"])))
   log.info("return %s", klass)
   return klass

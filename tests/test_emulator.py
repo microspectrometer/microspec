@@ -46,7 +46,6 @@ class ChromaSpecTestEmulator(unittest.TestCase):
     self.test_chromationEmulatorCompare(e2, e1)
 
   def test_chromationEmulatorCompare(self, emulator=None, control=None):
-    #import pdb; pdb.set_trace()
     e = emulator or ChromaSpecEmulator()
     c = control  or emulator or ChromaSpecEmulator()
     assert e.process(CommandGetBridgeLED(led_num=0)) == \

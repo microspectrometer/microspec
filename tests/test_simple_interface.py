@@ -55,8 +55,6 @@ def generateTest(command_class):
     else:
       for var in command:
         command[var]  = 0
-    #import pdb
-    #pdb.set_trace()
     replies = self.__class__.emulator.process(command)
     if replies:
       expected_reply = replies.pop()
