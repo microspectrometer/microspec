@@ -1,5 +1,5 @@
-chromaspeclib.datatypes.bridge
-==============================
+chromaspeclib.datatypes.bridge module
+=====================================
 
 .. automodule:: chromaspeclib.datatypes.bridge
    :members:

@@ -1,5 +1,5 @@
-chromaspeclib.exceptions
-========================
+chromaspeclib.exceptions module
+===============================
 
 .. automodule:: chromaspeclib.exceptions
    :members:

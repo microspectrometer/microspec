@@ -2,6 +2,10 @@ import os
 
 __copyright__ = """Copyright 2020 Chromation, Inc"""
 __license__   = """All Rights Reserved by Chromation, Inc"""
+__doc__       = """
+testing 1 2 3
+"""
+
 
 # NOTE: Sphinx ignores __init__.py files, so for generalized documentation,
 #       please use pydoc, or the sphinx-generated documents in doc/build,

@@ -1,5 +1,5 @@
-chromaspeclib.logger
-====================
+chromaspeclib.logger module
+===========================
 
 .. automodule:: chromaspeclib.logger
    :members:

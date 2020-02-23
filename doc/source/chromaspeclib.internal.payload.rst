@@ -1,5 +1,5 @@
-chromaspeclib.internal.payload
-==============================
+chromaspeclib.internal.payload module
+=====================================
 
 .. automodule:: chromaspeclib.internal.payload
    :members:

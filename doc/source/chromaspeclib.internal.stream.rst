@@ -1,5 +1,5 @@
-chromaspeclib.internal.stream
-=============================
+chromaspeclib.internal.stream module
+====================================
 
 .. automodule:: chromaspeclib.internal.stream
    :members:

@@ -26,4 +26,3 @@ Submodules
    chromaspeclib.expert
    chromaspeclib.logger
    chromaspeclib.simple
-

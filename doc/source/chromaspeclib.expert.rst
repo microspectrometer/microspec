@@ -1,5 +1,5 @@
-chromaspeclib.expert
-====================
+chromaspeclib.expert module
+===========================
 
 .. automodule:: chromaspeclib.expert
    :members:

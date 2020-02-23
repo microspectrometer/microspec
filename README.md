@@ -105,7 +105,7 @@ make html
 If you are truly restarting from scratch, you can recreate all the autodoc documentation files by doing the following, however, this will wipe out a number of customizations that were made after using this command to create the initial versions of the files. Note that you will also need to `make html` afterwards as well.
 
 ```
-sphinx-apidoc -o source/ ../src/chromaspeclib -f
+sphinx-apidoc -o source/ ../src/chromaspeclib -f -e -M
 ```
 
 ## Code API

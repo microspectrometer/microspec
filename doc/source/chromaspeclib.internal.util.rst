@@ -1,5 +1,5 @@
-chromaspeclib.internal.util
-===========================
+chromaspeclib.internal.util module
+==================================
 
 .. automodule:: chromaspeclib.internal.util
    :members:
