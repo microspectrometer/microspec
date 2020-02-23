@@ -3,7 +3,13 @@ import os
 __copyright__ = """Copyright 2020 Chromation, Inc"""
 __license__   = """All Rights Reserved by Chromation, Inc"""
 
-# Specifically located in the __init__.py of the base chromaspeclib
+# NOTE: Sphinx ignores __init__.py files, so for generalized documentation,
+#       please use pydoc, or the sphinx-generated documents in doc/build,
+#       or the README.md file
+
+# NOTE on CHROMASPEC_ROOTDIR
+#
+# It is specifically located in the __init__.py of the base chromaspeclib
 # package, so that the ../ (src) ../ (chromaspec) directory can be found,
 # so that, in turn, the cfg and other directories can be referenced
 # programmatically and without relative references throughout the

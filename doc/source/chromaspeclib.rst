@@ -1,10 +1,16 @@
 chromaspeclib package
 =====================
 
+.. automodule:: chromaspeclib
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 1
 
    chromaspeclib.datatypes
    chromaspeclib.internal
@@ -12,51 +18,12 @@ Subpackages
 Submodules
 ----------
 
-chromaspeclib.cmdline module
-----------------------------
+.. toctree::
+   :maxdepth: 1
 
-.. automodule:: chromaspeclib.cmdline
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   chromaspeclib.cmdline
+   chromaspeclib.exceptions
+   chromaspeclib.expert
+   chromaspeclib.logger
+   chromaspeclib.simple
 
-chromaspeclib.exceptions module
--------------------------------
-
-.. automodule:: chromaspeclib.exceptions
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-chromaspeclib.expert module
----------------------------
-
-.. automodule:: chromaspeclib.expert
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-chromaspeclib.logger module
----------------------------
-
-.. automodule:: chromaspeclib.logger
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-chromaspeclib.simple module
----------------------------
-
-.. automodule:: chromaspeclib.simple
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: chromaspeclib
-   :members:
-   :undoc-members:
-   :show-inheritance:

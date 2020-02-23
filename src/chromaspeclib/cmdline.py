@@ -2,6 +2,14 @@
 # Copyright 2020 by Chromation, Inc
 # All Rights Reserved by Chromation, Inc
 
+"""
+cmdline
+=======
+
+Foo bar baz
+
+"""
+
 from chromaspeclib.simple            import ChromaSpecSimpleInterface
 from chromaspeclib.logger            import debug, CHROMASPEC_LOGGER as log
 from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_NAME as commands
