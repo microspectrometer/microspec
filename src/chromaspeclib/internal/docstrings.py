@@ -11,12 +11,12 @@ to permit new protocol commands and replies, the functions and classes will auto
 as well. However, this causes a problem for documentation. 
 
 Great pains were taken to auto-generate the proper function and class signatures such as
-CommandSetBridgeLED(led_num=None, led_setting=None) rather than just CommandSetBridgeLED(*args,
-**kwargs), so that pydoc and sphinx could introspect and document them properly. However,
+CommandSetBridgeLED(led_num=None, led_setting=None) rather than just CommandSetBridgeLED(\*args,
+\**kwargs), so that pydoc and sphinx could introspect and document them properly. However,
 the ONE thing that cannot be auto-generated is the per-function and per-class human-read
 documentation. It could go into yet another json file and be auto-generated, but that would
 be no more compact than making a file elsewhere for it. It could be written directly in
-sphinx doc/source/*.rst files, but then pydoc wouldn't find them. So the only choice left
+sphinx doc/source/\*.rst files, but then pydoc wouldn't find them. So the only choice left
 is to make a separate internals docstrings library with the data in one place there, and
 that is what this module is. Luckily, it at least saves some repetition, since both
 CommandSetBridgeLED and ChromaSpecSimpleInterface.setBridgeLED need the same documentation,
@@ -29,9 +29,22 @@ get out of sync with the other, thus it is assumed that this documentation may b
 something. As such, implementers of these dictionaries should use DOC.get(value, None) and
 handle lack of documentation in a responsible way.
 
+The CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetBridgeLED"] contains that docstring, for example.
+
+And the _common global is used to hold common replacement patterns, to eliminate having to type
+the same things over and over below - they are replaced at the end of the module.
+
 """
 
 CHROMASPEC_DYNAMIC_DOC = {"command":{}, "bridge":{}, "sensor":{}}
+
+_common = { 
+  "dt": "chromaspeclib.datatypes", 
+  "led_status": """led_status: :data:`~{dt}.types.LEDOff`, :data:`~{dt}.types.LEDGreen`, or :data:`~{dt}.types.LEDRed`
+                   The color state of the LED""",
+  "status":     """status: :data:`~{dt}.types.StatusOK` or :data:`~{dt}.types.StatusError`
+                   If there is an error status, the other attributes are not valid""",
+}
 
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandNull"] = """Null loopback request. The hardware will not reply,
 but the API will still return a null reply object. This is primarily used to flush the line
@@ -39,7 +52,7 @@ in case of desynchronization.
 
 Returns
 -------
-:class:`~chromaspeclib.datatypes.bridge.BridgeNull`
+:class:`~{dt}.bridge.BridgeNull`
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetBridgeLED"] = """Retrieves the current state of an LED on
@@ -52,13 +65,13 @@ led_num: 0
 
 Returns
 -------
-:class:`~chromaspeclib.datatypes.bridge.BridgeGetBridgeLED`
-
-Attributes
-----------
+:class:`~{dt}.bridge.BridgeGetBridgeLED`
 
 """
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetBridgeLED"] = ""
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetBridgeLED"] = """Sets the LED state of an LED on the Bridge board.
+
+
+"""
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetSensorLED"] = """Retrieves the current state of an LED on
 the Sensor board.
 
@@ -66,14 +79,13 @@ Parameters
 ----------
 led_num: 0-2
   The index of the LED on the Sensor
-led_status: :data:`~chromaspeclib.datatypes.types.LEDOff`, :data:`~chromaspeclib.datatypes.types.LEDGreen`, or :data:`~chromaspeclib.datatypes.types.LEDRed`
-  The color state of the LED
+{led_status}
 
 Returns
 -------
-:class:`~chromaspeclib.datatypes.bridge.BridgeGetSensorLED`
-  If there is a problem with the hardware, one might get a status=:data:`~chromaspeclib.datatypes.types.StatusError` from the Bridge
-:class:`~chromaspeclib.datatypes.bridge.SensorGetSensorLED`
+:class:`~{dt}.bridge.BridgeGetSensorLED`
+  If there is a problem with the hardware, one might get a status= :data:`~{dt}.types.StatusError` from the Bridge
+:class:`~{dt}.bridge.SensorGetSensorLED`
   If the command reaches the Sensor, a reply from the Sensor with the led_status or a status error
 
 """
@@ -111,3 +123,8 @@ CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorGetExposure"] = ""
 CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorSetExposure"] = ""
 CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorCaptureFrame"] = ""
 
+for protocol in CHROMASPEC_DYNAMIC_DOC:
+  for klass in CHROMASPEC_DYNAMIC_DOC[protocol]:
+    while [found for found in _common.keys() if "{%s}"%found in CHROMASPEC_DYNAMIC_DOC[protocol][klass]]:
+      #import pdb; pdb.set_trace()
+      CHROMASPEC_DYNAMIC_DOC[protocol][klass] = CHROMASPEC_DYNAMIC_DOC[protocol][klass].format(**_common)

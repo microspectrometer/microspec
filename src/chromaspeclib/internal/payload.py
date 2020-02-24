@@ -25,20 +25,10 @@ class ChromaSpecPayload(object):
     log.info("return")
 
   def __getitem__(self, attr):
-    log.info("attr=%s", attr)
-    value = getattr(self, attr)
-    log.info("return %s", value)
-    return value
+    return getattr(self, attr)
 
   def __setitem__(self, attr, value):
-    log.info("attr=%s value=%s", attr, value)
-    if attr in self.const:
-      pass
-    elif attr in self.variables and value is not None:
-      self.__dict__.update({attr: ChromaSpecInteger(dehex(value), self.varsize[attr])})
-    else:
-      self.__dict__[attr] = value
-    log.info("return")
+    setattr(self, attr, value)
 
   def __setattr__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
@@ -179,22 +169,7 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
     log.info("return")
 
   def __setitem__(self, attr, value):
-    log.info("attr=%s value=%s", attr, value)
-    if attr in self.const:
-      pass
-    elif attr in self.variables:
-      repeat = self.repeat.get(attr, None)
-      if repeat:
-        self.__dict__[attr] = \
-          [] if value is None else \
-          [v if v is None else ChromaSpecInteger(dehex(v), self.varsize[attr]) for v in value]
-      else:
-        self.__dict__[attr] = \
-          value if value is None else \
-          ChromaSpecInteger(dehex(value), self.varsize[attr])
-    else:
-      self.__dict__[attr] = value
-    log.info("return")
+    setattr(self, attr, value)
 
   def packformat(self):
     log.info("")

@@ -72,15 +72,9 @@ def skip_payload_attributes(app, what, name, obj, skip, options):
     # NOTE: for some reason, even though led_num is UNDOCUMENTED, leaving
     # out undoc-members still insists on including them
     return True
-  import sys
-  if what == "module":
-    print(what,name,getattr(obj, "__module__", None),file=sys.stderr)
-  if what == "module" and name == "chromaspeclib.datatypes.types":
-    print(what,name,file=sys.stderr)
-    return False
 
-#def setup(app):
-#  app.connect('autodoc-skip-member', skip_payload_attributes)
+def setup(app):
+  app.connect('autodoc-skip-member', skip_payload_attributes)
 
 napoleon_numpy_docstring = True
 

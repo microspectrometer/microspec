@@ -14,6 +14,7 @@ Submodules
 .. toctree::
    :maxdepth: 1
 
+   chromaspeclib.internal.docstrings
    chromaspeclib.internal.emulator
    chromaspeclib.internal.jsonparse
    chromaspeclib.internal.payload
