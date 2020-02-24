@@ -59,7 +59,28 @@ html_static_path = ['_static']
 # Autodoc options
 autodoc_default_options = {
     'no-inherited-members': True,
-    'undoc-members': False
+    'undoc-members': False,
 }
 
+def skip_payload_attributes(app, what, name, obj, skip, options):
+  if what == "class" and getattr(obj, "__qualname__", None) is None:
+    # Skip attributes, this includes internal things like __doc__ but
+    # also the class non-function attributes like led_num, because Sphinx
+    # renders them horribly, so we might as well just leave it in the
+    # class docstring instead
+    #
+    # NOTE: for some reason, even though led_num is UNDOCUMENTED, leaving
+    # out undoc-members still insists on including them
+    return True
+  import sys
+  if what == "module":
+    print(what,name,getattr(obj, "__module__", None),file=sys.stderr)
+  if what == "module" and name == "chromaspeclib.datatypes.types":
+    print(what,name,file=sys.stderr)
+    return False
+
+#def setup(app):
+#  app.connect('autodoc-skip-member', skip_payload_attributes)
+
+napoleon_numpy_docstring = True
 

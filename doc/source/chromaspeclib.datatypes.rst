@@ -4,7 +4,6 @@ chromaspeclib.datatypes package
 .. automodule:: chromaspeclib.datatypes
    :members:
    :undoc-members:
-   :show-inheritance:
 
 Submodules
 ----------

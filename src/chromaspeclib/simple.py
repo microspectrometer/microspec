@@ -21,13 +21,17 @@ def _generateFunction(command):
   name  = cname[7:8].lower()+cname[8:]
   kwargs_param = "".join(["%s=None, "%(v  ) for v in command.variables if v != "command_id"])
   kwargs_data  = "".join(["%s=%s, "  %(v,v) for v in command.variables if v != "command_id"])
+
   # Generate the parameter list for the function, so that later, documentation introspection finds it properly
   code = """def func(self, %s**kwargs):
     return self.sendAndReceive(command(%s**kwargs))
   """ % (kwargs_param, kwargs_data)
   scope = locals().copy()
   exec(code, scope)
-  return name, scope["func"]
+  func = scope["func"]
+  func.__qualname__ = "%s.%s"%("ChromaSpecSimpleInterface", name)
+
+  return name, func
 
 def _generateDocstring(command):
   cname = command.__name__

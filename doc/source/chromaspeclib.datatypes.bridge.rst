@@ -4,4 +4,4 @@ chromaspeclib.datatypes.bridge module
 .. automodule:: chromaspeclib.datatypes.bridge
    :members:
    :undoc-members:
-   :show-inheritance:
+   :exclude-members: command_id, name, const, variables, sizes, repeat

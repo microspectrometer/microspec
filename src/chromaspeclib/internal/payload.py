@@ -3,13 +3,14 @@
 # All Rights Reserved by Chromation, Inc
 
 from chromaspeclib.logger import CHROMASPEC_LOGGER_PAYLOAD as log
-from .util    import *
-from struct   import unpack, pack
+from .util       import *
+from .docstrings import *
+from struct      import unpack, pack
 import itertools
 import re
 
 class ChromaSpecPayload(object):
-  def __init__(self, payload=None, **kwargs):
+  def _init(self, payload=None, **kwargs):
     log.info("payload=%s kwargs=%s", payload, kwargs)
     self.varsize = {}
     for n in range(0, len(self.variables)):
@@ -153,9 +154,9 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
   the payload, since part of the payload defines how much to continue
   to pack and unpack."""
 
-  def __init__(self, *args, **kwargs):
+  def _init(self, *args, **kwargs):
     self.__dict__["repeat"] = self.__class__.repeat.copy()
-    super().__init__(*args,**kwargs)
+    super()._init(*args,**kwargs)
 
   def __setattr__(self, attr, value):
     log.info("attr=%s value=%s", attr, value)
@@ -281,8 +282,16 @@ class ChromaSpecRepeatPayload(ChromaSpecPayload):
     log.info("return True")
     return True
 
-def ChromaSpecPayloadClassFactory(command_id, name, variables, sizes, repeat=None):
-  log.info("command_id=%d name=%s variables=%s sizes=%s repeat=%s", command_id, name, variables, sizes, repeat)
+def ChromaSpecPayloadClassFactory(protocol, command_id, name, variables, sizes, repeat=None):
+  log.info("protocol=%s command_id=%d name=%s variables=%s sizes=%s repeat=%s", 
+           protocol, command_id, name, variables, sizes, repeat)
+
+  # First, form Voltron - er, the base class
+  #
+  # The classes don't differ based on protocol (i.e. command vs bridge vs sensor)
+  #
+  # However, they do need to pull out the variables and add them to the list of
+  # attributes, hence the **dict(...for v in variables...)
   if repeat:
     klass = type(str(name), (ChromaSpecRepeatPayload,), dict({
       'command_id'   : int(command_id),
@@ -300,30 +309,21 @@ def ChromaSpecPayloadClassFactory(command_id, name, variables, sizes, repeat=Non
       'sizes'        : sizes,
       'const'        : ['command_id', 'name', 'variables', 'sizes', 'const'],
     }, **dict([[v, None] for v in variables if v != "command_id"])))
+
+  # Then create a custom __init__ function with the proper optional parameters, so
+  # that documentation can pull out data via introspection later
+  kwarg_param = "".join(["%s=None, "%(v) for v in variables if v != "command_id"])
+  kwarg_data  = "".join(["%s=%s, "%(v,v) for v in variables if v != "command_id"])
+  scope = locals().copy()
+  exec("""def __init__(self, *args, %s**kwargs):
+    self._init(*args, %s**kwargs)
+  """%(kwarg_param, kwarg_data), scope)
+  klass.__init__ = scope["__init__"]
+  klass.__init__.__qualname__ = "%s.__init__"%(name)
+
+  # And finally insert the docstrings from the internal library, taking care to not
+  # assume the docs exist
+  klass.__doc__ = CHROMASPEC_DYNAMIC_DOC.get(protocol, {}).get(str(name), "")
+
   log.info("return %s", klass)
   return klass
-  
-_payloadSize = {'B' : 1, 'H': 2, 'L': 4, 's': 1}
-# NOTE: currently unused but possibly useful for later if there are
-#       more mixed-format packets, like repeating multi-blobs of data
-def _chunkPayload(payload, chopsize):
-  log.debug("payload=%s chopsize=%d", payload, chopsize)
-  chopped = 0
-  payrest = payload
-  paychop = b''
-  while chopped < chopsize and payrest:
-    ns = re.match('([0-9]+)s',payrest)
-    log.debug("chopped=%d payrest=%s ns=%s", chopped, payrest, ns)
-    if ns:
-      n = int(ns.groups()[0])
-      nlen = len(str(n))+1
-      paychop += payrest[0:nlen]
-      payrest  = payrest[nlen:]
-      chopped += n
-    else:
-      paychop += payrest[0]
-      payrest  = payrest[1:]
-      chopped += _payloadSize.get(paychop)
-  log.debug("return paychop=%s payrest=%s", paychop, payrest)
-  return paychop, payrest
-    

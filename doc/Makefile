@@ -17,6 +17,6 @@ help:
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
-	ln -s -f ../../README.md source/README.md 
+	cp -f ../README.md source/README.md 
 	m2r source/README.md --overwrite 
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) 

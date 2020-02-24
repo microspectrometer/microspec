@@ -4,7 +4,6 @@ chromaspeclib package
 .. automodule:: chromaspeclib
    :members:
    :undoc-members:
-   :show-inheritance:
 
 Subpackages
 -----------

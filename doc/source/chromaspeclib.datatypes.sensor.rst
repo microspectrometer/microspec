@@ -4,4 +4,4 @@ chromaspeclib.datatypes.sensor module
 .. automodule:: chromaspeclib.datatypes.sensor
    :members:
    :undoc-members:
-   :show-inheritance:
+   :exclude-members: command_id, name, const, variables, sizes, repeat

@@ -4,6 +4,8 @@ chromaspeclib.internal package
 .. automodule:: chromaspeclib.internal
    :members:
    :undoc-members:
+   :private-members:
+   :special-members:
    :show-inheritance:
 
 Submodules
