@@ -13,6 +13,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../src'))
+sys.path.insert(1, os.path.abspath('../'))
 
 
 # -- Project information -----------------------------------------------------
@@ -32,7 +33,7 @@ extensions = [
 'sphinx.ext.coverage', 
 'sphinx.ext.napoleon',
 'm2r',
-#'recommonmark'
+'sphinxcontrib.argdoc',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -74,7 +75,16 @@ def skip_payload_attributes(app, what, name, obj, skip, options):
     return True
 
 def setup(app):
+  # NOTE: This is a bit hacky, but sphinxcontrib-argdoc depends on a deprecated
+  # call in Sphinx, so this is a workaround
+  from sphinx.util import logging
+  logger = logging.getLogger("sphinxcontrib.argdoc")
+  app.debug2 = logger.debug
+
+  # Connect to the class attribute skipping function
   app.connect('autodoc-skip-member', skip_payload_attributes)
 
 napoleon_numpy_docstring = True
+
+navigation_depth = 1
 

@@ -9,6 +9,12 @@ ChromaSpecLib - Chromation Inc's Hardware Interface
 
    modules
 
+   bin
+
+   cfg
+
+   tests
+
 Indices and tables
 ==================
 

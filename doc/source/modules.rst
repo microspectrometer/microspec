@@ -2,6 +2,9 @@ chromaspeclib
 =============
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 4
 
    chromaspeclib
+   bin
+   cfg
+   tests

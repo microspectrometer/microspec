@@ -17,6 +17,7 @@ Since everything is Python in this library, with the exception of some documenta
 * `python -m pip install sphinx`
 * `python -m pip install recommonmark`
 * `python -m pip install m2r`
+* `python -m pip install sphinxcontrib-argdoc`
 
 NOTE: The prerequisite for the emulator is to be running on Linux or MacOSX and installing the `socat` executable. The emulator does not work on other platforms.
 
@@ -102,7 +103,13 @@ cd chromaspec_install_dir/doc
 make clean html
 ```
 
-If you are truly restarting from scratch, you can recreate all the autodoc documentation files by doing the following, however, *this will wipe out a number of customizations* that were made after using this command to create the initial versions of the files. Note that you will also need to `make clean html` afterwards as well.
+Depending on the path setup, something akin to the following might be necessary. This is because, in order to pull in the tests, cfg, and bin directories as well, many things must be on the PYTHONPATH or PATH, that might not be there during a normal run of the API.
+
+```
+PATH=$PATH:../bin PYTHONPATH=../src:../:../tests make clean html
+```
+
+If you are truly restarting from scratch, you can recreate all the autodoc documentation files by doing the following, however, *this will wipe out a number of customizations* that were made after using this command to create the initial versions of the files. Note that you will also need to `make clean html` afterwards as well. This also only grabs code from chromaspeclib, not also the tests, cfg, or bin directories.
 
 ```
 sphinx-apidoc -o source/ ../src/chromaspeclib -f -e -M

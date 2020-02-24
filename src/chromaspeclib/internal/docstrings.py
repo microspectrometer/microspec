@@ -68,8 +68,17 @@ Returns
 :class:`~{dt}.bridge.BridgeGetBridgeLED`
 
 """
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetBridgeLED"] = """Sets the LED state of an LED on the Bridge board.
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetBridgeLED"] = """Sets the current state of an LED on the Bridge board.
 
+Parameters
+----------
+led_num: 0
+  The index of the LED on the Bridge
+{led_status}
+
+Returns
+-------
+:class:`~{dt}.bridge.BridgeSetBridgeLED`
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetSensorLED"] = """Retrieves the current state of an LED on
@@ -79,21 +88,48 @@ Parameters
 ----------
 led_num: 0-2
   The index of the LED on the Sensor
-{led_status}
 
 Returns
 -------
 :class:`~{dt}.bridge.BridgeGetSensorLED`
-  If there is a problem with the hardware, one might get a status= :data:`~{dt}.types.StatusError` from the Bridge
 :class:`~{dt}.bridge.SensorGetSensorLED`
-  If the command reaches the Sensor, a reply from the Sensor with the led_status or a status error
 
 """
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetSensorLED"] = """Sets the current state of an LED on the Bridge board.
 
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetSensorLED"] = ""
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandReset"] = ""
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandVerify"] = ""
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetSensorConfig"] = ""
+Parameters
+----------
+led_num: 0-2
+  The index of the LED on the Sensor
+{led_status}
+
+Returns
+-------
+:class:`~{dt}.bridge.BridgeSetSensorLED`
+:class:`~{dt}.bridge.SensorSetSensorLED`
+
+"""
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandReset"] = """Resets the hardware and replies when the reset is complete.
+
+Returns
+-------
+:class:`~{dt}.bridge.BridgeReset`
+
+"""
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandVerify"] = """Verifies running status of the hardware.
+
+Returns
+-------
+:class:`~{dt}.bridge.BridgeVerify`
+
+"""
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetSensorConfig"] = """Retrieves the current sensor configuration.
+
+Returns
+-------
+:class:`~{dt}.bridge.BridgeVerify`
+
+"""
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetSensorConfig"] = ""
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandAutoExposure"] = ""
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetExposure"] = ""
