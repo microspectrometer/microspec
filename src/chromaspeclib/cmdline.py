@@ -2,19 +2,14 @@
 # Copyright 2020 by Chromation, Inc
 # All Rights Reserved by Chromation, Inc
 
-"""
-cmdline
-=======
-
-Foo bar baz
-
-"""
-
 from chromaspeclib.simple            import ChromaSpecSimpleInterface
 from chromaspeclib.logger            import debug, CHROMASPEC_LOGGER as log
 from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_NAME as commands
 from chromaspeclib.datatypes.types   import CHROMASPEC_GLOBAL       as constants
 import time, datetime, sys
+
+# NOTE: There is no docstring because the Sphinx documentation runs the argparse help and creates the
+#       documentation there. See the Sphinx documentation for the chromaspec_cmdline.py executable.
 
 cmdname = dict([ [s[7:].lower(), s[7:]] for s    in commands.keys() ])
 cstname = dict([ [s    .lower(), v    ] for s, v in constants.items() ])

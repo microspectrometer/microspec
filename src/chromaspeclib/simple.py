@@ -2,9 +2,10 @@
 # Copyright 2020 by Chromation, Inc
 # All Rights Reserved by Chromation, Inc
 
-from chromaspeclib.expert            import ChromaSpecExpertInterface
-from chromaspeclib.logger            import CHROMASPEC_LOGGER as log
-from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_NAME
+from chromaspeclib.expert              import ChromaSpecExpertInterface
+from chromaspeclib.logger              import CHROMASPEC_LOGGER as log
+from chromaspeclib.datatypes.command   import CHROMASPEC_COMMAND_NAME
+from chromaspeclib.internal.docstrings import CHROMASPEC_DYNAMIC_DOC
 import sys
 
 # The Simple interface doesn't retuire creating objects or doing any sending and waiting
@@ -13,6 +14,9 @@ import sys
 # The names of the methods are the names of the Command objects, but with the first letter
 # lowercased. You can also look at the names of the commands in the JSON cfg file, or the
 # pydoc for this class.
+
+# NOTE: This class is entirely auto-generated, you won't find the API here. Please refer to
+#       the Sphinx documentation.
 
 __all__ = [ "ChromaSpecSimpleInterface" ]
 
@@ -30,20 +34,17 @@ def _generateFunction(command):
   exec(code, scope)
   func = scope["func"]
   func.__qualname__ = "%s.%s"%("ChromaSpecSimpleInterface", name)
+  func.__doc__      = CHROMASPEC_DYNAMIC_DOC["command"].get(cname, None)
 
   return name, func
-
-def _generateDocstring(command):
-  cname = command.__name__
-  name  = cname[6:6].lower()+cname[7:]
-  return "%s(%s)\n"%(name, ", ".join([c for c in command.variables if c != "command_id"]))
 
 _ChromaSpecSimpleInterface = type('_ChromaSpecSimpleInterface',
                                  (ChromaSpecExpertInterface,),
                                  dict([_generateFunction(command) for command in CHROMASPEC_COMMAND_NAME.values()]))
-_ChromaSpecSimpleInterface.__doc__ = "".join([_generateDocstring(command) for command in CHROMASPEC_COMMAND_NAME.values()])
 
 class ChromaSpecSimpleInterface(_ChromaSpecSimpleInterface):
+  # NOTE: do not docstring this class, the sendAndReceive is overridden but still an underlying, hidden portion
+  #       of the API. To see the interface, look at the Sphinx documentation.
   def sendAndReceive(self, command, *args, **kwargs):
     # Simple interface ignores all other processing or in-progress calls, unlike Expert.
     # They are not compatible interfaces, as Expert can be continued after a failed read,

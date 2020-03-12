@@ -21,18 +21,42 @@ CHROMASPEC_LOGGER_TEST    .setLevel(logging.ERROR)
 CHROMASPEC_LOGGER_INTERNAL.setLevel(logging.ERROR)
 
 def verbose(includeInternals=False):
+  """Turn on logging.
+
+  Parameters
+  ----------
+  includeInternals: True or False
+    Also activate logging for internal modules
+
+  """
   CHROMASPEC_LOGGER           .setLevel(logging.WARNING)
   if includeInternals:
     CHROMASPEC_LOGGER_TEST    .setLevel(logging.WARNING)
     CHROMASPEC_LOGGER_INTERNAL.setLevel(logging.WARNING)
   
 def quiet(includeInternals=False):
+  """Turn off logging.
+
+  Parameters
+  ----------
+  includeInternals: True or False
+    Also deactivate logging for internal modules
+
+  """
   CHROMASPEC_LOGGER           .setLevel(logging.ERROR)
   if includeInternals:
     CHROMASPEC_LOGGER_TEST    .setLevel(logging.ERROR)
     CHROMASPEC_LOGGER_INTERNAL.setLevel(logging.ERROR)
   
 def debug(includeInternals=False):
+  """Turn on verbose debugging trace.
+
+  Parameters
+  ----------
+  includeInternals: True or False
+    Also activate verbose debugging for internal modules
+
+  """
   CHROMASPEC_LOGGER           .setLevel(logging.DEBUG)
   if includeInternals:
     CHROMASPEC_LOGGER_TEST    .setLevel(logging.DEBUG)

@@ -3,6 +3,38 @@
 # Copyright 2020 by Chromation, Inc
 # All Rights Reserved by Chromation, Inc
 
+"""
+Example Usage
+=============
+
+NOTE
+----
+  You probably never need to run this, unless you really need to turn on debugging trace on the
+  emulator in order to see what you're sending to it. Usually, specifying emulator=True is enough
+  to use the emulator, in the simple and expert API.
+
+  Also, this will only work on Mac OSX and Linux systems, not on Windows.
+
+Longwinded example
+------------------
+dir=`mktemp -d`
+
+socat PTY,raw,echo=0,link=$dir/chromaspec.software PTY,raw,echo=0,link=$dir/chromaspec.hardware &
+
+chromaspec_emulator.py -f $dir/chromaspec.hardware
+
+# Then connect interface to $dir/chromaspec.software file
+
+# And stop the socat background command, and clean up the $dir and it's contents
+
+Short example
+-------------
+chromaspec_emulator.py -s -p
+
+# Then connect interface to filename that the script prints to stdout
+
+"""
+
 def main():
   import sys
   import argparse

@@ -43,6 +43,19 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
       return super().__getattribute__(attr)
       
   def sendCommand(self, command):
+    """Send one command to the sensor, do not wait for a response. You may stack these, and they
+    will return in FIFO order later.
+
+    Parameters
+    ----------
+    command: :py:mod:`CommandObject <chromaspeclib.datatypes.command>`
+      Create one of these objects and pass it as an argument
+
+    Returns
+    -------
+    None
+
+    """
     log.info("command=%s", command)
     try:
       if bytes(command) == b'':
@@ -57,6 +70,16 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     log.info("return")
 
   def receiveReply(self):
+    """Receive one command result command sent. If multiple were sent, receive the next one in FIFO order,
+    if available. A failure to retrieve it does not remove it from the queue, but a reply that contains
+    a failed status does.
+
+    Returns
+    -------
+    :py:mod:`BridgeReplyObject <chromaspeclib.datatypes.bridge>`
+    :py:mod:`SensorReplyObject <chromaspeclib.datatypes.sensor>`
+
+    """
     log.info("waiting for reply")
     if not self.current_command:
       log.error("No command to wait for")
@@ -80,6 +103,23 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     return reply
 
   def sendAndReceive(self, command):
+    """Send one command to the sensor, and receive one command result command sent. 
+    If multiple were sent, receive the next one in FIFO order, if available. 
+    This does NOT mean that the reply will match the command, if you already sent a command
+    that you had not received yet. A failure to retrieve it does not remove it from
+    the queue, but a reply that contains
+
+    Parameters
+    ----------
+    command: :py:mod:`CommandObject <chromaspeclib.datatypes.command>`
+      Create one of these objects and pass it as an argument
+
+    Returns
+    -------
+    :py:mod:`BridgeReplyObject <chromaspeclib.datatypes.bridge>`
+    :py:mod:`SensorReplyObject <chromaspeclib.datatypes.sensor>`
+
+    """
     log.info("command=%s", command)
     self.sendCommand(command)
     reply = self.receiveReply()
@@ -87,6 +127,8 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     return reply
 
   def flush(self, timeout=0.1):
+    """Tell hardware to finish sending any remaining commands and flush it's communication line,
+    then flush the local queue and throw away all waiting replies. This does not send a Reset command."""
     log.info("flushing stream by sending a null and clearing all data from the line")
     self.sendCommand(CommandNull())
     old_timeout = self.timeout
