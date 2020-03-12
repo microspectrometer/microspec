@@ -1,4 +1,4 @@
-# ChromaSpecLib
+# ChromaSpecLib README
 
 This library provides a number of interfaces for Chromation Spectrometer hardware, both in Python code, executables, servers, and emulators.
 
