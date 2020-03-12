@@ -11,6 +11,8 @@ import time
 # replies. It requires creating Command objects and then passing them along, in 
 # contrast to the one routine per command structure of the Simple interface.
 
+__all__ = [ "ChromaSpecExpertInterface" ]
+
 from chromaspeclib.internal.stream import ChromaSpecSerialIOStream, ChromaSpecEmulatedStream
 class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
   def __init__(self, serial_number=None, device=None, timeout=0.01, retry_timeout=0.001, emulation=False, *args, **kwargs):

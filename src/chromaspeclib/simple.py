@@ -5,6 +5,7 @@
 from chromaspeclib.expert            import ChromaSpecExpertInterface
 from chromaspeclib.logger            import CHROMASPEC_LOGGER as log
 from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_NAME
+import sys
 
 # The Simple interface doesn't retuire creating objects or doing any sending and waiting
 # loops, instead it simply acts like a hardware object that you query for information
@@ -13,11 +14,23 @@ from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_NAME
 # lowercased. You can also look at the names of the commands in the JSON cfg file, or the
 # pydoc for this class.
 
+__all__ = [ "ChromaSpecSimpleInterface" ]
+
 def _generateFunction(command):
   cname = command.__name__
   name  = cname[7:8].lower()+cname[8:]
-  def func(self, *args, **kwargs):
-    return self.sendAndReceive(command(*args, **kwargs))
+  kwargs_param = "".join(["%s=None, "%(v  ) for v in command.variables if v != "command_id"])
+  kwargs_data  = "".join(["%s=%s, "  %(v,v) for v in command.variables if v != "command_id"])
+
+  # Generate the parameter list for the function, so that later, documentation introspection finds it properly
+  code = """def func(self, %s**kwargs):
+    return self.sendAndReceive(command(%s**kwargs))
+  """ % (kwargs_param, kwargs_data)
+  scope = locals().copy()
+  exec(code, scope)
+  func = scope["func"]
+  func.__qualname__ = "%s.%s"%("ChromaSpecSimpleInterface", name)
+
   return name, func
 
 def _generateDocstring(command):
@@ -48,4 +61,3 @@ class ChromaSpecSimpleInterface(_ChromaSpecSimpleInterface):
     log.info("return %s", reply)
     return reply
 
-__all__ = [ ChromaSpecSimpleInterface ]

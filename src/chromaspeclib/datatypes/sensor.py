@@ -5,7 +5,7 @@
 from chromaspeclib.internal.jsonparse import enclassJsonFile
 from chromaspeclib.logger             import CHROMASPEC_LOGGER_DATA as log
 from chromaspeclib                    import CHROMASPEC_ROOTDIR
-import os
+import os, sys
 
 CHROMASPEC_SENSOR_ID, CHROMASPEC_SENSOR_NAME = \
   enclassJsonFile(

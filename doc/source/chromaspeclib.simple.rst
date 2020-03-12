@@ -1,0 +1,8 @@
+chromaspeclib.simple module
+===========================
+
+.. automodule:: chromaspeclib.simple
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :exclude-members: consume, flush, pushback, read, receiveCommand, receiveReply, sendAndReceive, sendCommand, sendReply, write

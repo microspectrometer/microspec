@@ -8,14 +8,14 @@ from chromaspeclib.internal.payload import ChromaSpecPayloadClassFactory, Chroma
 class ChromaSpecTestPayloadFactory(unittest.TestCase):
 
   def test_payloadFactoryNormal(self):
-    klass = ChromaSpecPayloadClassFactory(99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4])
+    klass = ChromaSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4])
     assert klass.command_id == 99
     assert klass.__name__   == "grok"
     assert klass.variables  == ["command_id","foo","bar","baz"]
     assert klass.sizes      == [1,1,2,4]
 
   def test_payloadFactoryRepeat(self):
-    klass = ChromaSpecPayloadClassFactory(99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"foo":"bar"})
+    klass = ChromaSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"foo":"bar"})
     assert klass.command_id == 99
     assert klass.__name__   == "grok"
     assert klass.variables  == ["command_id","foo","bar","baz"]
@@ -26,7 +26,7 @@ class ChromaSpecTestPayload(unittest.TestCase):
 
   def __init__(self, *args, **kwargs):
     super(ChromaSpecTestPayload, self).__init__(*args, **kwargs)
-    self.klass = ChromaSpecPayloadClassFactory(99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4])
+    self.klass = ChromaSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4])
 
   def test_initEmpty(self):
     obj = self.klass()
@@ -112,11 +112,7 @@ class ChromaSpecTestPayload(unittest.TestCase):
     assert obj == ob2
 
     ob2.name = "fii"
-    assert obj != ob2
-
-    ob2 = self.klass(b)
-    ob2.value[0] = 999
-    assert obj != ob2
+    assert obj == ob2
 
     ob2 = self.klass(b)
     ob2.varsize[0] = 999
@@ -124,15 +120,15 @@ class ChromaSpecTestPayload(unittest.TestCase):
 
     ob2 = self.klass(b)
     ob2.command_id = 999
-    assert obj != ob2
+    assert obj == ob2
 
     ob2 = self.klass(b)
     ob2.variables = ["a","b","c","d"]
-    assert obj != ob2
+    assert obj == ob2
 
     ob2 = self.klass(b)
     ob2.sizes = [999,999,999,999]
-    assert obj != ob2
+    assert obj == ob2
 
   def test_packValues(self):
     obj = self.klass(foo=1, bar=2, baz=255)
@@ -152,7 +148,7 @@ class ChromaSpecTestRepeatPayload(ChromaSpecTestPayload):
 
   def __init__(self, *args, **kwargs):
     super(ChromaSpecTestRepeatPayload, self).__init__(*args, **kwargs)
-    self.klass = ChromaSpecPayloadClassFactory(99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"baz": "foo"})
+    self.klass = ChromaSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"baz": "foo"})
 
   def test_initEmpty(self):
     obj = self.klass()
@@ -236,7 +232,7 @@ class ChromaSpecTestRepeatPayload(ChromaSpecTestPayload):
     obj = self.klass(b)
     ob2 = self.klass(b)
     ob2.repeat = "xxx"
-    assert obj != ob2
+    assert obj == ob2
 
   def test_packValues(self):
     obj = self.klass(foo=1, bar=2, baz=[255])

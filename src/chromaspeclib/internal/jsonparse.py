@@ -27,8 +27,8 @@ def enclassJsonFile(filename, protocol="command"):
     log.debug("raw json protocol section=%s", p)
     for k, v in p.items():
       log.debug("k=%s v=%s", k, v)
-      c = cfactory(int(k), protocol.capitalize()+p[k]["name"], p[k]["variables"], 
-                            p[k]["sizes"], p[k].get("repeat",None))
+      c = cfactory(protocol, int(k), protocol.capitalize()+p[k]["name"], 
+                   p[k]["variables"], p[k]["sizes"], p[k].get("repeat",None))
       byID[c.command_id] = c
       byName[c.name] = c
   log.info("return %s, %s", byID, byName)

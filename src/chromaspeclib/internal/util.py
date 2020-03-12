@@ -8,14 +8,24 @@ import re
 import itertools
 
 class ChromaSpecInteger(int):
-  def __new__(self, value, size=1, byteorder="big", signed=False):
-    log.info("value=%d size=%d byteorder=%s signed=%s", value, size, byteorder, signed)
+
+  """A subclass of Python int that remembers it's byte width and name so that it can be 
+  converted to bytes and str properly"""
+
+  def __new__(self, value, size=1, byteorder="big", signed=False, name=None):
+    log.info("value=%d size=%d byteorder=%s signed=%s name=%s", value, size, byteorder, signed, name)
     self = int.__new__(ChromaSpecInteger, value)
     self.size      = size
     self.byteorder = byteorder
     self.signed    = signed
+    self.name      = name
     log.info("return %s", self)
     return self
+
+  def __str__(self):
+    if self.name:
+      return self.name
+    return super().__str__()
 
   def __bytes__(self):
     log.info("")

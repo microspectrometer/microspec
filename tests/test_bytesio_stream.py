@@ -308,9 +308,9 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
       r1      = r1klass()
       for v in r1:
         r1[v] = 99 # dummy data
-      r1.command_id = r1klass.command_id                       # varibles include this, need to undo it
-      if r1.__dict__["value"].get("status", None) is not None: # the null replies don't have this
-        r1.status   = 0                                        # set status 0 otherwise we trigger a different check
+      r1.command_id = r1klass.command_id              # varibles include this, need to undo it
+      if r1.__dict__.get("status", None) is not None: # the null replies don't have this
+        r1.status   = 0                               # set status 0 otherwise we trigger a different check
       log.info("sending bridge %s"%(r1))
       self.sendReply(b, s, r1)
       w.append(r1)
@@ -326,9 +326,9 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
               r2[v] = 99 # dummy data
           else:
             r2[v] = 99 # dummy data
-        r2.command_id = r2klass.command_id                       # varibles include this, need to undo it
-        if r2.__dict__["value"].get("status", None) is not None: # the null replies don't have this
-          r2.status   = 0                                        # set status 0 otherwise we trigger a different check
+        r2.command_id = r2klass.command_id              # varibles include this, need to undo it
+        if r2.__dict__.get("status", None) is not None: # the null replies don't have this
+          r2.status   = 0                               # set status 0 otherwise we trigger a different check
         log.info("sending sensor %s"%(r1))
         self.sendReply(b, s, r2)
         w.append(r2)
