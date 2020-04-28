@@ -4,18 +4,9 @@
 
 from chromaspeclib.internal.jsonparse import enclassJsonFile
 from chromaspeclib.logger             import CHROMASPEC_LOGGER_DATA as log
-from chromaspeclib                    import CHROMASPEC_ROOTDIR
 import os, sys
 
-CHROMASPEC_SENSOR_ID, CHROMASPEC_SENSOR_NAME = \
-  enclassJsonFile(
-    os.path.join(
-      CHROMASPEC_ROOTDIR,
-      "cfg",
-      "chromaspec.json"
-    ),
-    "sensor"
-  )
+CHROMASPEC_SENSOR_ID, CHROMASPEC_SENSOR_NAME = enclassJsonFile("chromaspec.json", "sensor")
 
 globals().update([v.name,v] for k,v in CHROMASPEC_SENSOR_ID.items())
 

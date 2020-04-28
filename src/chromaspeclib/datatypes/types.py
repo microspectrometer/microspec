@@ -2,17 +2,9 @@
 # All Rights Reserved by Chromation, Inc
 
 from chromaspeclib.internal.jsonparse import globalizeJsonFile
-from chromaspeclib                    import CHROMASPEC_ROOTDIR
 import os, sys
 
-CHROMASPEC_GLOBAL = \
-  globalizeJsonFile(
-    os.path.join(
-      CHROMASPEC_ROOTDIR,
-      "cfg",
-      "chromaspec.json"
-    )
-  )
+CHROMASPEC_GLOBAL = globalizeJsonFile("chromaspec.json")
 
 globals().update([[k,v] for k,v in CHROMASPEC_GLOBAL.items()])
 
