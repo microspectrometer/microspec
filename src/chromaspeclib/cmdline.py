@@ -29,9 +29,19 @@ def print_format(csv, response):
   else:
     print("%s,%s"%(current_time,str(response)))
 
+def command_help_string():
+  cmdstring = "List of commands and arguments:\n"
+  for cname, cmd in commands.items():
+    cmdstring += "  %-17s %s\n"%(cname[7:], " ".join(["%s=xxx"%(k) for k in cmd().variables if k != "command_id"]))
+  cmdstring += "\nNote that command names are case-insensitive. For more information on each command, run `pydoc chromaspeclib.datatypes.command`"
+  return cmdstring
+
 if __name__ == "__main__":
   import argparse
-  parser = argparse.ArgumentParser(description="Command line interface for ChromaSpecLib")
+  parser = argparse.ArgumentParser(
+    description="Command line interface for ChromaSpecLib", 
+    epilog=command_help_string(),
+    formatter_class=argparse.RawDescriptionHelpFormatter )
   parser.add_argument("-d", "--debug",    help="Internal debugging trace",           action="count", default=0    )
   parser.add_argument("-v", "--verbose",  help="Verbose trace",                      action="count", default=0    )
   parser.add_argument("-t", "--timeout",  help="Timeout (seconds)",                  type=float,     default=0.1  )
@@ -41,9 +51,11 @@ if __name__ == "__main__":
   parser.add_argument("-f", "--file",     help="File/socket/device to connect to, "+
                                                "default=auto-detect hardware",                       default=None )
   parser.add_argument("-c", "--csv",      help="Print-format: 'default' or 'csv'",   action="count", default=0    )
-  parser.add_argument("-i", "--ignore",   help="Ignore argument",                                                 )
   parser.add_argument("command",          help="Command to send",                                                 )
   parser.add_argument("arguments",        help="Key=value pairs for command",        nargs="*",      default=[]   )
+  import sys
+  if "-i" in sys.argv or "--ignore" in sys.argv:
+    parser.add_argument("-i", "--ignore", help="Ignore argument") # hidden argument for internal use
   args = parser.parse_args()
   
   from chromaspeclib.internal.stream import ChromaSpecEmulatedStream
@@ -71,7 +83,7 @@ if __name__ == "__main__":
     getcmd  = get_command(args.command)
     command = getcmd[0].lower() + getcmd[1:]
   except:
-    log.critical("Command '%s' not found!", args.command)
+    log.critical("Command '%s' not found!\n%s", args.command, command_help_string())
     sys.exit(1)
 
   try:

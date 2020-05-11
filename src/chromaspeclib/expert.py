@@ -107,7 +107,7 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     If multiple were sent, receive the next one in FIFO order, if available. 
     This does NOT mean that the reply will match the command, if you already sent a command
     that you had not received yet. A failure to retrieve it does not remove it from
-    the queue, but a reply that contains
+    the queue, but a reply that contains a failed status does.
 
     Parameters
     ----------
