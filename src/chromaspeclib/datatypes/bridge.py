@@ -4,18 +4,9 @@
 
 from chromaspeclib.internal.jsonparse import enclassJsonFile
 from chromaspeclib.logger             import CHROMASPEC_LOGGER_DATA as log
-from chromaspeclib                    import CHROMASPEC_ROOTDIR
 import os, sys
 
-CHROMASPEC_SERIAL_ID, CHROMASPEC_SERIAL_NAME = \
-  enclassJsonFile(
-    os.path.join(
-      CHROMASPEC_ROOTDIR,
-      "cfg",
-      "chromaspec.json"
-    ),
-    "bridge"
-  )
+CHROMASPEC_SERIAL_ID, CHROMASPEC_SERIAL_NAME = enclassJsonFile("chromaspec.json", "bridge")
 
 globals().update([v.name,v] for k,v in CHROMASPEC_SERIAL_ID.items())
 

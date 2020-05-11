@@ -1,0 +1,6 @@
+include cfg/*.json
+include doc/build/html/*.html
+include doc/build/html/_static/*.*
+include bin/*.py
+include tests/*.py
+include tests/*.json
