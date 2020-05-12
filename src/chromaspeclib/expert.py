@@ -81,10 +81,8 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
 
     """
     log.info("waiting for reply")
-    if not self.current_command:
-      log.error("No command to wait for")
     start = time.time()
-    reply = super().receiveReply(self.current_command[0].command_id)
+    reply = super().receiveReply(self.current_command[0].command_id) if self.current_command else None
     since = time.time() - start
     timeout = self.timeout if self.timeout else 0
     remain = timeout - since
@@ -92,7 +90,7 @@ class ChromaSpecExpertInterface(ChromaSpecSerialIOStream):
     while reply is None and remain > 0:
       log.info("no reply yet, timeout remaining=%s", remain)
       time.sleep( self.retry_timeout if remain > self.retry_timeout else remain )
-      reply = super().receiveReply(self.current_command[0].command_id)
+      reply = super().receiveReply(self.current_command[0].command_id) if self.current_command else None
       since = time.time() - start
       remain = timeout - since
       log.info("start=%s reply=%s since=%s timeout=%s remain=%s"%(start,reply,since,timeout,remain))
