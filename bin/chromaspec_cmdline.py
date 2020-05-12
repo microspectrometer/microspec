@@ -39,7 +39,7 @@ chromaspec_cmdline.py -e ...
 
 def main():
   import subprocess, sys
-  subprocess.call(["python", "-m", "chromaspeclib.cmdline"] + sys.argv)
+  subprocess.call(["python", "-m", "chromaspeclib.cmdline"] + sys.argv[1:])
   
 if __name__ == "__main__":
   main()

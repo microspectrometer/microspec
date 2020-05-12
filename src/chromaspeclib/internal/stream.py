@@ -174,8 +174,10 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
     self.serial.timeout  = timeout
     self.serial.port     = None
     if serial_number:
-      self.serial.port = list_ports.grep(serial_number).device
-      log.info("search for serial_number=%s found port=%s", serial_number, port)
+      ports = list(list_ports.grep(serial_number))
+      if ports:
+        self.serial.port = ports[0]
+        log.info("search for serial_number=%s found port=%s", serial_number, port)
     elif device:
       self.serial.port = device
       log.info("using device=%s", device)
@@ -189,9 +191,9 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
           if port.vid == 1027 and port.pid == 24597:
             self.serial.port = port.device
             break
-      if not self.serial.port:
-        log.error("Cannot find CHROMATION device")
-        raise ChromaSpecConnectionException("Cannot find CHROMATION device")
+    if not self.serial.port:
+      log.error("Cannot find CHROMATION device")
+      raise ChromaSpecConnectionException("Cannot find CHROMATION device")
     try:
       self.serial.open()
     except Exception as e:

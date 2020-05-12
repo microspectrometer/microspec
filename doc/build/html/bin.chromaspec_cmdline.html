@@ -128,12 +128,65 @@
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-c</span></code>, <code class="docutils literal notranslate"><span class="pre">--csv</span></code></p></td>
 <td><p>Print-format: ‘default’ or ‘csv’</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-i</span>&#160; <span class="pre">IGNORE</span></code>, <code class="docutils literal notranslate"><span class="pre">--ignore</span>&#160; <span class="pre">IGNORE</span></code></p></td>
-<td><p>Ignore argument</p></td>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="list-of-commands-and-arguments">
+<h4>List of commands and arguments<a class="headerlink" href="#list-of-commands-and-arguments" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 63%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Argument</strong></p></td>
+<td><p><strong>Description</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Null</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GetBridgeLED</span></code></p></td>
+<td><p>led_num=xxx</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SetBridgeLED</span></code></p></td>
+<td><p>led_num=xxx led_setting=xxx</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GetSensorLED</span></code></p></td>
+<td><p>led_num=xxx</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SetSensorLED</span></code></p></td>
+<td><p>led_num=xxx led_setting=xxx</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Reset</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Verify</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GetSensorConfig</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SetSensorConfig</span></code></p></td>
+<td><p>binning=xxx gain=xxx row_bitmap=xxx</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">AutoExposure</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GetExposure</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SetExposure</span></code></p></td>
+<td><p>cycles=xxx</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CaptureFrame</span></code></p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 </div></blockquote>
+<p>Note that command names are case-insensitive. For more information on each command, run <cite>pydoc chromaspeclib.datatypes.command</cite></p>
 </div>
 </div>
 <hr class="docutils" />
