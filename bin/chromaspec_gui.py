@@ -6,10 +6,35 @@ from chromaspeclib.expert            import ChromaSpecExpertInterface as expert
 class Spectrometer(tk.Canvas):
   def __init__(self, *args, **kwargs):
     tk.Canvas.__init__(self, *args, **kwargs)
-    self.create_rectangle(50, 50, 100, 100)
+    #self.create_rectangle(50, 50, 100, 100)
 
   def redraw(self, pixels):
-    pass
+    if not pixels:
+      return
+    self.update() # or else the width and height commands won't work
+    self.width  = self.winfo_width()
+    self.height = self.winfo_height()
+    npixels = len(pixels)
+    minpixel = None
+    maxpixel = None
+    for p in pixels:
+      minpixel = p if minpixel is None or p < minpixel else minpixel
+      maxpixel = p if maxpixel is None or p > maxpixel else maxpixel
+    if minpixel is None or maxpixel is None:
+      return
+    pixelrange = maxpixel - minpixel
+    self.delete("all")
+    n = 0
+    for p in pixels:
+      yrelative = p - minpixel
+      ynormalized = yrelative * self.height / pixelrange
+      xnormalized = n * self.width / npixels
+      self.draw_dot(xnormalized, ynormalized)
+      n = n + 1
+
+  def draw_dot(self, x, y):
+      self.create_rectangle(x,   self.height - y, 
+                            x+1, self.height - y+1)
 
 class BridgeLED(tk.Frame):
   def __init__(self, *args, **kwargs):
@@ -25,7 +50,7 @@ class BridgeLED(tk.Frame):
     self.red.grid(  row=0, column=3)
 
   def usb_send(self, state):
-    self.master.push_command(CommandSetBridgeLED(led_num=0, led_setting=state), self)
+    self.master.push_command(CommandSetBridgeLED(led_num=0, led_setting=state))
 
   def usb_receive(self, reply):
     if reply and reply.status == 0 and hasattr(reply, "led_setting"):
@@ -38,7 +63,7 @@ class BridgeLED(tk.Frame):
     return self.state.get()
   
 class ChromaspecGUI(tk.Frame):
-  def __init__(self, *args, **kwargs):
+  def __init__(self, *args, emulation=False, **kwargs):
     tk.Frame.__init__(self, *args, **kwargs)
     self.spec = Spectrometer(self, width=400, height=600)
     self.led  = BridgeLED(self)
@@ -49,21 +74,21 @@ class ChromaspecGUI(tk.Frame):
     self.queue = []
     self.wait  = []
 
-    self.usb  = expert() #emulation=True)
+    self.usb  = expert(emulation=emulation)
 
     self.push_command(CommandGetBridgeLED(led_num=0), self.led)
-    #led = self.usb.getBridgeLED(led_num=0)
-    #if led:
-    #  self.led.set(led.led_setting)
+    self.push_command(CommandSetExposure(cycles=100))
+    self.push_command(CommandSetSensorConfig(binning=True, gain=100, row_bitmap=0x1F))
 
     self.main_thread()
 
-  def push_command(self, command, requestor):
+  def push_command(self, command, requestor=None):
     self.queue.append((command, requestor))
 
   def usb_receive(self, reply):
     if reply and reply.status == 0:
       #print("pixels: %s"%(reply))
+      self.spec.redraw(reply.pixels)
       pass
 
   def main_thread(self):
@@ -72,7 +97,8 @@ class ChromaspecGUI(tk.Frame):
     reply = self.usb.receiveReply()
     while reply:
       recipient = self.wait.pop(0)
-      recipient[1].usb_receive(reply)
+      if recipient[1]:
+        recipient[1].usb_receive(reply)
       reply = self.usb.receiveReply()
 
     while self.queue:
@@ -80,18 +106,12 @@ class ChromaspecGUI(tk.Frame):
       self.usb.sendCommand(command[0])
       self.wait.append(command)
 
-    #pixels = self.usb.captureFrame()
-    #print(pixels)
-    #led = self.usb.getBridgeLED(led_num=0)
-    #if led:
-    #  self.led.set(led.led_setting)
-
     self.after(100, self.main_thread)
     
     
     
 
 root = tk.Tk()
-gui = ChromaspecGUI(root)
+gui = ChromaspecGUI(root, emulation=False)
 gui.pack()
 gui.mainloop()
