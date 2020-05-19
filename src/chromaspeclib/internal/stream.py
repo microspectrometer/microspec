@@ -176,8 +176,8 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
     if serial_number:
       ports = list(list_ports.grep(serial_number))
       if ports:
-        self.serial.port = ports[0]
-        log.info("search for serial_number=%s found port=%s", serial_number, port)
+        self.serial.port = ports[0].device
+        log.info("search for serial_number=%s found port=%s", serial_number, self.serial.port)
     elif device:
       self.serial.port = device
       log.info("using device=%s", device)
