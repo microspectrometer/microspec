@@ -173,7 +173,7 @@ CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetExposure"] = """Set the exposure va
 
 Parameters
 ----------
-cycles: 1-32767
+cycles: 1-65535
   Number of cycles to wait to collect pixel strength.
 
 Returns
@@ -351,7 +351,7 @@ command.
 Parameters
 ----------
 {status}
-cycles: 1-32767
+cycles: 1-65535
   Number of cycles to wait to collect pixel strength.
 
 """
