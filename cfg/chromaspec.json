@@ -27,10 +27,10 @@
       ,"-2": { "name": "Verify",          "variables": [ "command_id"                                  ], "sizes": [1] }
       ,"7":  { "name": "GetSensorConfig", "variables": [ "command_id"                                  ], "sizes": [1] }
       ,"8":  { "name": "SetSensorConfig", "variables": [ "command_id", "binning", "gain", "row_bitmap" ], "sizes": [1,1,1,1] }
-      ,"-3": { "name": "AutoExposure",    "variables": [ "command_id"                                  ], "sizes": [1] }
       ,"9":  { "name": "GetExposure",     "variables": [ "command_id"                                  ], "sizes": [1] }
       ,"10": { "name": "SetExposure",     "variables": [ "command_id", "cycles"                        ], "sizes": [1,2] }
       ,"11": { "name": "CaptureFrame",    "variables": [ "command_id"                                  ], "sizes": [1] }
+      ,"12": { "name": "AutoExposure",    "variables": [ "command_id"                                  ], "sizes": [1] }
     },
     "bridge":
     {
@@ -43,10 +43,10 @@
       ,"-2": { "name": "Verify",          "variables": [ "status"                ], "sizes": [1] }
       ,"7":  { "name": "GetSensorConfig", "variables": [ "status"                ], "sizes": [1] }
       ,"8":  { "name": "SetSensorConfig", "variables": [ "status"                ], "sizes": [1] }
-      ,"-3": { "name": "AutoExposure",    "variables": [ "status"                ], "sizes": [1] }
       ,"9":  { "name": "GetExposure",     "variables": [ "status"                ], "sizes": [1] }
       ,"10": { "name": "SetExposure",     "variables": [ "status"                ], "sizes": [1] }
       ,"11": { "name": "CaptureFrame",    "variables": [ "status"                ], "sizes": [1] }
+      ,"12": { "name": "AutoExposure",    "variables": [ "status"                ], "sizes": [1] }
     },
     "sensor":
     {
@@ -54,11 +54,11 @@
       ,"4":  { "name": "SetSensorLED",    "variables": [ "status"                                  ], "sizes": [1] }
       ,"7":  { "name": "GetSensorConfig", "variables": [ "status", "binning", "gain", "row_bitmap" ], "sizes": [1,1,1,1] }
       ,"8":  { "name": "SetSensorConfig", "variables": [ "status"                                  ], "sizes": [1] }
-      ,"-3": { "name": "AutoExposure",    "variables": [ "status"                                  ], "sizes": [1] }
       ,"9":  { "name": "GetExposure",     "variables": [ "status", "cycles"                        ], "sizes": [1,2] }
       ,"10": { "name": "SetExposure",     "variables": [ "status"                                  ], "sizes": [1] }
       ,"11": { "name": "CaptureFrame",    "variables": [ "status", "num_pixels", "pixels"          ], "sizes": [1,2,2],
                                           "repeat":    { "pixels": "num_pixels"                    } }
+      ,"12": { "name": "AutoExposure",    "variables": [ "status"                                  ], "sizes": [1] }
     }
   }
 }
