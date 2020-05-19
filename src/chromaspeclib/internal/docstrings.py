@@ -160,6 +160,73 @@ Returns
 :class:`~{dt}.sensor.SensorAutoExposure`
 
 """
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetAutoExposeConfig"] = """Retrieves the current auto-expose configuration.
+
+Returns
+-------
+:class:`~{dt}.bridge.BridgeGetAutoExposeConfig`
+:class:`~{dt}.sensor.SensorGetAutoExposeConfig`
+
+"""
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetAutoExposeConfig"] = """Sets the current auto-expose configuration.
+
+Parameters
+----------
+max_tries: 1-255
+  Maximum number of exposures to try before giving up.
+
+  Firmware defaults to 10 on power-up.
+
+start_pixel: 7-392 if binning on, 14-784 if binning off
+  Auto-expose ignores pixels below start_pixel when checking if
+  the peak is in the target range.
+
+  Firmware defaults to 7 on power-up.
+  Recommended value is the smallest pixel number in the
+  pixel-to-wavelength map.
+
+  If start_pixel is outside the allowed range, status is ERROR
+  and the AutoExposeConfig is not changed.
+
+stop_pixel: 7-392 if binning on, 14-784 if binning off, must be >= start_pixel
+  Auto-expose ignores pixels above stop_pixel when checking if
+  the peak is in the target range.
+
+  Firmware defaults to 392 on power-up.
+  Recommended value is the largest pixel number in the
+  pixel-to-wavelength map.
+
+  If stop_pixel < start_pixel, or if stop_pixel is outside the
+  allowed range, status is ERROR and the AutoExposeConfig is not
+  changed.
+
+target: 4500-65535
+  Target peak-counts for exposure gain calculation.
+
+  Firmware defaults to 46420 counts on power-up.
+
+  If target is outside the allowed range, status is ERROR and the
+  AutoExposeConfig is not changed.
+
+target_tolerance: 0-65535
+  target +/- target_tolerance is the target peak-counts range.
+  Auto-expose is finished when the peak counts lands in this
+  range.
+
+  Firmware defaults to 3277 counts on power-up.
+
+  If the combination of target and target_tolerance results in
+  target ranges extending below 4500 counts or above 65535
+  counts, auto-expose ignores the target_tolerance and clamps the
+  target range at these boundaries.
+
+Returns
+-------
+:class:`~{dt}.bridge.BridgeSetAutoExposeConfig`
+:class:`~{dt}.sensor.SensorSetAutoExposeConfig`
+
+"""
+
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetExposure"] = """Retrieve the current exposure setting, which may have been set
 either by :class:`~{dt}.command.CommandSetExposure` or :class:`~{dt}.command.CommandAutoExposure`.
 
