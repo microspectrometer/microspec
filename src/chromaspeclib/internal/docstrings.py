@@ -177,6 +177,9 @@ max_tries: 1-255
 
   Firmware defaults to 10 on power-up.
 
+  If max_tries is 0, status is ERROR and the AutoExposeConfig is
+  not changed.
+
 start_pixel: 7-392 if binning on, 14-784 if binning off
   Auto-expose ignores pixels below start_pixel when checking if
   the peak is in the target range.
