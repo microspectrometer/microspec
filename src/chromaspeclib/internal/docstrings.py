@@ -151,8 +151,11 @@ Returns
 :class:`~{dt}.sensor.SensorSetSensorConfig`
 
 """
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandAutoExposure"] = """Tells the sensor to auto-configure. Does not return configuration,
-That must be requested separately with a :class:`~{dt}.command.CommandGetExposure` call.
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandAutoExposure"] = """
+Tells the sensor to auto-expose.
+
+Does not return the final exposure time. That must be requested
+separately with a :class:`~{dt}.command.CommandGetExposure` call.
 
 Returns
 -------
@@ -371,7 +374,7 @@ command.
 Parameters
 ----------
 {status}
-led_num: 0
+led_num: 0 or 1
   Which LED the status applies to
 {led_status}
 
@@ -391,12 +394,20 @@ Parameters
 ----------
 {status}
 binning: 0-1
-  Whether or not to bin related pixel values
+  Whether or not to bin adjacent pixels.
+  0: binning off, LIS-770i has 784 7.8µm-pitch pixels, 770 optically active
+  1: binning on, LIS-770i has 392 15.6µm-pitch pixels, 385 optically active
 gain: 0-255
-  Gain
+  Analog pixel voltage gain. Allowed values:
+  0x01: 1x gain
+  0x25: 2.5x gain (37 in decimal)
+  0x04: 4x gain
+  0x05: 5x gain
 row_bitmap:
-  Which rows to permit sensing on. There are 5, and can all be activated with a binary bitmap of 5 1's, i.e. 011111 or 0x1F.
-  Any combination is permitted except 0x0
+  Which rows to permit sensing on. There are 5, and can all be
+  activated with a binary bitmap of 5 1's, i.e. 011111 or 0x1F.
+  The three most significant bits must be 0. Otherwise, any
+  combination is permitted except 0x00.
 
 """
 CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorSetSensorConfig"] = """Contains the result of a :class:`~{dt}.command.CommandSetSensorConfig`
@@ -414,6 +425,25 @@ Parameters
 ----------
 {status}
 
+success: 0 or 1
+
+  1: success
+    Auto-expose settled on an exposure time that put the sensor
+    peak value within the target range.
+
+  0: failure
+    Auto-expose gave up on finding an exposure time, either
+    because it reached the maximum number of tries or the
+    exposure time is already at the maximum allowed value.
+
+iterations: 1-255
+
+  Number of exposures tried by auto-expose.
+
+  `iterations` never exceeds AutoExposeConfig parameter
+  `max_tries`, as this sets the maximum number of iterations to
+  try.
+
 """
 CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorGetExposure"] = """Contains the result of a :class:`~{dt}.command.CommandGetExposure`
 command.
@@ -422,7 +452,7 @@ Parameters
 ----------
 {status}
 cycles: 1-65535
-  Number of cycles to wait to collect pixel strength.
+  Number of cycles to expose pixels. Each cycle is 20µs.
 
 """
 CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorSetExposure"] = """Contains the result of a :class:`~{dt}.command.CommandSetExposure`
@@ -439,9 +469,11 @@ command.
 Parameters
 ----------
 {status}
-num_pixels: 0-32767
+num_pixels: 0-784
   The number of pixels to expect in the pixels parameter.
-pixels: Array of values, each from 0-32767
+  Using the recommended (default) configuration, num_pixels is
+  392.
+pixels: Array of values, each from 0-65535
   The pixel values for one capture frame.
 
 """
