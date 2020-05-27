@@ -177,6 +177,7 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
       ports = list(list_ports.grep(serial_number))
       if ports:
         self.serial.port = ports[0].device
+        self.serial.serial_number = ports[0].serial_number
         log.info("search for serial_number=%s found port=%s", serial_number, self.serial.port)
     elif device:
       self.serial.port = device
@@ -185,7 +186,11 @@ class ChromaSpecSerialIOStream(ChromaSpecStream):
       ports = list(list_ports.grep("CHROMATION"))
       if ports:
         self.serial.port = ports[0].device
-        log.info("defaulting to searching for CHROMATION hardware, found port=%s", self.serial.port)
+        self.serial.serial_number = ports[0].serial_number
+        log.info("defaulting to searching for CHROMATION hardware, "
+                "found port=%s, serial_number=",
+                self.serial.port, self.serial.serial_number
+                )
       if not self.serial.port:
         for port in list_ports.comports(True):
           if port.vid == 1027 and port.pid == 24597:
