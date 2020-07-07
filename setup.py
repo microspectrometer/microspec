@@ -161,6 +161,7 @@ setup(
     # projects.
     extras_require={
         'test': ['pytest'],
+        'gui':  ['pygame'],
     },
 
     # If there are data files included in your packages that need to be
