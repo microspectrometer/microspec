@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>bin/microspec_emulator.py &#8212; chromaspeclib  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="bin/microspec_expert_example.py" href="bin.microspec_expert_example.html" />
+    <link rel="prev" title="bin/microspec_cmdline.py" href="bin.microspec_cmdline.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-bin.microspec_emulator">
+<span id="bin-microspec-emulator-py"></span><h1>bin/microspec_emulator.py<a class="headerlink" href="#module-bin.microspec_emulator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You probably never need to run this, unless you really need to turn on debugging trace on the
+emulator in order to see what you’re sending to it. Usually, specifying emulator=True is enough
+to use the emulator, in the simple and expert API.</p>
+<p>Also, this will only work on Mac OSX and Linux systems, not on Windows.</p>
+</div>
+<div class="section" id="longwinded-example">
+<h3>Longwinded example<a class="headerlink" href="#longwinded-example" title="Permalink to this headline">¶</a></h3>
+<p>dir=`mktemp -d`</p>
+<p>socat PTY,raw,echo=0,link=$dir/microspec.software PTY,raw,echo=0,link=$dir/microspec.hardware &amp;</p>
+<p>microspec_emulator.py -f $dir/microspec.hardware</p>
+<p># Then connect interface to $dir/microspec.software file</p>
+<p># And stop the socat background command, and clean up the $dir and it’s contents</p>
+</div>
+<div class="section" id="short-example">
+<h3>Short example<a class="headerlink" href="#short-example" title="Permalink to this headline">¶</a></h3>
+<p>microspec_emulator.py -s -p</p>
+<p># Then connect interface to filename that the script prints to stdout</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="command-line-arguments">
+<h3>Command-line arguments<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="optional-arguments">
+<h4>Optional arguments<a class="headerlink" href="#optional-arguments" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Argument</strong></p></td>
+<td><p><strong>Description</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-h</span></code>, <code class="docutils literal notranslate"><span class="pre">--help</span></code></p></td>
+<td><p>show this help message and exit</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-v</span></code>, <code class="docutils literal notranslate"><span class="pre">--verbose</span></code></p></td>
+<td><p>Print verbose trace</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-d</span></code>, <code class="docutils literal notranslate"><span class="pre">--debug</span></code></p></td>
+<td><p>Internal debugging</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-p</span></code>, <code class="docutils literal notranslate"><span class="pre">--print</span></code></p></td>
+<td><p>Print socket to connect to</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-t</span>&#160; <span class="pre">TIMEOUT</span></code>, <code class="docutils literal notranslate"><span class="pre">--timeout</span>&#160; <span class="pre">TIMEOUT</span></code></p></td>
+<td><p>Timeout in (partial float) seconds</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-s</span></code>, <code class="docutils literal notranslate"><span class="pre">--spawn</span></code></p></td>
+<td><p>Spawn socat instance?</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-f</span>&#160; <span class="pre">FILE</span></code>, <code class="docutils literal notranslate"><span class="pre">--file</span>&#160; <span class="pre">FILE</span></code></p></td>
+<td><p>File to use as a pipe - default create anew and print location</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="script-contents">
+<h3>Script contents<a class="headerlink" href="#script-contents" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="bin.microspec_emulator.main">
+<code class="sig-prename descclassname">bin.microspec_emulator.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bin.microspec_emulator.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">chromaspeclib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">MicroSpecLib README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">microspeclib</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="microspeclib.html">microspeclib package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="bin.html">bin package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="bin.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">microspeclib</a><ul>
+  <li><a href="bin.html">bin package</a><ul>
+      <li>Previous: <a href="bin.microspec_cmdline.html" title="previous chapter">bin/microspec_cmdline.py</a></li>
+      <li>Next: <a href="bin.microspec_expert_example.html" title="next chapter">bin/microspec_expert_example.py</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Chromation Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/bin.microspec_emulator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

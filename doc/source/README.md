@@ -1,4 +1,4 @@
-# ChromaSpecLib README
+# MicroSpecLib README
 
 This library provides a number of interfaces for Chromation Spectrometer hardware, both in Python code, executables, servers, and emulators.
 
@@ -23,35 +23,35 @@ NOTE: The prerequisite for the emulator is to be running on Linux or MacOSX and 
 
 ### Installing
 
-First, download chromaspeclib in the appropriate python location, and make sure that the src/ directory is in your PYTHONPATH and the bin/ directory is in your PATH. 
+First, download microspeclib in the appropriate python location, and make sure that the src/ directory is in your PYTHONPATH and the bin/ directory is in your PATH. 
 
 *NOTE: Include github download instructions.*
 
 *NOTE: Pip install instructions will be in a future release.*
 
-If you do not update your paths, you may need to specify them every time you use tools that utilize chromaspeclib, including the chromaspeclib executables themselves, for example:
+If you do not update your paths, you may need to specify them every time you use tools that utilize microspeclib, including the microspeclib executables themselves, for example:
 
 ```
-cd chromaspeclib_install_dir
+cd microspeclib_install_dir
 PATH=$PATH:bin PYTHONPATH=$PYTHONPATH:src python /my/script/dir/tool.py
-PATH=$PATH:bin PYTHONPATH=$PYTHONPATH:src chromaspec_cmdline.py captureframe -e --csv
+PATH=$PATH:bin PYTHONPATH=$PYTHONPATH:src microspec_cmdline.py captureframe -e --csv
 ```
 
 ### File Locations
 
 The breakdown of the installed files is thus:
 
-* `chromaspeclib_install_dir`
+* `microspeclib_install_dir`
   * `doc` - Documentation
   * `cfg`
-    * `chromaspeclib.json` - Hardware Protocol
+    * `microspeclib.json` - Hardware Protocol
   * `bin`
-    * `chromaspec_cmdline.py` - Command-line utility
-    * `chromaspec_emulator.py` - Emulation server
-    * `chromaspec_expert_example.py` - Example file for Expert interface
-    * `chromaspec_simple_example.py` - Example file for Simple interface
+    * `microspec_cmdline.py` - Command-line utility
+    * `microspec_emulator.py` - Emulation server
+    * `microspec_expert_example.py` - Example file for Expert interface
+    * `microspec_simple_example.py` - Example file for Simple interface
   * `src`
-    * `chromaspeclib`
+    * `microspeclib`
       * `cmdline.py` - Used by cmdline tool
       * `exceptions.py` - List of custom exceptions
       * `expert.py` - Import to use Expert interface
@@ -76,7 +76,7 @@ NOTE: If you dig into the code to look for lists of functions, you will not find
 Testing is done via `pytest`. Simply run it from the install directory:
 
 ```
-cd chromaspeclib_install_dir
+cd microspeclib_install_dir
 pytest
 ```
 
@@ -86,20 +86,20 @@ NOTE: It is not necessary to run the tests, but it will show if everything is in
 
 As long as the paths are set up properly, `pydoc` will find and display information about the library for you.
 
-`pydoc chromaspeclib`
+`pydoc microspeclib`
 
 ### HTML Documentation
 
 Sphinx is used to create full API information. Simply point your browser of choice at the url:
 
-`chromaspec_install_dir/doc/build/html/index.html`
+`microspec_install_dir/doc/build/html/index.html`
 
 ### Rebuilding Documentation
 
 You should not have to rebuild the documentation unless you made changes to the code or are forking the project. But if this is the case, you can update the Sphinx documentation in this way:
 
 ```
-cd chromaspec_install_dir/doc
+cd microspec_install_dir/doc
 make clean html
 ```
 
@@ -109,10 +109,10 @@ Depending on the path setup, something akin to the following might be necessary.
 PATH=$PATH:../bin PYTHONPATH=../src:../:../tests make clean html
 ```
 
-If you are truly restarting from scratch, you can recreate all the autodoc documentation files by doing the following, however, *this will wipe out a number of customizations* that were made after using this command to create the initial versions of the files. Note that you will also need to `make clean html` afterwards as well. This also only grabs code from chromaspeclib, not also the tests, cfg, or bin directories.
+If you are truly restarting from scratch, you can recreate all the autodoc documentation files by doing the following, however, *this will wipe out a number of customizations* that were made after using this command to create the initial versions of the files. Note that you will also need to `make clean html` afterwards as well. This also only grabs code from microspeclib, not also the tests, cfg, or bin directories.
 
 ```
-sphinx-apidoc -o source/ ../src/chromaspeclib -f -e -M
+sphinx-apidoc -o source/ ../src/microspeclib -f -e -M
 ```
 
 ## Code API
@@ -121,14 +121,14 @@ The Python code APIs are broken down into Simple and Expert. Both are viable, bu
 
 ### Simple API
 
-Import the ChromaSpecSimpleInterface, and use its methods to send a command and return a reply, if any. There is one method for each command, all of them camelCaseFormatted with initial lowercase, and taking arguments as necessary. They all return the received reply object, if any, or None if there's an error or a timeout. The reply objects all have member variables for each data field. At no point do you have to pack or unpack any objects or binary.
+Import the MicroSpecSimpleInterface, and use its methods to send a command and return a reply, if any. There is one method for each command, all of them camelCaseFormatted with initial lowercase, and taking arguments as necessary. They all return the received reply object, if any, or None if there's an error or a timeout. The reply objects all have member variables for each data field. At no point do you have to pack or unpack any objects or binary.
 
 The following will connect to USB hardware if it's available, do one CaptureFrame command with whatever settings are on the hardware at the time, and print the status, number of pixels, and the value of the 3rd pixel.
 
 ```
-from chromaspeclib.simple    import ChromaSpecSimpleInterface
-from chromaspeclib.datatypes import *
-si = ChromaSpecSimpleInterface(timeout=0.1)
+from microspeclib.simple    import MicroSpecSimpleInterface
+from microspeclib.datatypes import *
+si = MicroSpecSimpleInterface(timeout=0.1)
 reply = si.captureFrame()
 print(reply.status)
 print(reply.num_pixels)
@@ -137,9 +137,9 @@ print(reply.pixels[2])
 
 By adding optional arguments to the original interface call, you can also point the API at a specific COM port, a specific /dev/ file, or the emulator.
 
-For an executable example, see `bin/chromaspec_simple_example.py`.
+For an executable example, see `bin/microspec_simple_example.py`.
 
-For greater detail, see `pydoc chromaspeclib.simple`
+For greater detail, see `pydoc microspeclib.simple`
 
 NOTE: If the timeout runs out in the Simple interface, the data is lost, there is no recovering it.
 
@@ -150,9 +150,9 @@ The Expert interface requires putting together a Command object first, and sendi
 The following will connect to USB hardware if it's available, do one CaptureFrame command with whatever settings are on the hardware at the time, and print the status, number of pixels, and the value of the 3rd pixel.
 
 ```
-from chromaspeclib.expert    import ChromaSpecExpertInterface
-from chromaspeclib.datatypes import *
-xi = ChromaSpecExpertInterface(timeout=0.1)
+from microspeclib.expert    import MicroSpecExpertInterface
+from microspeclib.datatypes import *
+xi = MicroSpecExpertInterface(timeout=0.1)
 command = CommandCaptureFrame()
 xi.sendCommand(command)
 reply = xi.receiveReply()
@@ -164,24 +164,24 @@ print(reply.num_pixels)
 print(reply.pixels[2])
 ```
 
-For an executable example, see `bin/chromaspec_expert_example.py`.
+For an executable example, see `bin/microspec_expert_example.py`.
 
-For greater detail, see `pydoc chromaspeclib.expert`
+For greater detail, see `pydoc microspeclib.expert`
 
 NOTE: If the timeout runs out in the Expert interface, the next receiveReply() will receive it, in an expected FIFO order.
 
 ## Command Line API
 
-The `chromaspec_cmdline.py` executable will run a single command and print the reply to stdout, optionally in CSV format. The default is to look for hardware, but -f FILE can be used to point it to either a device file or the name of a port, as in "COM3", if necessary. The command itself is case-insensitive, and after the command are key=value pairs of options for the command, if necessary, such as `led_num=0` or `cycles=100`. 
+The `microspec_cmdline.py` executable will run a single command and print the reply to stdout, optionally in CSV format. The default is to look for hardware, but -f FILE can be used to point it to either a device file or the name of a port, as in "COM3", if necessary. The command itself is case-insensitive, and after the command are key=value pairs of options for the command, if necessary, such as `led_num=0` or `cycles=100`. 
 
 The -t timeout is how long it will wait for the command each time, and if it fails it will print None and move on. If a -r repeat is specificied, it will run the command that many times. And if it is repeating, a -w wait will wait that long inbetween commands. All times are in fractional seconds.
 
 For example, to set the exposure and cycles and then get 3 capture frames spaced 1.5 seconds apart, with a timeout of 0.2 seconds on each, and print it in CSV format:
 
 ```
-chromaspec_cmdline.py setsensorconfig binning=true gain=gain1x row_bitmap=0x1f
-chromaspec_cmdline.py setexposure cycles=100
-chromaspec_cmdline.py captureframe -t 0.2 -r 3 -w 1.5 --csv
+microspec_cmdline.py setsensorconfig binning=true gain=gain1x row_bitmap=0x1f
+microspec_cmdline.py setexposure cycles=100
+microspec_cmdline.py captureframe -t 0.2 -r 3 -w 1.5 --csv
 ```
 
 Note that if you have no hardware connected, you can (on Linux and MacOSX) add a "-e" flag to use the emulator. It won't return very interesting capture frame data, but it will give an opportunity to test the interface.
@@ -194,7 +194,7 @@ For now, this is only supported on Linux and MacOSX, and requires the `socat` ex
 
 However, sometimes it's helpful to run the emulator so you can see what your code is actually sending through the line. You can bring up a copy of the emulator with:
 
-`chromaspec_emulator.py -s`
+`microspec_emulator.py -s`
 
 which will print a line of text similar to `/var/folders/bq/91866d5j6zb06c04td5871kc0000gq/T/tmpmd7e9ab_/chromation.software` on stdout. You can then use "-f TEXT" with the cmdline utility, or device="TEXT" in the Simple or Expert interface, in order to connect to that emulator instance. If you add "-v" or "-d" to the emulator instance, you can get verbose or debug-level trace for what it's receiving (-d is heavier trace).
 
@@ -202,10 +202,10 @@ Or you can run the `socat` instance yourself, creating the two ends of the fake 
 
 ```
 socat -D PTY,raw,echo=0,link=./chromation.hardware PTY,raw,echo=0,link=./chromation.software
-chromaspec_emulator.py -v -f chromaspec_emulator.py
+microspec_emulator.py -v -f microspec_emulator.py
 ```
 
-...at which point you would have to connect to `chromaspec_emulator.py`.
+...at which point you would have to connect to `microspec_emulator.py`.
 
 ## FAQ
 

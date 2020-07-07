@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>microspeclib.expert module &#8212; chromaspeclib  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="microspeclib.logger module" href="microspeclib.logger.html" />
+    <link rel="prev" title="microspeclib.exceptions module" href="microspeclib.exceptions.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-microspeclib.expert">
+<span id="microspeclib-expert-module"></span><h1>microspeclib.expert module<a class="headerlink" href="#module-microspeclib.expert" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="microspeclib.expert.MicroSpecExpertInterface">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.expert.</code><code class="sig-name descname">MicroSpecExpertInterface</code><span class="sig-paren">(</span><em class="sig-param">serial_number=None</em>, <em class="sig-param">device=None</em>, <em class="sig-param">timeout=0.01</em>, <em class="sig-param">retry_timeout=0.001</em>, <em class="sig-param">emulation=False</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.expert.MicroSpecExpertInterface" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="microspeclib.expert.MicroSpecExpertInterface.flush">
+<code class="sig-name descname">flush</code><span class="sig-paren">(</span><em class="sig-param">timeout=0.1</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.expert.MicroSpecExpertInterface.flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell hardware to finish sending any remaining commands and flush it’s communication line,
+then flush the local queue and throw away all waiting replies. This does not send a Reset command.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="microspeclib.expert.MicroSpecExpertInterface.receiveReply">
+<code class="sig-name descname">receiveReply</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.expert.MicroSpecExpertInterface.receiveReply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive one command result command sent. If multiple were sent, receive the next one in FIFO order,
+if available. A failure to retrieve it does not remove it from the queue, but a reply that contains
+a failed status does.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#module-microspeclib.datatypes.bridge" title="microspeclib.datatypes.bridge"><code class="xref py py-mod docutils literal notranslate"><span class="pre">BridgeReplyObject</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#module-microspeclib.datatypes.sensor" title="microspeclib.datatypes.sensor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">SensorReplyObject</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="microspeclib.expert.MicroSpecExpertInterface.sendAndReceive">
+<code class="sig-name descname">sendAndReceive</code><span class="sig-paren">(</span><em class="sig-param">command</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.expert.MicroSpecExpertInterface.sendAndReceive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send one command to the sensor, and receive one command result command sent.
+If multiple were sent, receive the next one in FIFO order, if available.
+This does NOT mean that the reply will match the command, if you already sent a command
+that you had not received yet. A failure to retrieve it does not remove it from
+the queue, but a reply that contains a failed status does.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>command</strong> (<a class="reference internal" href="microspeclib.datatypes.command.html#module-microspeclib.datatypes.command" title="microspeclib.datatypes.command"><code class="xref py py-mod docutils literal notranslate"><span class="pre">CommandObject</span></code></a>) – Create one of these objects and pass it as an argument</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#module-microspeclib.datatypes.bridge" title="microspeclib.datatypes.bridge"><code class="xref py py-mod docutils literal notranslate"><span class="pre">BridgeReplyObject</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#module-microspeclib.datatypes.sensor" title="microspeclib.datatypes.sensor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">SensorReplyObject</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="microspeclib.expert.MicroSpecExpertInterface.sendCommand">
+<code class="sig-name descname">sendCommand</code><span class="sig-paren">(</span><em class="sig-param">command</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.expert.MicroSpecExpertInterface.sendCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send one command to the sensor, do not wait for a response. You may stack these, and they
+will return in FIFO order later.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>command</strong> (<a class="reference internal" href="microspeclib.datatypes.command.html#module-microspeclib.datatypes.command" title="microspeclib.datatypes.command"><code class="xref py py-mod docutils literal notranslate"><span class="pre">CommandObject</span></code></a>) – Create one of these objects and pass it as an argument</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">chromaspeclib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">MicroSpecLib README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">microspeclib</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="microspeclib.html">microspeclib package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">microspeclib</a><ul>
+  <li><a href="microspeclib.html">microspeclib package</a><ul>
+      <li>Previous: <a href="microspeclib.exceptions.html" title="previous chapter">microspeclib.exceptions module</a></li>
+      <li>Next: <a href="microspeclib.logger.html" title="next chapter">microspeclib.logger module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Chromation Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/microspeclib.expert.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

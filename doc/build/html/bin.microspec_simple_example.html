@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>bin/microspec_simple_example.py &#8212; chromaspeclib  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cfg package" href="cfg.html" />
+    <link rel="prev" title="bin/microspec_expert_example.py" href="bin.microspec_expert_example.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="bin-microspec-simple-example-py">
+<h1>bin/microspec_simple_example.py<a class="headerlink" href="#bin-microspec-simple-example-py" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="c1"># Copyright 2020 by Chromation, Inc</span>
+<span class="c1"># All Rights Reserved by Chromation, Inc</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+  <span class="kn">from</span> <span class="nn">microspeclib.simple</span>    <span class="kn">import</span> <span class="n">MicroSpecSimpleInterface</span>
+  <span class="kn">from</span> <span class="nn">microspeclib.datatypes</span> <span class="kn">import</span> <span class="o">*</span>
+  
+  <span class="n">si</span> <span class="o">=</span> <span class="n">MicroSpecSimpleInterface</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+  <span class="c1">#si = MicroSpecSimpleInterface(timeout=0.1, device=&quot;COM3&quot;)</span>
+  <span class="c1">#si = MicroSpecSimpleInterface(timeout=0.1, device=&quot;/dev/cu.usbserial-CHROMATION09310&quot;)</span>
+  <span class="c1">#si = MicroSpecSimpleInterface(timeout=0.1, emulation=True)</span>
+  
+  <span class="nb">print</span><span class="p">(</span><span class="n">si</span><span class="o">.</span><span class="n">setBridgeLED</span><span class="p">(</span><span class="n">led_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">led_setting</span><span class="o">=</span><span class="n">LEDOff</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">si</span><span class="o">.</span><span class="n">setSensorLED</span><span class="p">(</span><span class="n">led_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">led_setting</span><span class="o">=</span><span class="n">LEDGreen</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">si</span><span class="o">.</span><span class="n">setSensorLED</span><span class="p">(</span><span class="n">led_num</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">led_setting</span><span class="o">=</span><span class="n">LEDRed</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">si</span><span class="o">.</span><span class="n">getBridgeLED</span><span class="p">(</span><span class="n">led_num</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">si</span><span class="o">.</span><span class="n">getSensorLED</span><span class="p">(</span><span class="n">led_num</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+  <span class="n">reply</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">getSensorLED</span><span class="p">(</span><span class="n">led_num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">led_setting</span><span class="p">)</span>
+  
+  <span class="nb">print</span><span class="p">(</span><span class="n">si</span><span class="o">.</span><span class="n">setSensorConfig</span><span class="p">(</span><span class="n">binning</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="n">Gain1x</span><span class="p">,</span> <span class="n">row_bitmap</span><span class="o">=</span><span class="mh">0x1F</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">si</span><span class="o">.</span><span class="n">setExposure</span><span class="p">(</span><span class="n">cycles</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
+  
+  <span class="kn">import</span> <span class="nn">time</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">reply</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">captureFrame</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">num_pixels</span><span class="p">)</span>
+    <span class="n">pixels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">pixel</span><span class="p">)</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">reply</span><span class="o">.</span><span class="n">pixels</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;first 3 pixels: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pixels</span><span class="p">[:</span><span class="mi">3</span><span class="p">])))</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+  
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">chromaspeclib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">MicroSpecLib README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">microspeclib</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="microspeclib.html">microspeclib package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="bin.html">bin package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="bin.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">microspeclib</a><ul>
+  <li><a href="bin.html">bin package</a><ul>
+      <li>Previous: <a href="bin.microspec_expert_example.html" title="previous chapter">bin/microspec_expert_example.py</a></li>
+      <li>Next: <a href="cfg.html" title="next chapter">cfg package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Chromation Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/bin.microspec_simple_example.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>microspeclib.datatypes.command module &#8212; chromaspeclib  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="microspeclib.datatypes.sensor module" href="microspeclib.datatypes.sensor.html" />
+    <link rel="prev" title="microspeclib.datatypes.bridge module" href="microspeclib.datatypes.bridge.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-microspeclib.datatypes.command">
+<span id="microspeclib-datatypes-command-module"></span><h1>microspeclib.datatypes.command module<a class="headerlink" href="#module-microspeclib.datatypes.command" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandNull">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandNull</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandNull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Null loopback request. The hardware will not reply,
+but the API will still return a null reply object. This is primarily used to flush the line
+in case of desynchronization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeNull" title="microspeclib.datatypes.bridge.BridgeNull"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeNull</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandGetBridgeLED">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandGetBridgeLED</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">led_num=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandGetBridgeLED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the current state of an LED on
+the Bridge board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>led_num</strong> (<em>0</em>) – The index of the LED on the Bridge</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeGetBridgeLED" title="microspeclib.datatypes.bridge.BridgeGetBridgeLED"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeGetBridgeLED</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandSetBridgeLED">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandSetBridgeLED</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">led_num=None</em>, <em class="sig-param">led_setting=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandSetBridgeLED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the current state of an LED on the Bridge board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>led_num</strong> (<em>0</em>) – The index of the LED on the Bridge</p></li>
+<li><p><strong>led_status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.LEDOff" title="microspeclib.datatypes.types.LEDOff"><code class="xref py py-data docutils literal notranslate"><span class="pre">LEDOff</span></code></a>, <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.LEDGreen" title="microspeclib.datatypes.types.LEDGreen"><code class="xref py py-data docutils literal notranslate"><span class="pre">LEDGreen</span></code></a>, or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.LEDRed" title="microspeclib.datatypes.types.LEDRed"><code class="xref py py-data docutils literal notranslate"><span class="pre">LEDRed</span></code></a>  The color state of the LED) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeSetBridgeLED" title="microspeclib.datatypes.bridge.BridgeSetBridgeLED"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeSetBridgeLED</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandGetSensorLED">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandGetSensorLED</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">led_num=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandGetSensorLED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the current state of an LED on
+the Sensor board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>led_num</strong> (<em>0-2</em>) – The index of the LED on the Sensor</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeGetSensorLED" title="microspeclib.datatypes.bridge.BridgeGetSensorLED"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeGetSensorLED</span></code></a></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorGetSensorLED</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandSetSensorLED">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandSetSensorLED</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">led_num=None</em>, <em class="sig-param">led_setting=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandSetSensorLED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the current state of an LED on the Bridge board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>led_num</strong> (<em>0-2</em>) – The index of the LED on the Sensor</p></li>
+<li><p><strong>led_status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.LEDOff" title="microspeclib.datatypes.types.LEDOff"><code class="xref py py-data docutils literal notranslate"><span class="pre">LEDOff</span></code></a>, <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.LEDGreen" title="microspeclib.datatypes.types.LEDGreen"><code class="xref py py-data docutils literal notranslate"><span class="pre">LEDGreen</span></code></a>, or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.LEDRed" title="microspeclib.datatypes.types.LEDRed"><code class="xref py py-data docutils literal notranslate"><span class="pre">LEDRed</span></code></a>  The color state of the LED) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeSetSensorLED" title="microspeclib.datatypes.bridge.BridgeSetSensorLED"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeSetSensorLED</span></code></a></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorSetSensorLED</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandReset">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandReset</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandReset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the hardware and replies when the reset is complete.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeReset" title="microspeclib.datatypes.bridge.BridgeReset"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeReset</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandVerify">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandVerify</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandVerify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies running status of the hardware.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeVerify" title="microspeclib.datatypes.bridge.BridgeVerify"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeVerify</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandGetSensorConfig">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandGetSensorConfig</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandGetSensorConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the current sensor configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeGetSensorConfig" title="microspeclib.datatypes.bridge.BridgeGetSensorConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeGetSensorConfig</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#microspeclib.datatypes.sensor.SensorGetSensorConfig" title="microspeclib.datatypes.sensor.SensorGetSensorConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorGetSensorConfig</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandSetSensorConfig">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandSetSensorConfig</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">binning=None</em>, <em class="sig-param">gain=None</em>, <em class="sig-param">row_bitmap=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandSetSensorConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the current sensor configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>binning</strong> (<em>0-1</em>) – Whether or not to bin related pixel values</p></li>
+<li><p><strong>gain</strong> (<em>0-255</em>) – Gain</p></li>
+<li><p><strong>row_bitmap</strong> – Which rows to permit sensing on. There are 5, and can all be activated with a binary bitmap of 5 1’s, i.e. 011111 or 0x1F.
+Any combination is permitted except 0x0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeSetSensorConfig" title="microspeclib.datatypes.bridge.BridgeSetSensorConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeSetSensorConfig</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#microspeclib.datatypes.sensor.SensorSetSensorConfig" title="microspeclib.datatypes.sensor.SensorSetSensorConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorSetSensorConfig</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandGetExposure">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandGetExposure</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandGetExposure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the current exposure setting, which may have been set
+either by <a class="reference internal" href="#microspeclib.datatypes.command.CommandSetExposure" title="microspeclib.datatypes.command.CommandSetExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandSetExposure</span></code></a> or <a class="reference internal" href="#microspeclib.datatypes.command.CommandAutoExposure" title="microspeclib.datatypes.command.CommandAutoExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandAutoExposure</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeGetExposure" title="microspeclib.datatypes.bridge.BridgeGetExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeGetExposure</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#microspeclib.datatypes.sensor.SensorGetExposure" title="microspeclib.datatypes.sensor.SensorGetExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorGetExposure</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandSetExposure">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandSetExposure</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">cycles=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandSetExposure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the exposure value for the sensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cycles</strong> (<em>1-65535</em>) – Number of cycles to wait to collect pixel strength.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeSetExposure" title="microspeclib.datatypes.bridge.BridgeSetExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeSetExposure</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#microspeclib.datatypes.sensor.SensorSetExposure" title="microspeclib.datatypes.sensor.SensorSetExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorSetExposure</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandCaptureFrame">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandCaptureFrame</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandCaptureFrame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve one set of captured pixels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeCaptureFrame" title="microspeclib.datatypes.bridge.BridgeCaptureFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeCaptureFrame</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#microspeclib.datatypes.sensor.SensorCaptureFrame" title="microspeclib.datatypes.sensor.SensorCaptureFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorCaptureFrame</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandAutoExposure">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandAutoExposure</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandAutoExposure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tells the sensor to auto-expose.</p>
+<p>Does not return the final exposure time. That must be requested
+separately with a <a class="reference internal" href="#microspeclib.datatypes.command.CommandGetExposure" title="microspeclib.datatypes.command.CommandGetExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandGetExposure</span></code></a> call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeAutoExposure" title="microspeclib.datatypes.bridge.BridgeAutoExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeAutoExposure</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#microspeclib.datatypes.sensor.SensorAutoExposure" title="microspeclib.datatypes.sensor.SensorAutoExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorAutoExposure</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandGetAutoExposeConfig">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandGetAutoExposeConfig</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandGetAutoExposeConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the current auto-expose configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeGetAutoExposeConfig" title="microspeclib.datatypes.bridge.BridgeGetAutoExposeConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeGetAutoExposeConfig</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#microspeclib.datatypes.sensor.SensorGetAutoExposeConfig" title="microspeclib.datatypes.sensor.SensorGetAutoExposeConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorGetAutoExposeConfig</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.command.CommandSetAutoExposeConfig">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">CommandSetAutoExposeConfig</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">max_tries=None</em>, <em class="sig-param">start_pixel=None</em>, <em class="sig-param">stop_pixel=None</em>, <em class="sig-param">target=None</em>, <em class="sig-param">target_tolerance=None</em>, <em class="sig-param">max_exposure=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.CommandSetAutoExposeConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the current auto-expose configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_tries</strong> (<em>1-255</em>) – <p>Maximum number of exposures to try before giving up.</p>
+<p>Firmware defaults to 10 on power-up.</p>
+<p>If max_tries is 0, status is ERROR and the AutoExposeConfig is
+not changed.</p>
+</p></li>
+<li><p><strong>start_pixel</strong> (<em>7-392 if binning on</em><em>, </em><em>14-784 if binning off</em>) – <p>Auto-expose ignores pixels below start_pixel when checking if
+the peak is in the target range.</p>
+<p>Firmware defaults to 7 on power-up.
+Recommended value is the smallest pixel number in the
+pixel-to-wavelength map.</p>
+<p>If start_pixel is outside the allowed range, status is ERROR
+and the AutoExposeConfig is not changed.</p>
+</p></li>
+<li><p><strong>stop_pixel</strong> (<em>7-392 if binning on</em><em>, </em><em>14-784 if binning off</em><em>, </em><em>must be &gt;= start_pixel</em>) – <p>Auto-expose ignores pixels above stop_pixel when checking if
+the peak is in the target range.</p>
+<p>Firmware defaults to 392 on power-up.
+Recommended value is the largest pixel number in the
+pixel-to-wavelength map.</p>
+<p>If stop_pixel &lt; start_pixel, or if stop_pixel is outside the
+allowed range, status is ERROR and the AutoExposeConfig is not
+changed.</p>
+</p></li>
+<li><p><strong>target</strong> (<em>4500-65535</em>) – <p>Target peak-counts for exposure gain calculation.</p>
+<p>Firmware defaults to 46420 counts on power-up.</p>
+<p>If target is outside the allowed range, status is ERROR and the
+AutoExposeConfig is not changed.</p>
+</p></li>
+<li><p><strong>target_tolerance</strong> (<em>0-65535</em>) – <p>target +/- target_tolerance is the target peak-counts range.
+Auto-expose is finished when the peak counts lands in this
+range.</p>
+<p>Firmware defaults to 3277 counts on power-up.</p>
+<p>If the combination of target and target_tolerance results in
+target ranges extending below 4500 counts or above 65535
+counts, auto-expose ignores the target_tolerance and clamps the
+target range at these boundaries.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><a class="reference internal" href="microspeclib.datatypes.bridge.html#microspeclib.datatypes.bridge.BridgeSetAutoExposeConfig" title="microspeclib.datatypes.bridge.BridgeSetAutoExposeConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BridgeSetAutoExposeConfig</span></code></a></p></li>
+<li><p><a class="reference internal" href="microspeclib.datatypes.sensor.html#microspeclib.datatypes.sensor.SensorSetAutoExposeConfig" title="microspeclib.datatypes.sensor.SensorSetAutoExposeConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensorSetAutoExposeConfig</span></code></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="microspeclib.datatypes.command.getCommandByID">
+<code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">getCommandByID</code><span class="sig-paren">(</span><em class="sig-param">cid</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.getCommandByID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="microspeclib.datatypes.command.getCommandByName">
+<code class="sig-prename descclassname">microspeclib.datatypes.command.</code><code class="sig-name descname">getCommandByName</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.command.getCommandByName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">chromaspeclib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">MicroSpecLib README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">microspeclib</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="microspeclib.html">microspeclib package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">microspeclib</a><ul>
+  <li><a href="microspeclib.html">microspeclib package</a><ul>
+  <li><a href="microspeclib.datatypes.html">microspeclib.datatypes package</a><ul>
+      <li>Previous: <a href="microspeclib.datatypes.bridge.html" title="previous chapter">microspeclib.datatypes.bridge module</a></li>
+      <li>Next: <a href="microspeclib.datatypes.sensor.html" title="next chapter">microspeclib.datatypes.sensor module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Chromation Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/microspeclib.datatypes.command.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>tests/test.cfg &#8212; chromaspeclib  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="tests.test_util module" href="tests.test_util.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="tests-test-cfg">
+<h1>tests/test.cfg<a class="headerlink" href="#tests-test-cfg" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;globals&quot;</span><span class="p">:</span>
+  <span class="p">{</span>
+     <span class="s2">&quot;hex&quot;</span><span class="p">:</span> <span class="s2">&quot;0xFF&quot;</span>
+    <span class="p">,</span><span class="s2">&quot;int&quot;</span><span class="p">:</span> <span class="mi">256</span>
+    <span class="p">,</span><span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="s2">&quot;foo&quot;</span>
+    <span class="p">,</span><span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="n">false</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;protocol&quot;</span><span class="p">:</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;command&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+       <span class="s2">&quot;0&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>           <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;1&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span>      <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span> <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+                            <span class="s2">&quot;repeat&quot;</span><span class="p">:</span>    <span class="p">{</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;bridge&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+       <span class="s2">&quot;0&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>           <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;1&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span>      <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span> <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+                            <span class="s2">&quot;repeat&quot;</span><span class="p">:</span>    <span class="p">{</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;sensor&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+       <span class="s2">&quot;0&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>           <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;1&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span>      <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span> <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+                            <span class="s2">&quot;repeat&quot;</span><span class="p">:</span>    <span class="p">{</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">chromaspeclib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">MicroSpecLib README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">microspeclib</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="microspeclib.html">microspeclib package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tests.html">tests package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="tests.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">microspeclib</a><ul>
+  <li><a href="tests.html">tests package</a><ul>
+      <li>Previous: <a href="tests.test_util.html" title="previous chapter">tests.test_util module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Chromation Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/tests.test.json.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

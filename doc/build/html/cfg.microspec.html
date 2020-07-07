@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>microspec.cfg &#8212; chromaspeclib  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tests package" href="tests.html" />
+    <link rel="prev" title="cfg package" href="cfg.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="microspec-cfg">
+<h1>microspec.cfg<a class="headerlink" href="#microspec-cfg" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;globals&quot;</span><span class="p">:</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;StatusOK&quot;</span><span class="p">:</span> <span class="s2">&quot;0x00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;StatusError&quot;</span><span class="p">:</span> <span class="s2">&quot;0x01&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LEDOff&quot;</span><span class="p">:</span> <span class="s2">&quot;0x00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LEDGreen&quot;</span><span class="p">:</span> <span class="s2">&quot;0x01&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LEDRed&quot;</span><span class="p">:</span> <span class="s2">&quot;0x02&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BinningDefault&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;Gain1x&quot;</span><span class="p">:</span> <span class="s2">&quot;0x01&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gain2_5x&quot;</span><span class="p">:</span> <span class="s2">&quot;0x25&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gain4x&quot;</span><span class="p">:</span> <span class="s2">&quot;0x04&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gain5x&quot;</span><span class="p">:</span> <span class="s2">&quot;0x05&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GainDefault&quot;</span><span class="p">:</span> <span class="s2">&quot;0x01&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RowsDefault&quot;</span><span class="p">:</span> <span class="s2">&quot;0x1F&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;protocol&quot;</span><span class="p">:</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;command&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+       <span class="s2">&quot;0&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Null&quot;</span><span class="p">,</span>            <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;1&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetBridgeLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;led_num&quot;</span>                       <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetBridgeLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;led_num&quot;</span><span class="p">,</span> <span class="s2">&quot;led_setting&quot;</span>        <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;3&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetSensorLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;led_num&quot;</span>                       <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;4&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetSensorLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;led_num&quot;</span><span class="p">,</span> <span class="s2">&quot;led_setting&quot;</span>        <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;-1&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Reset&quot;</span><span class="p">,</span>           <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;-2&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Verify&quot;</span><span class="p">,</span>          <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;7&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetSensorConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;8&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetSensorConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;binning&quot;</span><span class="p">,</span> <span class="s2">&quot;gain&quot;</span><span class="p">,</span> <span class="s2">&quot;row_bitmap&quot;</span> <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;9&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetExposure&quot;</span><span class="p">,</span>     <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;10&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetExposure&quot;</span><span class="p">,</span>     <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;cycles&quot;</span>                        <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;11&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CaptureFrame&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;12&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AutoExposure&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;13&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetAutoExposeConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span>                              <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;14&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetAutoExposeConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;command_id&quot;</span><span class="p">,</span> <span class="s2">&quot;max_tries&quot;</span><span class="p">,</span> <span class="s2">&quot;start_pixel&quot;</span><span class="p">,</span> <span class="s2">&quot;stop_pixel&quot;</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="s2">&quot;target_tolerance&quot;</span><span class="p">,</span> <span class="s2">&quot;max_exposure&quot;</span> <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;bridge&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+       <span class="s2">&quot;0&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Null&quot;</span><span class="p">,</span>            <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span>                         <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;1&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetBridgeLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;led_setting&quot;</span> <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetBridgeLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;3&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetSensorLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;4&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetSensorLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;-1&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Reset&quot;</span><span class="p">,</span>           <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;-2&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Verify&quot;</span><span class="p">,</span>          <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;7&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetSensorConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;8&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetSensorConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;9&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetExposure&quot;</span><span class="p">,</span>     <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;10&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetExposure&quot;</span><span class="p">,</span>     <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;11&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CaptureFrame&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;12&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AutoExposure&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;13&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetAutoExposeConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>            <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;14&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetAutoExposeConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>            <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;sensor&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+       <span class="s2">&quot;3&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetSensorLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;led_setting&quot;</span>                   <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;4&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetSensorLED&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;7&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetSensorConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;binning&quot;</span><span class="p">,</span> <span class="s2">&quot;gain&quot;</span><span class="p">,</span> <span class="s2">&quot;row_bitmap&quot;</span> <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;8&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetSensorConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;9&quot;</span><span class="p">:</span>  <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetExposure&quot;</span><span class="p">,</span>     <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;cycles&quot;</span>                        <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;10&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetExposure&quot;</span><span class="p">,</span>     <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                                  <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;11&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CaptureFrame&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;num_pixels&quot;</span><span class="p">,</span> <span class="s2">&quot;pixels&quot;</span>          <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+                                          <span class="s2">&quot;repeat&quot;</span><span class="p">:</span>    <span class="p">{</span> <span class="s2">&quot;pixels&quot;</span><span class="p">:</span> <span class="s2">&quot;num_pixels&quot;</span>                    <span class="p">}</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;12&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AutoExposure&quot;</span><span class="p">,</span>    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="s2">&quot;iterations&quot;</span>         <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;13&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;GetAutoExposeConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;max_tries&quot;</span><span class="p">,</span> <span class="s2">&quot;start_pixel&quot;</span><span class="p">,</span> <span class="s2">&quot;stop_pixel&quot;</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="s2">&quot;target_tolerance&quot;</span><span class="p">,</span> <span class="s2">&quot;max_exposure&quot;</span> <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="p">}</span>
+      <span class="p">,</span><span class="s2">&quot;14&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SetAutoExposeConfig&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;status&quot;</span>                              <span class="p">],</span> <span class="s2">&quot;sizes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">chromaspeclib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">MicroSpecLib README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">microspeclib</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="microspeclib.html">microspeclib package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="cfg.html">cfg package</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">microspec.cfg</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">microspeclib</a><ul>
+  <li><a href="cfg.html">cfg package</a><ul>
+      <li>Previous: <a href="cfg.html" title="previous chapter">cfg package</a></li>
+      <li>Next: <a href="tests.html" title="next chapter">tests package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Chromation Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/cfg.microspec.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

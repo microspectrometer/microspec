@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>bin/microspec_cmdline.py &#8212; chromaspeclib  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="bin/microspec_emulator.py" href="bin.microspec_emulator.html" />
+    <link rel="prev" title="bin package" href="bin.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-bin.microspec_cmdline">
+<span id="bin-microspec-cmdline-py"></span><h1>bin/microspec_cmdline.py<a class="headerlink" href="#module-bin.microspec_cmdline" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="capture-one-frame-once">
+<h3>Capture one frame once<a class="headerlink" href="#capture-one-frame-once" title="Permalink to this headline">¶</a></h3>
+<p>microspec_cmdline.py captureframe</p>
+</div>
+<div class="section" id="capture-a-frame-50-times-with-2-seconds-inbetween">
+<h3>Capture a frame 50 times with 2 seconds inbetween<a class="headerlink" href="#capture-a-frame-50-times-with-2-seconds-inbetween" title="Permalink to this headline">¶</a></h3>
+<p>microspec_cmdline.py captureframe -r 50 -w 2</p>
+</div>
+<div class="section" id="capture-a-frame-and-print-results-in-csv">
+<h3>Capture a frame and print results in csv<a class="headerlink" href="#capture-a-frame-and-print-results-in-csv" title="Permalink to this headline">¶</a></h3>
+<p>microspec_cmdline.py captureframe -c</p>
+</div>
+<div class="section" id="set-the-binning-to-true-gain-to-100-and-row-bitmap-to-010101-0x15">
+<h3>Set the binning to true, gain to 100, and row_bitmap to 010101 (0x15)<a class="headerlink" href="#set-the-binning-to-true-gain-to-100-and-row-bitmap-to-010101-0x15" title="Permalink to this headline">¶</a></h3>
+<p>microspec_cmdline.py setsensorconfig binning=1 gain=100 row_bitmap=0x15</p>
+</div>
+<div class="section" id="connect-to-a-specific-com4-port">
+<h3>Connect to a specific COM4 port<a class="headerlink" href="#connect-to-a-specific-com4-port" title="Permalink to this headline">¶</a></h3>
+<p>microspec_cmdline.py -f COM4 …</p>
+</div>
+<div class="section" id="connect-to-a-specific-dev-com123-file">
+<h3>Connect to a specific /dev/com123 file<a class="headerlink" href="#connect-to-a-specific-dev-com123-file" title="Permalink to this headline">¶</a></h3>
+<p>microspec_cmdline.py -f /dev/com123 …</p>
+</div>
+<div class="section" id="connect-to-emulator-instead-of-hardware">
+<h3>Connect to emulator instead of hardware<a class="headerlink" href="#connect-to-emulator-instead-of-hardware" title="Permalink to this headline">¶</a></h3>
+<p>microspec_cmdline.py -e …</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="command-line-arguments">
+<h3>Command-line arguments<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="positional-arguments">
+<h4>Positional arguments<a class="headerlink" href="#positional-arguments" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 64%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Argument</strong></p></td>
+<td><p><strong>Description</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">command</span></code></p></td>
+<td><p>Command to send</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">arguments</span></code></p></td>
+<td><p>Key=value pairs for command</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="optional-arguments">
+<h4>Optional arguments<a class="headerlink" href="#optional-arguments" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Argument</strong></p></td>
+<td><p><strong>Description</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-h</span></code>, <code class="docutils literal notranslate"><span class="pre">--help</span></code></p></td>
+<td><p>show this help message and exit</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-d</span></code>, <code class="docutils literal notranslate"><span class="pre">--debug</span></code></p></td>
+<td><p>Internal debugging trace</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-v</span></code>, <code class="docutils literal notranslate"><span class="pre">--verbose</span></code></p></td>
+<td><p>Verbose trace</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-t</span>&#160; <span class="pre">TIMEOUT</span></code>, <code class="docutils literal notranslate"><span class="pre">--timeout</span>&#160; <span class="pre">TIMEOUT</span></code></p></td>
+<td><p>Timeout (seconds)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-r</span>&#160; <span class="pre">REPEAT</span></code>, <code class="docutils literal notranslate"><span class="pre">--repeat</span>&#160; <span class="pre">REPEAT</span></code></p></td>
+<td><p>Repeat N times, 1=once, 0=forever</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-w</span>&#160; <span class="pre">WAIT</span></code>, <code class="docutils literal notranslate"><span class="pre">--wait</span>&#160; <span class="pre">WAIT</span></code></p></td>
+<td><p>Wait inbetween repeats (seconds)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-e</span></code>, <code class="docutils literal notranslate"><span class="pre">--emulator</span></code></p></td>
+<td><p>Spawn emulator and connect to that</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-f</span>&#160; <span class="pre">FILE</span></code>, <code class="docutils literal notranslate"><span class="pre">--file</span>&#160; <span class="pre">FILE</span></code></p></td>
+<td><p>File/socket/device to connect to, default=auto-detect hardware</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-c</span></code>, <code class="docutils literal notranslate"><span class="pre">--csv</span></code></p></td>
+<td><p>Print-format: ‘default’ or ‘csv’</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="list-of-commands-and-arguments">
+<h4>List of commands and arguments<a class="headerlink" href="#list-of-commands-and-arguments" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p>SetAutoExposeConfig max_tries=xxx start_pixel=xxx stop_pixel=xxx target=xxx target_tolerance=xxx max_exposure=xxx</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 59%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Argument</strong></p></td>
+<td><p><strong>Description</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Null</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GetBridgeLED</span></code></p></td>
+<td><p>led_num=xxx</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SetBridgeLED</span></code></p></td>
+<td><p>led_num=xxx led_setting=xxx</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GetSensorLED</span></code></p></td>
+<td><p>led_num=xxx</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SetSensorLED</span></code></p></td>
+<td><p>led_num=xxx led_setting=xxx</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Reset</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Verify</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GetSensorConfig</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SetSensorConfig</span></code></p></td>
+<td><p>binning=xxx gain=xxx row_bitmap=xxx</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GetExposure</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SetExposure</span></code></p></td>
+<td><p>cycles=xxx</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CaptureFrame</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">AutoExposure</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GetAutoExposeConfig</span></code></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div></blockquote>
+<p>Note that command names are case-insensitive. For more information on each command, run <cite>pydoc microspeclib.datatypes.command</cite></p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="script-contents">
+<h3>Script contents<a class="headerlink" href="#script-contents" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">chromaspeclib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">MicroSpecLib README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">microspeclib</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="microspeclib.html">microspeclib package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="bin.html">bin package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="bin.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">microspeclib</a><ul>
+  <li><a href="bin.html">bin package</a><ul>
+      <li>Previous: <a href="bin.html" title="previous chapter">bin package</a></li>
+      <li>Next: <a href="bin.microspec_emulator.html" title="next chapter">bin/microspec_emulator.py</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Chromation Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/bin.microspec_cmdline.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

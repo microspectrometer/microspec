@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>MicroSpecLib README &#8212; chromaspeclib  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="microspeclib" href="modules.html" />
+    <link rel="prev" title="MicroSpecLib - Chromation Inc’s Hardware Interface" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="microspeclib-readme">
+<h1>MicroSpecLib README<a class="headerlink" href="#microspeclib-readme" title="Permalink to this headline">¶</a></h1>
+<p>This library provides a number of interfaces for Chromation Spectrometer hardware, both in Python code, executables, servers, and emulators.</p>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>The following instructions will get you going in a flash.</p>
+<div class="section" id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<p>Since everything is Python in this library, with the exception of some documentation and configuration files, make sure that Python 3.7 or later is installed, as well as “pip”. Then, use that to install some more Python modules:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyserial</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytest</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">psutil</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">tabulate</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sphinx</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">recommonmark</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">m2r</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sphinxcontrib-argdoc</span></code></p></li>
+</ul>
+<p>NOTE: The prerequisite for the emulator is to be running on Linux or MacOSX and installing the <code class="docutils literal notranslate"><span class="pre">socat</span></code> executable. The emulator does not work on other platforms.</p>
+</div>
+<div class="section" id="installing">
+<h3>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h3>
+<p>First, download microspeclib in the appropriate python location, and make sure that the src/ directory is in your PYTHONPATH and the bin/ directory is in your PATH.</p>
+<p><em>NOTE: Include github download instructions.</em></p>
+<p><em>NOTE: Pip install instructions will be in a future release.</em></p>
+<p>If you do not update your paths, you may need to specify them every time you use tools that utilize microspeclib, including the microspeclib executables themselves, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd microspeclib_install_dir
+PATH=$PATH:bin PYTHONPATH=$PYTHONPATH:src python /my/script/dir/tool.py
+PATH=$PATH:bin PYTHONPATH=$PYTHONPATH:src microspec_cmdline.py captureframe -e --csv
+</pre></div>
+</div>
+</div>
+<div class="section" id="file-locations">
+<h3>File Locations<a class="headerlink" href="#file-locations" title="Permalink to this headline">¶</a></h3>
+<p>The breakdown of the installed files is thus:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">microspeclib_install_dir</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">doc</span></code> - Documentation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cfg</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">microspeclib.json</span></code> - Hardware Protocol</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bin</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">microspec_cmdline.py</span></code> - Command-line utility</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">microspec_emulator.py</span></code> - Emulation server</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">microspec_expert_example.py</span></code> - Example file for Expert interface</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">microspec_simple_example.py</span></code> - Example file for Simple interface</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">microspeclib</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmdline.py</span></code> - Used by cmdline tool</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exceptions.py</span></code> - List of custom exceptions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expert.py</span></code> - Import to use Expert interface</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">logger.py</span></code> - Import to use verbose(), debug(), and quiet()</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">simple.py</span></code> - Import to use Simple interface</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">datatypes</span></code> - Import * from this to access constants, classes, and data types</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">bridge.py</span></code> - Import just bridge reply payload classes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">command.py</span></code> - Import just command payload classes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sensor.py</span></code> - Import just sensor reply payload classes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">types.py</span></code> - Import just global constants</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">internal</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">emulator.py</span></code> - Receive and response rules for hardware emulation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jsonparse.py</span></code> - Parsing of protocol file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">payload.py</span></code> - Underlying classes that convert between binary payload and usable objects</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stream.py</span></code> - Test, emulation, and USB stream classes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">util.py</span></code> - Metaclass factory for payload data types using protocol file</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>NOTE: If you dig into the code to look for lists of functions, you will not find much that way, as almost all interface functions are auto-generated from the protocol JSON file. Please use documentation instead.</p>
+</div>
+</div>
+<div class="section" id="running-the-tests">
+<h2>Running the tests<a class="headerlink" href="#running-the-tests" title="Permalink to this headline">¶</a></h2>
+<p>Testing is done via <code class="docutils literal notranslate"><span class="pre">pytest</span></code>. Simply run it from the install directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">microspeclib_install_dir</span>
+<span class="n">pytest</span>
+</pre></div>
+</div>
+<p>NOTE: It is not necessary to run the tests, but it will show if everything is installed correctly. It will also connect to the hardware if it’s plugged in, or will skip hardware tests if it cannot find the hardware.</p>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>As long as the paths are set up properly, <code class="docutils literal notranslate"><span class="pre">pydoc</span></code> will find and display information about the library for you.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pydoc</span> <span class="pre">microspeclib</span></code></p>
+<div class="section" id="html-documentation">
+<h3>HTML Documentation<a class="headerlink" href="#html-documentation" title="Permalink to this headline">¶</a></h3>
+<p>Sphinx is used to create full API information. Simply point your browser of choice at the url:</p>
+<p><code class="docutils literal notranslate"><span class="pre">microspec_install_dir/doc/build/html/index.html</span></code></p>
+</div>
+<div class="section" id="rebuilding-documentation">
+<h3>Rebuilding Documentation<a class="headerlink" href="#rebuilding-documentation" title="Permalink to this headline">¶</a></h3>
+<p>You should not have to rebuild the documentation unless you made changes to the code or are forking the project. But if this is the case, you can update the Sphinx documentation in this way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">microspec_install_dir</span><span class="o">/</span><span class="n">doc</span>
+<span class="n">make</span> <span class="n">clean</span> <span class="n">html</span>
+</pre></div>
+</div>
+<p>Depending on the path setup, something akin to the following might be necessary. This is because, in order to pull in the tests, cfg, and bin directories as well, many things must be on the PYTHONPATH or PATH, that might not be there during a normal run of the API.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>PATH=$PATH:../bin PYTHONPATH=../src:../:../tests make clean html
+</pre></div>
+</div>
+<p>If you are truly restarting from scratch, you can recreate all the autodoc documentation files by doing the following, however, <em>this will wipe out a number of customizations</em> that were made after using this command to create the initial versions of the files. Note that you will also need to <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span> <span class="pre">html</span></code> afterwards as well. This also only grabs code from microspeclib, not also the tests, cfg, or bin directories.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphinx</span><span class="o">-</span><span class="n">apidoc</span> <span class="o">-</span><span class="n">o</span> <span class="n">source</span><span class="o">/</span> <span class="o">../</span><span class="n">src</span><span class="o">/</span><span class="n">microspeclib</span> <span class="o">-</span><span class="n">f</span> <span class="o">-</span><span class="n">e</span> <span class="o">-</span><span class="n">M</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="code-api">
+<h2>Code API<a class="headerlink" href="#code-api" title="Permalink to this headline">¶</a></h2>
+<p>The Python code APIs are broken down into Simple and Expert. Both are viable, but they balance usability and flexibility. Roughly speaking, if you don’t need to heavily control timeouts and error cases, stick with Simple. If you need to send multiple messages and then extract replies one at a time, waiting for each in it’s own loop, then feel free to use Expert.</p>
+<div class="section" id="simple-api">
+<h3>Simple API<a class="headerlink" href="#simple-api" title="Permalink to this headline">¶</a></h3>
+<p>Import the MicroSpecSimpleInterface, and use its methods to send a command and return a reply, if any. There is one method for each command, all of them camelCaseFormatted with initial lowercase, and taking arguments as necessary. They all return the received reply object, if any, or None if there’s an error or a timeout. The reply objects all have member variables for each data field. At no point do you have to pack or unpack any objects or binary.</p>
+<p>The following will connect to USB hardware if it’s available, do one CaptureFrame command with whatever settings are on the hardware at the time, and print the status, number of pixels, and the value of the 3rd pixel.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">microspeclib.simple</span>    <span class="kn">import</span> <span class="n">MicroSpecSimpleInterface</span>
+<span class="kn">from</span> <span class="nn">microspeclib.datatypes</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">si</span> <span class="o">=</span> <span class="n">MicroSpecSimpleInterface</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">captureFrame</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">num_pixels</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">pixels</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>By adding optional arguments to the original interface call, you can also point the API at a specific COM port, a specific /dev/ file, or the emulator.</p>
+<p>For an executable example, see <code class="docutils literal notranslate"><span class="pre">bin/microspec_simple_example.py</span></code>.</p>
+<p>For greater detail, see <code class="docutils literal notranslate"><span class="pre">pydoc</span> <span class="pre">microspeclib.simple</span></code></p>
+<p>NOTE: If the timeout runs out in the Simple interface, the data is lost, there is no recovering it.</p>
+</div>
+<div class="section" id="expert-interface">
+<h3>Expert Interface<a class="headerlink" href="#expert-interface" title="Permalink to this headline">¶</a></h3>
+<p>The Expert interface requires putting together a Command object first, and sending it to the device… and then waiting until you get a reply object back. The setup of the interface is identical to Simple, as is the nature of the Reply object you get back. And the Command objects work the same was as Reply objects, just with different member variables. However, rather than a single call for each command, you must pack an object and then wait in a loop (or optionally a sendAndReceive can loop for you). This provides some flexibility for managing timing and error cases, but is more code. The Simple interface literally wraps the Expert one.</p>
+<p>The following will connect to USB hardware if it’s available, do one CaptureFrame command with whatever settings are on the hardware at the time, and print the status, number of pixels, and the value of the 3rd pixel.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">microspeclib.expert</span>    <span class="kn">import</span> <span class="n">MicroSpecExpertInterface</span>
+<span class="kn">from</span> <span class="nn">microspeclib.datatypes</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">xi</span> <span class="o">=</span> <span class="n">MicroSpecExpertInterface</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">command</span> <span class="o">=</span> <span class="n">CommandCaptureFrame</span><span class="p">()</span>
+<span class="n">xi</span><span class="o">.</span><span class="n">sendCommand</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">xi</span><span class="o">.</span><span class="n">receiveReply</span><span class="p">()</span>
+<span class="k">while</span> <span class="n">reply</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+  <span class="c1"># Do whatever waiting or other things you want</span>
+  <span class="n">reply</span> <span class="o">=</span> <span class="n">xi</span><span class="o">.</span><span class="n">receiveReply</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">num_pixels</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">pixels</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>For an executable example, see <code class="docutils literal notranslate"><span class="pre">bin/microspec_expert_example.py</span></code>.</p>
+<p>For greater detail, see <code class="docutils literal notranslate"><span class="pre">pydoc</span> <span class="pre">microspeclib.expert</span></code></p>
+<p>NOTE: If the timeout runs out in the Expert interface, the next receiveReply() will receive it, in an expected FIFO order.</p>
+</div>
+</div>
+<div class="section" id="command-line-api">
+<h2>Command Line API<a class="headerlink" href="#command-line-api" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">microspec_cmdline.py</span></code> executable will run a single command and print the reply to stdout, optionally in CSV format. The default is to look for hardware, but -f FILE can be used to point it to either a device file or the name of a port, as in “COM3”, if necessary. The command itself is case-insensitive, and after the command are key=value pairs of options for the command, if necessary, such as <code class="docutils literal notranslate"><span class="pre">led_num=0</span></code> or <code class="docutils literal notranslate"><span class="pre">cycles=100</span></code>.</p>
+<p>The -t timeout is how long it will wait for the command each time, and if it fails it will print None and move on. If a -r repeat is specificied, it will run the command that many times. And if it is repeating, a -w wait will wait that long inbetween commands. All times are in fractional seconds.</p>
+<p>For example, to set the exposure and cycles and then get 3 capture frames spaced 1.5 seconds apart, with a timeout of 0.2 seconds on each, and print it in CSV format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">microspec_cmdline</span><span class="o">.</span><span class="n">py</span> <span class="n">setsensorconfig</span> <span class="n">binning</span><span class="o">=</span><span class="n">true</span> <span class="n">gain</span><span class="o">=</span><span class="n">gain1x</span> <span class="n">row_bitmap</span><span class="o">=</span><span class="mh">0x1f</span>
+<span class="n">microspec_cmdline</span><span class="o">.</span><span class="n">py</span> <span class="n">setexposure</span> <span class="n">cycles</span><span class="o">=</span><span class="mi">100</span>
+<span class="n">microspec_cmdline</span><span class="o">.</span><span class="n">py</span> <span class="n">captureframe</span> <span class="o">-</span><span class="n">t</span> <span class="mf">0.2</span> <span class="o">-</span><span class="n">r</span> <span class="mi">3</span> <span class="o">-</span><span class="n">w</span> <span class="mf">1.5</span> <span class="o">--</span><span class="n">csv</span>
+</pre></div>
+</div>
+<p>Note that if you have no hardware connected, you can (on Linux and MacOSX) add a “-e” flag to use the emulator. It won’t return very interesting capture frame data, but it will give an opportunity to test the interface.</p>
+</div>
+<div class="section" id="emulator">
+<h2>Emulator<a class="headerlink" href="#emulator" title="Permalink to this headline">¶</a></h2>
+<p>For now, this is only supported on Linux and MacOSX, and requires the <code class="docutils literal notranslate"><span class="pre">socat</span></code> executable to be installed and available on yor PATH. Technically the emulator executable can be run independently, though this is considered advanced and out of the scope of the public API. In order to use the emulator with the command-line utility, add a “-e” flag. In order to use it with either the Simple or Expert interface, add “emulation=True”, and that’s all that’s needed.</p>
+<div class="section" id="emulator-internals">
+<h3>Emulator Internals<a class="headerlink" href="#emulator-internals" title="Permalink to this headline">¶</a></h3>
+<p>However, sometimes it’s helpful to run the emulator so you can see what your code is actually sending through the line. You can bring up a copy of the emulator with:</p>
+<p><code class="docutils literal notranslate"><span class="pre">microspec_emulator.py</span> <span class="pre">-s</span></code></p>
+<p>which will print a line of text similar to <code class="docutils literal notranslate"><span class="pre">/var/folders/bq/91866d5j6zb06c04td5871kc0000gq/T/tmpmd7e9ab_/chromation.software</span></code> on stdout. You can then use “-f TEXT” with the cmdline utility, or device=”TEXT” in the Simple or Expert interface, in order to connect to that emulator instance. If you add “-v” or “-d” to the emulator instance, you can get verbose or debug-level trace for what it’s receiving (-d is heavier trace).</p>
+<p>Or you can run the <code class="docutils literal notranslate"><span class="pre">socat</span></code> instance yourself, creating the two ends of the fake USB tunnel, and then connect the emulator to the hardware end. (Or theoretically connect to the hardware end yourself if you really wanted to.)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">socat</span> <span class="o">-</span><span class="n">D</span> <span class="n">PTY</span><span class="p">,</span><span class="n">raw</span><span class="p">,</span><span class="n">echo</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">link</span><span class="o">=./</span><span class="n">chromation</span><span class="o">.</span><span class="n">hardware</span> <span class="n">PTY</span><span class="p">,</span><span class="n">raw</span><span class="p">,</span><span class="n">echo</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">link</span><span class="o">=./</span><span class="n">chromation</span><span class="o">.</span><span class="n">software</span>
+<span class="n">microspec_emulator</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">f</span> <span class="n">microspec_emulator</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>…at which point you would have to connect to <cite>microspec_emulator.py</cite>.</p>
+</div>
+</div>
+<div class="section" id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Why can it not find my hardware? It’s plugged in.</p>
+<ul class="simple">
+<li><p>On Windows, sometimes VCP is not set. Go to Device Manager:</p>
+<ul>
+<li><p>Right-click on USB Serial Converter</p></li>
+<li><p>Select Properties</p></li>
+<li><p>Go to tab “Advanced”</p></li>
+<li><p>Check “Load VCP”</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>It’s still not connecting.</p>
+<ul class="simple">
+<li><p>Depending on the setup of the machine, you may need to be explicit about the device, rather than letting it auto-detect. Use “-f COM3” or “device=’COM3’” if you know it’s connected to the third COM port.</p></li>
+</ul>
+</li>
+<li><p>It says permission denied on the port.</p>
+<ul class="simple">
+<li><p>You might have two interfaces connected to it at the same time. You can’t have two on the same machine, let alone the same program, connected to a single USB port. So either another task is using that port, or your code has an old interface still lying around actively connected.</p></li>
+</ul>
+</li>
+<li><p>The emulator won’t work on Windows.</p>
+<ul class="simple">
+<li><p>The emulator only works on Linux and MacOSX and only if you have <code class="docutils literal notranslate"><span class="pre">socat</span></code> installed.</p></li>
+</ul>
+</li>
+<li><p>It’s continually returning None.</p>
+<ul class="simple">
+<li><p>Try increaing the timeout.</p></li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Sean Cusack</strong> - <em>Initial version</em> - <a class="reference external" href="https://github.com/eruciform">GitHub</a> <a class="reference external" href="https://eruciform.com">Blog</a></p></li>
+</ul>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>Copyright 2020 by Chromation, Inc</p>
+<p>All Rights Reserved by Chromation, Inc</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">chromaspeclib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MicroSpecLib README</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-tests">Running the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-api">Code API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-api">Command Line API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#emulator">Emulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faq">FAQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authors">Authors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">microspeclib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">MicroSpecLib - Chromation Inc’s Hardware Interface</a></li>
+      <li>Next: <a href="modules.html" title="next chapter">microspeclib</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Chromation Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/README.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

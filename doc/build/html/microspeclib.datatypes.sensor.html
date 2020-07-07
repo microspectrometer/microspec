@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>microspeclib.datatypes.sensor module &#8212; chromaspeclib  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="microspeclib.datatypes.types module" href="microspeclib.datatypes.types.html" />
+    <link rel="prev" title="microspeclib.datatypes.command module" href="microspeclib.datatypes.command.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-microspeclib.datatypes.sensor">
+<span id="microspeclib-datatypes-sensor-module"></span><h1>microspeclib.datatypes.sensor module<a class="headerlink" href="#module-microspeclib.datatypes.sensor" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorGetSensorLED">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorGetSensorLED</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">led_setting=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorGetSensorLED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the result of a <a class="reference internal" href="microspeclib.datatypes.command.html#microspeclib.datatypes.command.CommandGetSensorLED" title="microspeclib.datatypes.command.CommandGetSensorLED"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandGetSensorLED</span></code></a>
+command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusOK" title="microspeclib.datatypes.types.StatusOK"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusOK</span></code></a> or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusError" title="microspeclib.datatypes.types.StatusError"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusError</span></code></a>  If there is an error status, the other attributes are not valid) – </p></li>
+<li><p><strong>led_num</strong> (<em>0</em><em> or </em><em>1</em>) – Which LED the status applies to</p></li>
+<li><p><strong>led_status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.LEDOff" title="microspeclib.datatypes.types.LEDOff"><code class="xref py py-data docutils literal notranslate"><span class="pre">LEDOff</span></code></a>, <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.LEDGreen" title="microspeclib.datatypes.types.LEDGreen"><code class="xref py py-data docutils literal notranslate"><span class="pre">LEDGreen</span></code></a>, or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.LEDRed" title="microspeclib.datatypes.types.LEDRed"><code class="xref py py-data docutils literal notranslate"><span class="pre">LEDRed</span></code></a>  The color state of the LED) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorSetSensorLED">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorSetSensorLED</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorSetSensorLED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the status of the <a class="reference internal" href="microspeclib.datatypes.command.html#microspeclib.datatypes.command.CommandSetSensorLED" title="microspeclib.datatypes.command.CommandSetSensorLED"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandSetSensorLED</span></code></a>
+command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusOK" title="microspeclib.datatypes.types.StatusOK"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusOK</span></code></a> or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusError" title="microspeclib.datatypes.types.StatusError"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusError</span></code></a>  If there is an error status, the other attributes are not valid) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorGetSensorConfig">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorGetSensorConfig</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">binning=None</em>, <em class="sig-param">gain=None</em>, <em class="sig-param">row_bitmap=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorGetSensorConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the result of a <a class="reference internal" href="microspeclib.datatypes.command.html#microspeclib.datatypes.command.CommandGetSensorConfig" title="microspeclib.datatypes.command.CommandGetSensorConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandGetSensorConfig</span></code></a>
+command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusOK" title="microspeclib.datatypes.types.StatusOK"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusOK</span></code></a> or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusError" title="microspeclib.datatypes.types.StatusError"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusError</span></code></a>  If there is an error status, the other attributes are not valid) – </p></li>
+<li><p><strong>binning</strong> (<em>0-1</em>) – Whether or not to bin adjacent pixels.
+0: binning off, LIS-770i has 784 7.8µm-pitch pixels, 770 optically active
+1: binning on, LIS-770i has 392 15.6µm-pitch pixels, 385 optically active</p></li>
+<li><p><strong>gain</strong> (<em>0-255</em>) – Analog pixel voltage gain. Allowed values:
+0x01: 1x gain
+0x25: 2.5x gain (37 in decimal)
+0x04: 4x gain
+0x05: 5x gain</p></li>
+<li><p><strong>row_bitmap</strong> – Which rows to permit sensing on. There are 5, and can all be
+activated with a binary bitmap of 5 1’s, i.e. 011111 or 0x1F.
+The three most significant bits must be 0. Otherwise, any
+combination is permitted except 0x00.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorSetSensorConfig">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorSetSensorConfig</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorSetSensorConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the result of a <a class="reference internal" href="microspeclib.datatypes.command.html#microspeclib.datatypes.command.CommandSetSensorConfig" title="microspeclib.datatypes.command.CommandSetSensorConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandSetSensorConfig</span></code></a>
+command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusOK" title="microspeclib.datatypes.types.StatusOK"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusOK</span></code></a> or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusError" title="microspeclib.datatypes.types.StatusError"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusError</span></code></a>  If there is an error status, the other attributes are not valid) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorGetExposure">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorGetExposure</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">cycles=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorGetExposure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the result of a <a class="reference internal" href="microspeclib.datatypes.command.html#microspeclib.datatypes.command.CommandGetExposure" title="microspeclib.datatypes.command.CommandGetExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandGetExposure</span></code></a>
+command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusOK" title="microspeclib.datatypes.types.StatusOK"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusOK</span></code></a> or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusError" title="microspeclib.datatypes.types.StatusError"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusError</span></code></a>  If there is an error status, the other attributes are not valid) – </p></li>
+<li><p><strong>cycles</strong> (<em>1-65535</em>) – Number of cycles to expose pixels. Each cycle is 20µs.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorSetExposure">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorSetExposure</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorSetExposure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the result of a <a class="reference internal" href="microspeclib.datatypes.command.html#microspeclib.datatypes.command.CommandSetExposure" title="microspeclib.datatypes.command.CommandSetExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandSetExposure</span></code></a>
+command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusOK" title="microspeclib.datatypes.types.StatusOK"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusOK</span></code></a> or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusError" title="microspeclib.datatypes.types.StatusError"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusError</span></code></a>  If there is an error status, the other attributes are not valid) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorCaptureFrame">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorCaptureFrame</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">num_pixels=None</em>, <em class="sig-param">pixels=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorCaptureFrame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the result of a <a class="reference internal" href="microspeclib.datatypes.command.html#microspeclib.datatypes.command.CommandCaptureFrame" title="microspeclib.datatypes.command.CommandCaptureFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandCaptureFrame</span></code></a>
+command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusOK" title="microspeclib.datatypes.types.StatusOK"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusOK</span></code></a> or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusError" title="microspeclib.datatypes.types.StatusError"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusError</span></code></a>  If there is an error status, the other attributes are not valid) – </p></li>
+<li><p><strong>num_pixels</strong> (<em>0-784</em>) – The number of pixels to expect in the pixels parameter.
+Using the recommended (default) configuration, num_pixels is
+392.</p></li>
+<li><p><strong>pixels</strong> (<em>Array of values</em><em>, </em><em>each from 0-65535</em>) – The pixel values for one capture frame.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorAutoExposure">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorAutoExposure</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">success=None</em>, <em class="sig-param">iterations=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorAutoExposure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the result of a <a class="reference internal" href="microspeclib.datatypes.command.html#microspeclib.datatypes.command.CommandAutoExposure" title="microspeclib.datatypes.command.CommandAutoExposure"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandAutoExposure</span></code></a>
+command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> (<a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusOK" title="microspeclib.datatypes.types.StatusOK"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusOK</span></code></a> or <a class="reference internal" href="microspeclib.datatypes.types.html#microspeclib.datatypes.types.StatusError" title="microspeclib.datatypes.types.StatusError"><code class="xref py py-data docutils literal notranslate"><span class="pre">StatusError</span></code></a>  If there is an error status, the other attributes are not valid) – </p></li>
+<li><p><strong>success</strong> (<em>0</em><em> or </em><em>1</em>) – <dl class="simple">
+<dt>1: success</dt><dd><p>Auto-expose settled on an exposure time that put the sensor
+peak value within the target range.</p>
+</dd>
+<dt>0: failure</dt><dd><p>Auto-expose gave up on finding an exposure time, either
+because it reached the maximum number of tries or the
+exposure time is already at the maximum allowed value.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>iterations</strong> (<em>1-255</em>) – <p>Number of exposures tried by auto-expose.</p>
+<p><cite>iterations</cite> never exceeds AutoExposeConfig parameter
+<cite>max_tries</cite>, as this sets the maximum number of iterations to
+try.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorGetAutoExposeConfig">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorGetAutoExposeConfig</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">max_tries=None</em>, <em class="sig-param">start_pixel=None</em>, <em class="sig-param">stop_pixel=None</em>, <em class="sig-param">target=None</em>, <em class="sig-param">target_tolerance=None</em>, <em class="sig-param">max_exposure=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorGetAutoExposeConfig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="microspeclib.datatypes.sensor.SensorSetAutoExposeConfig">
+<em class="property">class </em><code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">SensorSetAutoExposeConfig</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">status=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.SensorSetAutoExposeConfig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="microspeclib.datatypes.sensor.getSensorReplyByID">
+<code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">getSensorReplyByID</code><span class="sig-paren">(</span><em class="sig-param">cid</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.getSensorReplyByID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="microspeclib.datatypes.sensor.getSensorReplyByName">
+<code class="sig-prename descclassname">microspeclib.datatypes.sensor.</code><code class="sig-name descname">getSensorReplyByName</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#microspeclib.datatypes.sensor.getSensorReplyByName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">chromaspeclib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">MicroSpecLib README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">microspeclib</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="microspeclib.html">microspeclib package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bin.html">bin package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cfg.html">cfg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">microspeclib</a><ul>
+  <li><a href="microspeclib.html">microspeclib package</a><ul>
+  <li><a href="microspeclib.datatypes.html">microspeclib.datatypes package</a><ul>
+      <li>Previous: <a href="microspeclib.datatypes.command.html" title="previous chapter">microspeclib.datatypes.command module</a></li>
+      <li>Next: <a href="microspeclib.datatypes.types.html" title="next chapter">microspeclib.datatypes.types module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Chromation Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/microspeclib.datatypes.sensor.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
