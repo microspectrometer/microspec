@@ -3,51 +3,51 @@
 # All Rights Reserved by Chromation, Inc
 
 import unittest, os
-from chromaspeclib.internal.emulator import *
-from chromaspeclib.datatypes         import *
+from microspeclib.internal.emulator import *
+from microspeclib.datatypes         import *
 
-class ChromaSpecTestEmulator(unittest.TestCase):
+class MicroSpecTestEmulator(unittest.TestCase):
 
   def test_chromationEmulatorSettings(self):
     #TODO: when we make more settings, test them here
-    e = ChromaSpecEmulator()
+    e = MicroSpecEmulator()
 
   def test_chromationEmulatorDefaults(self):
-    e = ChromaSpecEmulator()
+    e = MicroSpecEmulator()
     self.test_chromationEmulatorCompare(e, e)
 
   def test_chromationEmulatorNull(self):
-    e = ChromaSpecEmulator()
+    e = MicroSpecEmulator()
     assert e.process(CommandNull()) == []
 
   def test_chromationEmulatorVerify(self):
-    e = ChromaSpecEmulator()
+    e = MicroSpecEmulator()
     assert e.process(CommandVerify()) == [BridgeVerify(status=StatusOK)]
 
   def test_chromationEmulatorAutoExposure(self):
-    e = ChromaSpecEmulator()
+    e = MicroSpecEmulator()
     assert e.process(CommandAutoExposure()) == \
                     [BridgeAutoExposure(status=StatusOK),
                      SensorAutoExposure(status=StatusOK)]
 
   def test_chromationEmulatorCaptureFrame(self):
-    e = ChromaSpecEmulator()
+    e = MicroSpecEmulator()
     #TODO: need to change this when we make the capture frame emulation better
     assert e.process(CommandCaptureFrame()) == \
                     [BridgeCaptureFrame(status=StatusOK),
                      SensorCaptureFrame(status=StatusOK, num_pixels=4, pixels=[111,222,333,444])]
 
   def test_chromationEmulatorReset(self):
-    e1 = ChromaSpecEmulator()
-    e2 = ChromaSpecEmulator()
+    e1 = MicroSpecEmulator()
+    e2 = MicroSpecEmulator()
     self.test_chromationEmulatorSet(e2, bled0=LEDGreen, sled0=LEDRed, sled1=LEDGreen,
                                         binning=True, gain=Gain2_5x, rows=0x15, cycles=2345)
     assert e2.process(CommandReset()) == [BridgeReset(status=StatusOK)]
     self.test_chromationEmulatorCompare(e2, e1)
 
   def test_chromationEmulatorCompare(self, emulator=None, control=None):
-    e = emulator or ChromaSpecEmulator()
-    c = control  or emulator or ChromaSpecEmulator()
+    e = emulator or MicroSpecEmulator()
+    c = control  or emulator or MicroSpecEmulator()
     assert e.process(CommandGetBridgeLED(led_num=0)) == \
                     [BridgeGetBridgeLED(status=StatusOK, led_num=0, led_setting=c.bridge_led[0])]
     assert e.process(CommandGetSensorLED(led_num=0)) == \
@@ -65,7 +65,7 @@ class ChromaSpecTestEmulator(unittest.TestCase):
 
   def test_chromationEmulatorSet(self, emulator=None, bled0=LEDOff, sled0=LEDOff, sled1=LEDOff,
                                        binning=BinningDefault, gain=GainDefault, rows=RowsDefault, cycles=0):
-    e = emulator or ChromaSpecEmulator()
+    e = emulator or MicroSpecEmulator()
     assert e.process(CommandSetBridgeLED(led_num=0, led_setting=bled0)) == \
                     [BridgeSetBridgeLED(status=StatusOK)]
     assert e.process(CommandSetSensorLED(led_num=0, led_setting=sled0)) == \
@@ -89,7 +89,7 @@ class ChromaSpecTestEmulator(unittest.TestCase):
     assert e.cycles        == cycles
 
   def test_chromationEmulatorBadData(self):
-    e = ChromaSpecEmulator()
+    e = MicroSpecEmulator()
     assert e.process(CommandGetBridgeLED(led_num=-1)) == \
                     [BridgeGetBridgeLED(status=StatusError, led_num=0, led_setting=LEDOff)]
     assert e.process(CommandGetBridgeLED(led_num=1)) == \

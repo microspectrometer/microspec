@@ -1,10 +1,10 @@
-chromaspeclib
+microspeclib
 =============
 
 .. toctree::
    :maxdepth: 4
 
-   chromaspeclib
+   microspeclib
    bin
    cfg
    tests

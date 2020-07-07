@@ -82,7 +82,7 @@ of your whole library.
 
 Next, upload it to your pipserver:
 
-twine upload --repository-url http://0.0.0.0:8080 --sign --identity "Sean Cusack <seanbcusack@gmail.com>" dist/chromaspeclib-0.1.1a1-py3-none-any.whl --verbose
+twine upload --repository-url http://0.0.0.0:8080 --sign --identity "Sean Cusack <seanbcusack@gmail.com>" dist/microspeclib-0.1.1a1-py3-none-any.whl --verbose
 
 Of course, change the 0.1.1a1 file to the specific one you're uploading, and choose a different identity.
 

@@ -1,4 +1,4 @@
-ChromaSpecLib - Chromation Inc's Hardware Interface
+MicroSpecLib - Chromation Inc's Hardware Interface
 ===================================================
 
 .. toctree::

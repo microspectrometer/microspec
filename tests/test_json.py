@@ -3,11 +3,11 @@
 # All Rights Reserved by Chromation, Inc
 
 import unittest, os
-from chromaspeclib.internal.jsonparse import globalizeJsonFile, enclassJsonFile
+from microspeclib.internal.jsonparse import globalizeJsonFile, enclassJsonFile
 
 jsontest = os.path.realpath(os.path.join(os.path.dirname(__file__), "test.json"))
 
-class ChromaSpecTestJson(unittest.TestCase):
+class MicroSpecTestJson(unittest.TestCase):
 
   def test_globals(self):
     g = globalizeJsonFile(jsontest)

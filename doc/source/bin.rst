@@ -11,7 +11,7 @@ Submodules
 
 .. toctree::
 
-   bin.chromaspec_cmdline
-   bin.chromaspec_emulator
-   bin.chromaspec_expert_example
-   bin.chromaspec_simple_example
+   bin.microspec_cmdline
+   bin.microspec_emulator
+   bin.microspec_expert_example
+   bin.microspec_simple_example

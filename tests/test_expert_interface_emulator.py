@@ -4,11 +4,11 @@
 
 import unittest, os, pytest, sys
 from timeit import default_timer as timer
-from test_expert_interface import ChromaSpecTestExpertInterface
-from chromaspeclib.expert  import ChromaSpecExpertInterface
+from test_expert_interface import MicroSpecTestExpertInterface
+from microspeclib.expert  import MicroSpecExpertInterface
 
 @pytest.mark.skipif(sys.platform not in ["darwin","linux"], reason="Emulation currently only runs on linux and MacOS")
-class ChromaSpecTestExpertInterfaceEmulator(ChromaSpecTestExpertInterface):
+class MicroSpecTestExpertInterfaceEmulator(MicroSpecTestExpertInterface):
   __test__ = True
 
   def __init__(self, *args, **kwargs):
@@ -17,7 +17,7 @@ class ChromaSpecTestExpertInterfaceEmulator(ChromaSpecTestExpertInterface):
   @classmethod
   def setUpClass(cls):
     super().setUpClass()
-    cls.software = ChromaSpecExpertInterface(emulation=True, timeout=1)
+    cls.software = MicroSpecExpertInterface(emulation=True, timeout=1)
 
 
 

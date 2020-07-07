@@ -4,21 +4,21 @@
 
 import unittest, os, pytest
 from io import BytesIO
-from chromaspeclib.internal.stream   import ChromaSpecBytesIOStream
-from chromaspeclib.datatypes         import *
-from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_ID
-from chromaspeclib.logger            import CHROMASPEC_LOGGER_TEST as log
+from microspeclib.internal.stream   import MicroSpecBytesIOStream
+from microspeclib.datatypes         import *
+from microspeclib.datatypes.command import CHROMASPEC_COMMAND_ID
+from microspeclib.logger            import CHROMASPEC_LOGGER_TEST as log
 
-class ChromaSpecTestBytesIOStream(unittest.TestCase):
+class MicroSpecTestBytesIOStream(unittest.TestCase):
 
   def generate_streams(self):
     b = BytesIO()
-    s = ChromaSpecBytesIOStream(stream=b)
+    s = MicroSpecBytesIOStream(stream=b)
     return b, s
 
   def test_defaultStream(self):
     b, s = self.generate_streams()
-    s = ChromaSpecBytesIOStream()
+    s = MicroSpecBytesIOStream()
     assert b is not s.stream
 
   def test_parameterStream(self):
@@ -59,7 +59,7 @@ class ChromaSpecTestBytesIOStream(unittest.TestCase):
   def test_underlyingStreamWrite(self):
     b, s = self.generate_streams()
     b = BytesIO()
-    s = ChromaSpecBytesIOStream(stream=b)
+    s = MicroSpecBytesIOStream(stream=b)
     d = b'\x00\x01\x02'
     self.write_direct(b, s, d)
     self.seek( s, 0 )

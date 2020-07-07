@@ -5,13 +5,13 @@
 import unittest, os, pytest, time
 from timeit   import default_timer as timer
 from tabulate import tabulate
-from chromaspeclib.simple            import ChromaSpecSimpleInterface
-from chromaspeclib.internal.emulator import ChromaSpecEmulator
-from chromaspeclib.datatypes         import *
-from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_ID
+from microspeclib.simple            import MicroSpecSimpleInterface
+from microspeclib.internal.emulator import MicroSpecEmulator
+from microspeclib.datatypes         import *
+from microspeclib.datatypes.command import CHROMASPEC_COMMAND_ID
 
 @pytest.mark.usefixtures("class_results")
-class ChromaSpecTestSimpleInterface(unittest.TestCase):
+class MicroSpecTestSimpleInterface(unittest.TestCase):
   __test__ = False # Abstract test class #
 
   def __init__(self, *args, **kwargs):
@@ -20,7 +20,7 @@ class ChromaSpecTestSimpleInterface(unittest.TestCase):
   @classmethod
   def setUpClass(cls):
     cls.setup = False
-    cls.emulator = ChromaSpecEmulator()
+    cls.emulator = MicroSpecEmulator()
     cls.min      = 0
 
   def setUp(self):
@@ -85,5 +85,5 @@ for command_id, command_class in CHROMASPEC_COMMAND_ID.items():
   if   command_class.__name__[0:12] == "CommandReset": order = "0"
   elif command_class.__name__[0:10] == "CommandSet":   order = "1"
   else:                                                order = "2"
-  setattr(ChromaSpecTestSimpleInterface, "test_"+order+"sending"+command_class.__name__, generateTest(command_class))
+  setattr(MicroSpecTestSimpleInterface, "test_"+order+"sending"+command_class.__name__, generateTest(command_class))
 

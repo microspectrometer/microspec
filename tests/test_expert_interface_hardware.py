@@ -4,13 +4,13 @@
 
 import unittest, os, pytest
 from timeit import default_timer as timer
-from test_expert_interface    import ChromaSpecTestExpertInterface
-from chromaspeclib.expert     import ChromaSpecExpertInterface
-from chromaspeclib.datatypes  import *
-from chromaspeclib.exceptions import *
+from test_expert_interface    import MicroSpecTestExpertInterface
+from microspeclib.expert     import MicroSpecExpertInterface
+from microspeclib.datatypes  import *
+from microspeclib.exceptions import *
 
-@pytest.mark.xfail(raises=ChromaSpecConnectionException, strict=False, reason="Hardware not connected")
-class ChromaSpecTestExpertInterfaceHardware(ChromaSpecTestExpertInterface):
+@pytest.mark.xfail(raises=MicroSpecConnectionException, strict=False, reason="Hardware not connected")
+class MicroSpecTestExpertInterfaceHardware(MicroSpecTestExpertInterface):
   __test__ = True
 
   def __init__(self, *args, **kwargs):
@@ -21,7 +21,7 @@ class ChromaSpecTestExpertInterfaceHardware(ChromaSpecTestExpertInterface):
     super().setUpClass()
     cls.hardware = None
     if not hasattr(cls, "software"):
-      cls.software = ChromaSpecExpertInterface(timeout=0.1)
+      cls.software = MicroSpecExpertInterface(timeout=0.1)
 
   @classmethod
   def tearDownClass(cls):

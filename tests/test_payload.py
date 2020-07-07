@@ -3,30 +3,30 @@
 # All Rights Reserved by Chromation, Inc
 
 import unittest, os, pytest, copy
-from chromaspeclib.internal.payload import ChromaSpecPayloadClassFactory, ChromaSpecPayload, ChromaSpecRepeatPayload
+from microspeclib.internal.payload import MicroSpecPayloadClassFactory, MicroSpecPayload, MicroSpecRepeatPayload
 
-class ChromaSpecTestPayloadFactory(unittest.TestCase):
+class MicroSpecTestPayloadFactory(unittest.TestCase):
 
   def test_payloadFactoryNormal(self):
-    klass = ChromaSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4])
+    klass = MicroSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4])
     assert klass.command_id == 99
     assert klass.__name__   == "grok"
     assert klass.variables  == ["command_id","foo","bar","baz"]
     assert klass.sizes      == [1,1,2,4]
 
   def test_payloadFactoryRepeat(self):
-    klass = ChromaSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"foo":"bar"})
+    klass = MicroSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"foo":"bar"})
     assert klass.command_id == 99
     assert klass.__name__   == "grok"
     assert klass.variables  == ["command_id","foo","bar","baz"]
     assert klass.sizes      == [1,1,2,4]
     assert klass.repeat     == {"foo":"bar"}
 
-class ChromaSpecTestPayload(unittest.TestCase):
+class MicroSpecTestPayload(unittest.TestCase):
 
   def __init__(self, *args, **kwargs):
-    super(ChromaSpecTestPayload, self).__init__(*args, **kwargs)
-    self.klass = ChromaSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4])
+    super(MicroSpecTestPayload, self).__init__(*args, **kwargs)
+    self.klass = MicroSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4])
 
   def test_initEmpty(self):
     obj = self.klass()
@@ -144,11 +144,11 @@ class ChromaSpecTestPayload(unittest.TestCase):
     obj = self.klass(bar=2, baz=255)
     assert bytes(obj) == b''
 
-class ChromaSpecTestRepeatPayload(ChromaSpecTestPayload):
+class MicroSpecTestRepeatPayload(MicroSpecTestPayload):
 
   def __init__(self, *args, **kwargs):
-    super(ChromaSpecTestRepeatPayload, self).__init__(*args, **kwargs)
-    self.klass = ChromaSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"baz": "foo"})
+    super(MicroSpecTestRepeatPayload, self).__init__(*args, **kwargs)
+    self.klass = MicroSpecPayloadClassFactory("command", 99, "grok", ["command_id","foo","bar","baz"], [1,1,2,4], repeat={"baz": "foo"})
 
   def test_initEmpty(self):
     obj = self.klass()

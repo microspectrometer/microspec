@@ -4,19 +4,19 @@
 
 import unittest, os, pytest, psutil, time, sys
 from io import BytesIO
-from chromaspeclib.internal.stream   import ChromaSpecEmulatedStream, \
-                                            ChromaSpecSerialIOStream
-from chromaspeclib.internal.emulator import ChromaSpecEmulator
-from chromaspeclib.datatypes         import *
-from chromaspeclib.datatypes.command import CHROMASPEC_COMMAND_ID
+from microspeclib.internal.stream   import MicroSpecEmulatedStream, \
+                                            MicroSpecSerialIOStream
+from microspeclib.internal.emulator import MicroSpecEmulator
+from microspeclib.datatypes         import *
+from microspeclib.datatypes.command import CHROMASPEC_COMMAND_ID
 
-#from chromaspeclib.internal.logger import CHROMASPEC_LOGGER_INTERNAL
+#from microspeclib.internal.logger import CHROMASPEC_LOGGER_INTERNAL
 #import logging
 
-from test_bytesio_stream import ChromaSpecTestBytesIOStream
+from test_bytesio_stream import MicroSpecTestBytesIOStream
 
 @pytest.mark.skipif(sys.platform not in ["darwin","linux"], reason="Emulation currently only runs on linux and MacOS")
-class ChromaSpecTestEmulatedStream(ChromaSpecTestBytesIOStream):
+class MicroSpecTestEmulatedStream(MicroSpecTestBytesIOStream):
   def __init__(self, *args, **kwargs):
     # Note: 0.1 second is way more than needed, but most of these are tests of proper functionality,
     # not failures and partial reads. For those cases, the timeout is set explicitly.
@@ -30,9 +30,9 @@ class ChromaSpecTestEmulatedStream(ChromaSpecTestBytesIOStream):
     # send a command and check the response.
     super().__init__(*args, **kwargs)
     self.num_socats_before = self.num_running_socats()
-    self.emulator = ChromaSpecEmulator()
-    self.hardware = ChromaSpecEmulatedStream(timeout=0.1, socat=True, fork=False)
-    self.software = ChromaSpecSerialIOStream(device=self.hardware.software, timeout=0.1)
+    self.emulator = MicroSpecEmulator()
+    self.hardware = MicroSpecEmulatedStream(timeout=0.1, socat=True, fork=False)
+    self.software = MicroSpecSerialIOStream(device=self.hardware.software, timeout=0.1)
 
   def num_running_socats(self):
     num = 0

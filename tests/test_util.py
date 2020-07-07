@@ -3,9 +3,9 @@
 # All Rights Reserved by Chromation, Inc
 
 import unittest, os
-from chromaspeclib.internal.util import ChromaSpecInteger, isInt, dehex
+from microspeclib.internal.util import MicroSpecInteger, isInt, dehex
 
-class ChromaSpecTestUtil(unittest.TestCase):
+class MicroSpecTestUtil(unittest.TestCase):
 
   def test_chromationInteger(self):
     ints = [
@@ -19,7 +19,7 @@ class ChromaSpecTestUtil(unittest.TestCase):
       [ 255, 1,    "big", False,     b'\xff'],
     ]
     for i in ints:
-      ci = ChromaSpecInteger(i[0], i[1], i[2], i[3])
+      ci = MicroSpecInteger(i[0], i[1], i[2], i[3])
       assert ci == i[0]
       b = bytes(ci)
       assert b == i[4]
