@@ -50,6 +50,13 @@ def generateTest(command_class):
       command.binning    = True
       command.gain       = Gain1x
       command.row_bitmap = 0x1F
+    elif command_class is CommandSetAutoExposeConfig:
+      command.max_tries        = 1
+      command.start_pixel      = 2
+      command.stop_pixel       = 3
+      command.target           = 4
+      command.target_tolerance = 5
+      command.max_exposure     = 6
     elif command_class is CommandSetExposure:
       command.cycles  = 1
     else:

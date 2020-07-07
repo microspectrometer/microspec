@@ -14,6 +14,14 @@ class MicroSpecEmulator(object):
     self.gain       = GainDefault
     self.rows       = RowsDefault
     self.cycles     = 0 #TODO: default cycles value
+    self.max_tries        = 0
+    self.start_pixel      = 0
+    self.stop_pixel       = 0
+    self.target           = 0
+    self.target_tolerance = 0
+    self.max_exposure     = 0
+    self.success          = 0
+    self.iterations       = 0
 
   def process(self, command):
     #import pdb; pdb.set_trace()
@@ -86,7 +94,21 @@ class MicroSpecEmulator(object):
                 SensorSetSensorConfig(status=StatusError)]
     elif command.command_id == CommandAutoExposure.command_id:
       return [BridgeAutoExposure(status=StatusOK),
-              SensorAutoExposure(status=StatusOK)]
+              SensorAutoExposure(status=StatusOK, success=0, iterations=0)]
+    elif command.command_id == CommandGetAutoExposeConfig.command_id:
+      return [BridgeGetAutoExposeConfig(status=StatusOK),
+              SensorGetAutoExposeConfig(status=StatusOK, max_tries=self.max_tries, start_pixel=self.start_pixel,
+                                        stop_pixel=self.stop_pixel, target=self.target, 
+                                        target_tolerance=self.target_tolerance, max_exposure=self.max_exposure)]
+    elif command.command_id == CommandSetAutoExposeConfig.command_id:
+      self.max_tries        = command.max_tries
+      self.start_pixel      = command.start_pixel
+      self.stop_pixel       = command.stop_pixel
+      self.target           = command.target
+      self.target_tolerance = command.target_tolerance
+      self.max_exposure     = command.max_exposure
+      return [BridgeSetAutoExposeConfig(status=StatusOK),
+              SensorSetAutoExposeConfig(status=StatusOK)]
     elif command.command_id == CommandGetExposure.command_id:
       return [BridgeGetExposure(status=StatusOK),
               SensorGetExposure(status=StatusOK, cycles=self.cycles)]

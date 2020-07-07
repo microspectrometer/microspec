@@ -28,7 +28,7 @@ class MicroSpecTestEmulator(unittest.TestCase):
     e = MicroSpecEmulator()
     assert e.process(CommandAutoExposure()) == \
                     [BridgeAutoExposure(status=StatusOK),
-                     SensorAutoExposure(status=StatusOK)]
+                     SensorAutoExposure(status=StatusOK, success=0, iterations=0)]
 
   def test_chromationEmulatorCaptureFrame(self):
     e = MicroSpecEmulator()
