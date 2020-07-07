@@ -160,8 +160,8 @@ setup(
     # Similar to `install_requires` above, these must be valid existing
     # projects.
     extras_require={
-        'test': ['pytest', 'chromaspeclib'],
-        'gui':  ['pygame', 'chromaspeclib'],
+        'test': ['pytest'],
+        'gui':  ['pygame'],
     },
 
     # If there are data files included in your packages that need to be
