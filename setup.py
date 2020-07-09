@@ -38,7 +38,7 @@ setup(
     # There are some restrictions on what makes a valid project name
     # specification here:
     # https://packaging.python.org/specifications/core-metadata/#name
-    name='chromaspeclib',  # Required
+    name='microspec',  # Required
 
     # Versions should comply with PEP 440:
     # https://www.python.org/dev/peps/pep-0440/
@@ -51,7 +51,7 @@ setup(
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#summary
-    description='Chromation spectrometer interface API',
+    description='Python API for the Chromation spectrometer dev-kit',
 
     # This is an optional longer description of your project that represents
     # the body of text which users will see when they visit PyPI.
@@ -79,11 +79,14 @@ setup(
     #
     # This field corresponds to the "Home-Page" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#home-page-optional
-    url='https://www.chromation.com/',
+    # url='https://www.chromation.com/',
+    url='https://github.com/microspectrometer/microspec',
+
 
     # This should be your name or the name of the organization which owns the
     # project.
     author='Chromation',
+    author_email="mike@chromationspec.com",
 
     # This should be a valid email address corresponding to the author listed
     # above.
@@ -104,7 +107,7 @@ setup(
         #'Topic :: Software Development :: Build Tools',
 
         # Pick your license as you wish
-        'License :: Other/Proprietary License',
+        'License :: OSI Approved :: MIT License',
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
@@ -113,13 +116,18 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+
+        # Additional classifiers
+        "Topic :: Scientific/Engineering",
+        "Topic :: Software Development :: Embedded Systems",
+        "Topic :: Terminals :: Serial",
     ],
 
     # This field adds keywords for your project which will appear on the
     # project page. What does your project relate to?
     #
     # Note that this is a string of words separated by whitespace, not a list.
-    keywords='spectrometer usb hardware api',
+    keywords='spectrometer api usb serial embedded systems hardware',
 
     # When your source code is in a subdirectory under the project root, e.g.
     # `src/`, it is necessary to specify the `package_dir` argument.
@@ -149,7 +157,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['pyserial', 'psutil', 'tabulate', 'sphinx'],
+    install_requires=['pyserial'],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -160,8 +168,12 @@ setup(
     # Similar to `install_requires` above, these must be valid existing
     # projects.
     extras_require={
-        'test': ['pytest'],
-        'gui':  ['pygame'],
+        # Run tests:
+        'test': ['pytest', 'tabulate'],
+        # Test using the emulator (Mac and Linux only, requires socat):
+        'emulator': ['psutil'],
+        # Rebuild documentation after making changes to the API:
+        'dev': ['sphinx', 'recommonmark', 'm2r', 'sphinxcontrib-argdoc'],
     },
 
     # If there are data files included in your packages that need to be
@@ -179,11 +191,18 @@ setup(
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
+    # For example, if installing in virtual environment `foo`,
+    # The microspec package is installed in
+    # foo\Lib\site-packages\microspeclib
+    # But these `data_files` are installed outside the package:
+    # - the tests are in foo/share/microspeclib/tests
+    # - the docs are in foo/share/microspeclib/docs
+    # - the JSON file is in foo/share/microspeclib/cfg
     data_files=[
-      ('share/chromaspeclib/cfg',                     ['cfg/chromaspec.json']),
-      ('share/chromaspeclib/tests',                   glob.glob("tests/*.*")),
-      ('share/chromaspeclib/doc/build/html',          glob.glob("doc/build/html/*.*")),
-      ('share/chromaspeclib/doc/build/html/_static',  glob.glob("doc/build/html/_static/*.*")),
+      ('share/microspeclib/cfg',                     ['cfg/microspec.json']),
+      ('share/microspeclib/tests',                   glob.glob("tests/*.*")),
+      ('share/microspeclib/doc/build/html',          glob.glob("doc/build/html/*.*")),
+      ('share/microspeclib/doc/build/html/_static',  glob.glob("doc/build/html/_static/*.*")),
     ],
 
     # To provide executable scripts, use entry points in preference to the
@@ -198,10 +217,10 @@ setup(
     #        'sample=sample:main',
     #    ],
     #},
-    scripts=['bin/chromaspec_cmdline.py',
-        'bin/chromaspec_emulator.py',
-        'bin/chromaspec_expert_example.py',
-        'bin/chromaspec_simple_example.py'
+    scripts=['bin/microspec_cmdline.py',
+        'bin/microspec_emulator.py',
+        'bin/microspec_expert_example.py',
+        'bin/microspec_simple_example.py'
     ],
 
     # List additional URLs that are relevant to your project as a dict.
@@ -214,7 +233,10 @@ setup(
     # maintainers, and where to support the project financially. The key is
     # what's used to render the link text on PyPI.
     project_urls={
+        'GitHub': 'https://github.com/microspectrometer/microspec',
+        'Chromation': 'https://www.chromation.com/',
         'Thanks To': 'http://eruciform.com/',
-        'Chromation': 'https://www.chromation.com/'
     },
+    license='MIT', # field in *.egg-info/PKG-INFO
+    platforms=['Windows', 'Mac', 'Linux'], # legacy field in *.egg-info/PKG-INFO
 )
