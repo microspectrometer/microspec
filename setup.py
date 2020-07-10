@@ -47,7 +47,7 @@ setup(
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     # version='0.1.1a3',  # Required (reset to this before PyPI publish)
-    version='0.1.1a6',  # Temporary increment for TestPyPI publish)
+    version='0.1.1a8',  # Temporary increment for TestPyPI publish)
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -128,7 +128,7 @@ setup(
     # project page. What does your project relate to?
     #
     # Note that this is a string of words separated by whitespace, not a list.
-    keywords='spectrometer api usb serial embedded systems hardware',
+    keywords='spectrometer API USB serial hardware embedded-systems',
 
     # When your source code is in a subdirectory under the project root, e.g.
     # `src/`, it is necessary to specify the `package_dir` argument.
@@ -223,20 +223,25 @@ setup(
     scripts=['bin/microspec_cmdline.py',
         'bin/microspec_emulator.py',
         'bin/microspec_expert_example.py',
-        # 'bin/microspec_simple_example.py'
+        'bin/microspec_simple_example.py'
     ],
-    # entry_points style requires `bin` is a module
+    # entry_points style requires `bin` is a module and `main` is
+    # a function.
     # entry_points={
     #     "console_scripts": [
     #         "simple_example=bin.microspec_simple_example:main",
     #     ],
-    # but bin is not a module
-    # so put script in `microspeclib/examples`
-    # example: run from PowerShell: `> simple_example`
-    # On Windows, creates foo\Scripts\simple_example.exe
+    # but `bin` is not a module and `main` is not a function.
+    # Copy script to new directory `microspeclib/examples`.
+    # Rename as 'microspec_api.py'.
+    # The script name cannot contain "-", use "_" instead.
+    # `import *` is not allowed inside a function call.
+    # Run from PowerShell: `> microspec-api-example`
+    # On Windows, install creates foo\Scripts\microspec-api-example.exe
     entry_points={
         "console_scripts": [
             "microspec-api-example=microspeclib.examples.microspec_api:main",
+            "microspec-lowlevel-api-example=microspeclib.examples.microspec_lowlevel_api:main",
         ],
     },
 
@@ -250,7 +255,6 @@ setup(
     # maintainers, and where to support the project financially. The key is
     # what's used to render the link text on PyPI.
     project_urls={
-        'GitHub': 'https://github.com/microspectrometer/microspec',
         'Chromation': 'https://www.chromation.com/',
         'Thanks To': 'http://eruciform.com/',
     },
