@@ -236,7 +236,7 @@ setup(
     # On Windows, creates foo\Scripts\simple_example.exe
     entry_points={
         "console_scripts": [
-            "microspec-api-example=microspeclib.examples.microspec-api:main",
+            "microspec-api-example=microspeclib.examples.microspec_api:main",
         ],
     },
 
