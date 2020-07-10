@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 
-# Copyright 2020 by Chromation, Inc
-# All Rights Reserved by Chromation, Inc
+'''Examples using the API simple interface.
 
-if __name__ == "__main__":
+USAGE
+-----
+After "pip install microspec", this script runs from the command
+line with the command "microspec-api-example"
+
+$ microspec-api-example
+'''
+
+def main():
   from microspeclib.simple    import MicroSpecSimpleInterface
   from microspeclib.datatypes import *
   
