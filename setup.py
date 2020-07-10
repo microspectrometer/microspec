@@ -46,7 +46,8 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.1.1a3',  # Required
+    # version='0.1.1a3',  # Required (reset to this before PyPI publish)
+    version='0.1.1a5',  # Temporary increment for TestPyPI publish)
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -217,11 +218,27 @@ setup(
     #        'sample=sample:main',
     #    ],
     #},
+    # example: run from PowerShell: `> microspec_simple_example.py`
+    # On Windows, creates foo\Scripts\simple_example.py
     scripts=['bin/microspec_cmdline.py',
         'bin/microspec_emulator.py',
         'bin/microspec_expert_example.py',
-        'bin/microspec_simple_example.py'
+        # 'bin/microspec_simple_example.py'
     ],
+    # entry_points style requires `bin` is a module
+    # entry_points={
+    #     "console_scripts": [
+    #         "simple_example=bin.microspec_simple_example:main",
+    #     ],
+    # but bin is not a module
+    # so put script in `microspeclib/examples`
+    # example: run from PowerShell: `> simple_example`
+    # On Windows, creates foo\Scripts\simple_example.exe
+    entry_points={
+        "console_scripts": [
+            "simple_example=microspeclib.examples.api_calls:main",
+        ],
+    },
 
     # List additional URLs that are relevant to your project as a dict.
     #
