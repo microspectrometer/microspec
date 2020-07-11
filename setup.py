@@ -47,7 +47,7 @@ setup(
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     # version='0.1.1a3',  # Required (reset to this before PyPI publish)
-    version='0.1.1a8',  # Temporary increment for TestPyPI publish)
+    version='0.1.1a9',  # Temporary increment for TestPyPI publish)
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -242,6 +242,7 @@ setup(
         "console_scripts": [
             "microspec-api-example=microspeclib.examples.microspec_api:main",
             "microspec-lowlevel-api-example=microspeclib.examples.microspec_lowlevel_api:main",
+            "microspec-cmdline=microspeclib.examples.microspec_cmdline:main",
         ],
     },
 
