@@ -39,6 +39,9 @@ microspec_cmdline.py -e ...
 def main():
   import subprocess, sys
   # subprocess.call(["python", "-m", "microspeclib.cmdline"] + sys.argv[1:])
+  # Use sys.executable instead of "python" to see the
+  # microspeclib package installed in the active virtual
+  # environment.
   subprocess.call([sys.executable, "-m", "microspeclib.cmdline"] + sys.argv[1:])
 
 if __name__ == "__main__":

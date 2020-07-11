@@ -6,7 +6,7 @@ This development toolkit contains the setup necessary for enhancing and debuggin
 
 Clone the repository:
 
-...
+<https://github.com/microspectrometer/microspec>
 
 ## Install Additional Tools
 
