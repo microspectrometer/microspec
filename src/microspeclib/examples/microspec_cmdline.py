@@ -38,8 +38,9 @@ microspec_cmdline.py -e ...
 
 def main():
   import subprocess, sys
-  subprocess.call(["python", "-m", "microspeclib.cmdline"] + sys.argv[1:])
-  
+  # subprocess.call(["python", "-m", "microspeclib.cmdline"] + sys.argv[1:])
+  subprocess.call([sys.executable, "-m", "microspeclib.cmdline"] + sys.argv[1:])
+
 if __name__ == "__main__":
   main()
 
