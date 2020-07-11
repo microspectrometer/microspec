@@ -17,16 +17,16 @@ consisting of a linear photodiode array and optical components.
 The Python API communicates with firmware on the two
 microcontrollers in the dev-kit, one on each of the stacked PCBs.
 
-The microcontroller on the bottom of the stack provides a SPI
-interface to the Chromation spectrometer. The microcontroller on
-the PCB stacked above provides a USB bridge that turns the SPI
-interface into a USB interface. `microspeclib` accesses this USB
-interface using `pyserial`.
+- The microcontroller on the bottom of the stack provides a SPI
+interface to the Chromation spectrometer.
+- The microcontroller on the PCB stacked above provides a USB
+  bridge that turns the SPI interface into a USB interface.
+
+`microspeclib` accesses this USB interface using `pyserial`.
 
 # Install the Python API
 
-To use the `microspeclib` API or the `microspec` command-line
-utility, install with `pip`:
+Install the `microspec` project with `pip`:
 
 ```
 $ pip install microspec
@@ -36,6 +36,23 @@ To extend/customize/repurpose the API, clone the repository from
 the project homepage:
 <https://github.com/microspectrometer/microspec> and install in
 `--editable` mode.
+
+## Windows Load VCP
+On Windows, when connecting the dev-kit for the first time:
+
+- Open Device Manager:
+    - right-click on USB Serial Converter
+    - select Properties
+    - go to tab "Advanced"
+    - check "Load VCP"
+    - cycle power to the dev-kit (unplug/plug the USB cable)
+
+Now "Load VCP" is enabled every time the dev-kit is connected to
+this Windows computer.
+
+If "Load VCP" is not enabled, `pyserial` cannot communicate with
+the dev-kit and `microspec` will report that it does not see a
+connected USB device.
 
 ## Install extra requirements for testing and documentation
 
@@ -71,23 +88,14 @@ $ pip install microspec[dev]
 
 # Use the Python API
 
-On Windows, when connecting the dev-kit for the first time:
-
-- Open Device Manager:
-    - right-click on USB Serial Converter
-    - select Properties
-    - go to tab "Advanced"
-    - check "Load VCP"
-    - cycle power to the dev-kit (unplug/plug the USB cable)
-
-Now "Load VCP" is checked every time the dev-kit is connected to
-this Windows computer.
-
 Import the API in a Python script or at a Python REPL:
 
 ```python
 >>> from microspeclib.simple import MicroSpecSimpleInterface
 ```
+
+The API is a set of commands for configuring the spectrometer and
+acquiring data.
 
 There is one method for each command. Commands are
 camelCaseFormatted. Commands return the received reply object. If
@@ -131,6 +139,13 @@ microspec_cmdline.py setsensorconfig binning=true gain=gain1x row_bitmap=0x1f
 microspec_cmdline.py setexposure cycles=100
 microspec_cmdline.py captureframe -t 0.2 -r 3 -w 1.5 --csv
 ```
+
+### the command line utility is a `.exe` on Windows
+
+On Windows, replace `microspec_cmdline.py` in the above lines
+with `microspec_cmdline.exe`.
+
+### Option to use emulator with `-e`
 
 Note that if you have no hardware connected, you can (on Linux
 and MacOSX) add a "-e" flag to use the emulator. It won't return
