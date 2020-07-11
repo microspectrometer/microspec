@@ -47,7 +47,7 @@ setup(
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     # version='0.1.1a3',  # Required (reset to this before PyPI publish)
-    version='0.1.1a9',  # Temporary increment for TestPyPI publish)
+    version='0.1.1a10',  # Temporary increment for TestPyPI publish)
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -236,6 +236,8 @@ setup(
     # Rename as 'microspec_api.py'.
     # The script name cannot contain "-", use "_" instead.
     # `import *` is not allowed inside a function call.
+    # The entry point key must be "console_scripts": this
+    # installs the .exe in the Scripts folder on Windows.
     # Run from PowerShell: `> microspec-api-example`
     # On Windows, install creates foo\Scripts\microspec-api-example.exe
     entry_points={
