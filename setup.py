@@ -244,7 +244,7 @@ setup(
         "console_scripts": [
             "microspec-api-example=microspeclib.examples.microspec_api:main",
             "microspec-lowlevel-api-example=microspeclib.examples.microspec_lowlevel_api:main",
-            "microspec-cmdline=microspeclib.examples.microspec_cmdline:main",
+            "microspec-cmdline=microspeclib.scripts.microspec_cmdline:main",
         ],
     },
 
