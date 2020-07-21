@@ -3,7 +3,7 @@ import os
 __copyright__ = """Copyright 2020 Chromation, Inc"""
 __license__   = """All Rights Reserved by Chromation, Inc"""
 __doc__       = """
-testing 1 2 3
+see API documentation: 'python -m pydoc microspeclib.simple'
 """
 
 
