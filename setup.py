@@ -170,7 +170,7 @@ setup(
     # projects.
     extras_require={
         # Run tests:
-        'test': ['pytest', 'tabulate'],
+        'test': ['pytest', 'tabulate', 'pytest-testdox'],
         # Test using the emulator (Mac and Linux only, requires socat):
         'emulator': ['psutil'],
         # Rebuild documentation after making changes to the API:
