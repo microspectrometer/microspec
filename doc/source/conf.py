@@ -32,7 +32,9 @@ extensions = [
 'sphinx.ext.autodoc', 
 'sphinx.ext.coverage', 
 'sphinx.ext.napoleon',
-'m2r',
+# 'm2r', incompatible with Sphinx
+#        see https://github.com/sphinx-doc/sphinx/issues/7420
+'recommonmark', # replaces m2r
 'sphinxcontrib.argdoc',
 ]
 
