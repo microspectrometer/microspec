@@ -46,8 +46,8 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.1.1a5',  # Required (reset to this before PyPI publish)
-    # version='0.1.1a11',  # Temporary increment for TestPyPI publish)
+    # version='0.1.1a5',  # Required (reset to this before PyPI publish)
+    version='0.1.1a13',  # Temporary increment for TestPyPI publish)
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -150,8 +150,7 @@ setup(
     # and refuse to install the project if the version does not match. If you
     # do not support Python 2, you can simplify this to '>=3.5' or similar, see
     # https://packaging.python.org/guides/distributing-packages-using-setuptools/#python-requires
-    # python_requires='>=3.7', # need 3.7 for Pyserial and Sphinx?
-    python_requires='>=3.6', # Linux Mint includes 3.6
+    python_requires='>=3.7', # need 3.7 for namedtuple kwarg "defaults"
 
     # This field lists other packages that your project depends on to run.
     # Any package you put here will be installed by pip when your project is
@@ -180,7 +179,9 @@ setup(
             'recommonmark',
             'm2r',
             'sphinxcontrib-argdoc',
-            'psutil'
+            'pytest', # also required by 'test'
+            'tabulate', # also required by 'test'
+            'psutil', # also required by 'emulator'
             ],
     },
 
