@@ -175,6 +175,7 @@ setup(
         # rebuild documentation after modifying API
         'dev': [
             'sphinx', # docs
+            'sphinx-rtd-theme', # docs
             'recommonmark', # docs
             'm2r', # docs
             'sphinxcontrib-argdoc', # docs
