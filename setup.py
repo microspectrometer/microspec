@@ -169,19 +169,19 @@ setup(
     # Similar to `install_requires` above, these must be valid existing
     # projects.
     extras_require={
-        # Run tests:
-        'test': ['pytest', 'tabulate', 'pytest-testdox'],
-        # Test using the emulator (Mac and Linux only, requires socat):
-        'emulator': ['psutil'],
-        # Rebuild documentation after making changes to the API:
+        # For developers:
+        # emulate hardware (Linux/Mac only, requires socat)
+        # run unit tests after modifying API
+        # rebuild documentation after modifying API
         'dev': [
-            'sphinx',
-            'recommonmark',
-            'm2r',
-            'sphinxcontrib-argdoc',
-            'pytest', # also required by 'test'
-            'tabulate', # also required by 'test'
-            'psutil', # also required by 'emulator'
+            'sphinx', # docs
+            'recommonmark', # docs
+            'm2r', # docs
+            'sphinxcontrib-argdoc', # docs
+            'pytest', # docs and unit test
+            'pytest-testdox', # pretty-print unit tests
+            'tabulate', # docs and unit test
+            'psutil', # docs and emulator (requires socat)
             ],
     },
 
