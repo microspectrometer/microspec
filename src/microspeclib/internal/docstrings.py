@@ -44,6 +44,7 @@ _common = {
                 """  The color state of the LED""",
   "status":     """status: :data:`~{dt}.types.StatusOK` or :data:`~{dt}.types.StatusError`""" + \
                 """  If there is an error status, the other attributes are not valid""",
+  "useful":     """the useful API return values""",
   "notfinal":   """This is not the final payload for this command type. If the Simple or Expert API returns this object, """ + \
                 """then the command failed in the Bridge and did not even make it to the Sensor."""
 }
@@ -152,18 +153,47 @@ Returns
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandAutoExposure"] = """
-Tells the sensor to auto-expose.
+Autoexpose the spectrometer: find the exposure time that results in the peak
+signal in the configured pixel range to land in the configured target signal
+range.
 
-Does not return the final exposure time. That must be requested
-separately with a :class:`~{dt}.command.CommandGetExposure` call.
+The autoexpose algorithm runs in the dev-kit firmware. Configure autoexpose
+parameters with command `setAutoExposeConfig()`, see
+:class:`~{dt}.command.CommandSetAutoExposeConfig`.
+
+Returns success (0 or 1) and number of exposure times attempted.
+
+Does not return the final exposure time. Get exposure time with getExposure(),
+see :class:`~{dt}.command.CommandGetExposure`.
+
+Example
+-------
+>>> from microspeclib.simple import MicroSpecSimpleInterface
+>>> kit = MicroSpecSimpleInterface(timeout=2.0)
+>>> reply = kit.autoExposure()
+>>> print(reply.success) # 1 means success
+1
+>>> print(reply.iterations) # number of exposure times before success/give-up
+3
 
 Returns
 -------
 :class:`~{dt}.bridge.BridgeAutoExposure`
-:class:`~{dt}.sensor.SensorAutoExposure`
+:class:`~{dt}.sensor.SensorAutoExposure` ← {useful}
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetAutoExposeConfig"] = """Retrieves the current auto-expose configuration.
+
+Example
+-------
+>>> from microspeclib.simple import MicroSpecSimpleInterface
+>>> kit = MicroSpecSimpleInterface(timeout=2.0)
+>>> reply = kit.getAutoExposeConfig()
+>>> print(reply.max_tries)
+>>> print(reply.start_pixel)
+>>> print(reply.stop_pixel)
+>>> print(reply.target)
+>>> print(reply.target_tolerance)
 
 Returns
 -------
