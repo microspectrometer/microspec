@@ -12,13 +12,22 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../src'))
-sys.path.insert(1, os.path.abspath('../'))
+# I commented these out because they look like the wrong path.
+# sys.path.insert(0, os.path.abspath('../src'))
+# sys.path.insert(1, os.path.abspath('../'))
+
+# These have no effect either.
+# sys.path.insert(0, os.path.abspath('../../src/'))
+# sys.path.insert(0, os.path.abspath('../../tests/'))
+# sys.path.insert(0, os.path.abspath('../../bin/'))
+# sys.path.insert(0, os.path.abspath('../../'))
+#
+# Trying to avoid "PYTHONPATH=../tests:../" before "make clean html"
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'chromaspeclib'
+project = 'microspeclib'
 copyright = '2020, Chromation Inc'
 author = 'Sean Cusack'
 
