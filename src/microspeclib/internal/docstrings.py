@@ -44,7 +44,8 @@ _common = {
                 """  The color state of the LED""",
   "status":     """status: :data:`~{dt}.types.StatusOK` or :data:`~{dt}.types.StatusError`""" + \
                 """  If there is an error status, the other attributes are not valid""",
-  "useful":     """the useful API return values""",
+  "useful":     """see return values under **Parameters**""",
+  "noimplement": """NOT IMPLEMENTED. Future: """,
   "notfinal":   """This is not the final payload for this command type. If the Simple or Expert API returns this object, """ + \
                 """then the command failed in the Bridge and did not even make it to the Sensor."""
 }
@@ -68,7 +69,7 @@ led_num: 0
 
 Returns
 -------
-:class:`~{dt}.bridge.BridgeGetBridgeLED`
+:class:`~{dt}.bridge.BridgeGetBridgeLED` ← {useful}
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetBridgeLED"] = """Sets the current state of an LED on the Bridge board.
@@ -89,37 +90,37 @@ the Sensor board.
 
 Parameters
 ----------
-led_num: 0-2
+led_num: 0, 1
   The index of the LED on the Sensor
 
 Returns
 -------
 :class:`~{dt}.bridge.BridgeGetSensorLED`
-:class:`~{dt}.bridge.SensorGetSensorLED`
+:class:`~{dt}.sensor.SensorGetSensorLED` ← {useful}
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetSensorLED"] = """Sets the current state of an LED on the Bridge board.
 
 Parameters
 ----------
-led_num: 0-2
+led_num: 0, 1
   The index of the LED on the Sensor
 {led_status}
 
 Returns
 -------
 :class:`~{dt}.bridge.BridgeSetSensorLED`
-:class:`~{dt}.bridge.SensorSetSensorLED`
+:class:`~{dt}.sensor.SensorSetSensorLED` ← {useful}
 
 """
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandReset"] = """Resets the hardware and replies when the reset is complete.
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandReset"] = """{noimplement} Resets the hardware and replies when the reset is complete.
 
 Returns
 -------
 :class:`~{dt}.bridge.BridgeReset`
 
 """
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandVerify"] = """Verifies running status of the hardware.
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandVerify"] = """{noimplement} Verifies running status of the hardware.
 
 Returns
 -------
@@ -131,25 +132,29 @@ CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetSensorConfig"] = """Retrieves the c
 Returns
 -------
 :class:`~{dt}.bridge.BridgeGetSensorConfig`
-:class:`~{dt}.sensor.SensorGetSensorConfig`
+:class:`~{dt}.sensor.SensorGetSensorConfig` ← {useful}
 
 """
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetSensorConfig"] = """Sets the current sensor configuration.
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetSensorConfig"] = """Configure the
+photodiode array in the spectrometer chip.
 
 Parameters
 ----------
-binning: 0-1
-  Whether or not to bin related pixel values
-gain: 0-255
-  Gain
+binning: 0 (off), 1 (on)
+  with binning off there are 784 pixels with 7.8µm pitch, with binning on there
+  are 392 pixels with 15.6µm pitch
+gain: 0x01 (1x), 0x25 (2.5x), 0x04 (4x), 0x05 (5x)
+  analog voltage gain applied to each pixel
 row_bitmap:
-  Which rows to permit sensing on. There are 5, and can all be activated with a binary bitmap of 5 1's, i.e. 011111 or 0x1F.
-  Any combination is permitted except 0x0
+  each pixel is 312.5µm tall and this height is divided into 5 sub-pixels
+  which can be enabled/disabled.
+  Activate all 5 with a binary bitmap of 5 1's, i.e. 0001 1111 or 0x1F.
+  Any combination is permitted except 0x00.
 
 Returns
 -------
 :class:`~{dt}.bridge.BridgeSetSensorConfig`
-:class:`~{dt}.sensor.SensorSetSensorConfig`
+:class:`~{dt}.sensor.SensorSetSensorConfig` ← {useful}
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandAutoExposure"] = """
@@ -169,7 +174,7 @@ see :class:`~{dt}.command.CommandGetExposure`.
 Example
 -------
 >>> from microspeclib.simple import MicroSpecSimpleInterface
->>> kit = MicroSpecSimpleInterface(timeout=2.0)
+>>> kit = MicroSpecSimpleInterface()
 >>> reply = kit.autoExposure()
 >>> print(reply.success) # 1 means success
 1
@@ -187,18 +192,23 @@ CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetAutoExposeConfig"] = """Retrieves t
 Example
 -------
 >>> from microspeclib.simple import MicroSpecSimpleInterface
->>> kit = MicroSpecSimpleInterface(timeout=2.0)
+>>> kit = MicroSpecSimpleInterface()
 >>> reply = kit.getAutoExposeConfig()
 >>> print(reply.max_tries)
+12
 >>> print(reply.start_pixel)
+7
 >>> print(reply.stop_pixel)
+392
 >>> print(reply.target)
+46420
 >>> print(reply.target_tolerance)
+3277
 
 Returns
 -------
 :class:`~{dt}.bridge.BridgeGetAutoExposeConfig`
-:class:`~{dt}.sensor.SensorGetAutoExposeConfig`
+:class:`~{dt}.sensor.SensorGetAutoExposeConfig` ← {useful}
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetAutoExposeConfig"] = """Sets the current auto-expose configuration.
@@ -259,7 +269,7 @@ target_tolerance: 0-65535
 Returns
 -------
 :class:`~{dt}.bridge.BridgeSetAutoExposeConfig`
-:class:`~{dt}.sensor.SensorSetAutoExposeConfig`
+:class:`~{dt}.sensor.SensorSetAutoExposeConfig` ← {useful}
 
 """
 
@@ -269,7 +279,7 @@ either by :class:`~{dt}.command.CommandSetExposure` or :class:`~{dt}.command.Com
 Returns
 -------
 :class:`~{dt}.bridge.BridgeGetExposure`
-:class:`~{dt}.sensor.SensorGetExposure`
+:class:`~{dt}.sensor.SensorGetExposure` ← {useful}
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetExposure"] = """Set the exposure value for the sensor.
@@ -282,7 +292,7 @@ cycles: 1-65535
 Returns
 -------
 :class:`~{dt}.bridge.BridgeSetExposure`
-:class:`~{dt}.sensor.SensorSetExposure`
+:class:`~{dt}.sensor.SensorSetExposure` ← {useful}
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandCaptureFrame"] = """Retrieve one set of captured pixels.
@@ -290,7 +300,7 @@ CHROMASPEC_DYNAMIC_DOC["command"]["CommandCaptureFrame"] = """Retrieve one set o
 Returns
 -------
 :class:`~{dt}.bridge.BridgeCaptureFrame`
-:class:`~{dt}.sensor.SensorCaptureFrame`
+:class:`~{dt}.sensor.SensorCaptureFrame` ← {useful}
 
 """
 CHROMASPEC_DYNAMIC_DOC["bridge"]["BridgeNull"] = """This packet doesn't actually exist, as the request for a Null
@@ -423,7 +433,7 @@ command.
 Parameters
 ----------
 {status}
-binning: 0-1
+binning: 0, 1
   Whether or not to bin adjacent pixels.
   0: binning off, LIS-770i has 784 7.8µm-pitch pixels, 770 optically active
   1: binning on, LIS-770i has 392 15.6µm-pitch pixels, 385 optically active
