@@ -18,9 +18,9 @@ import sys
 
 # These have no effect either.
 # sys.path.insert(0, os.path.abspath('../../src/'))
-# sys.path.insert(0, os.path.abspath('../../tests/'))
+sys.path.insert(0, os.path.abspath('../../tests/'))
 # sys.path.insert(0, os.path.abspath('../../bin/'))
-# sys.path.insert(0, os.path.abspath('../../'))
+sys.path.insert(0, os.path.abspath('../../'))
 #
 # Trying to avoid "PYTHONPATH=../tests:../" before "make clean html"
 
