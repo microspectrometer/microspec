@@ -16,11 +16,13 @@ import sys
 # sys.path.insert(0, os.path.abspath('../src'))
 # sys.path.insert(1, os.path.abspath('../'))
 
-# These have no effect either.
+# Adding these causes RTD built to fail with AttributeError: 'Sphinx' object has
+# no attribute 'warn'
+# sys.path.insert(0, os.path.abspath('../../tests/'))
+# sys.path.insert(0, os.path.abspath('../../'))
+# These also do not help.
 # sys.path.insert(0, os.path.abspath('../../src/'))
-sys.path.insert(0, os.path.abspath('../../tests/'))
 # sys.path.insert(0, os.path.abspath('../../bin/'))
-sys.path.insert(0, os.path.abspath('../../'))
 #
 # Trying to avoid "PYTHONPATH=../tests:../" before "make clean html"
 
