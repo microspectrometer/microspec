@@ -46,7 +46,7 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.1.1a5',  # Required (reset to this before PyPI publish)
+    version='0.1.1a6',  # Required (reset to this before PyPI publish)
     # version='0.1.1a13',  # Temporary increment for TestPyPI publish)
 
     # This is a one-line description or tagline of what your project does. This
@@ -245,10 +245,12 @@ setup(
     # Rename as 'microspec_api.py'.
     # The script name cannot contain "-", use "_" instead.
     # `import *` is not allowed inside a function call.
-    # The entry point key must be "console_scripts": this
-    # installs the .exe in the Scripts folder on Windows.
-    # Run from PowerShell: `> microspec-api-example`
-    # On Windows, install creates foo\Scripts\microspec-api-example.exe
+    # The entry point key must be "console_scripts". This:
+    # - installs the .exe in the {venv}\Scripts folder on Windows
+    # - installs the script in the {venv}/bin folder on Linux
+    # Run from PowerShell: `> microspec-cmdline`
+    # Run from bash: `$ microspec-cmdline`
+    # On Windows, install creates {venv}\Scripts\microspec-api-example.exe
     entry_points={
         "console_scripts": [
             "microspec-api-example=microspeclib.examples.microspec_api:main",

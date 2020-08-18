@@ -7,6 +7,7 @@ recursive-include doc *.buildinfo
 recursive-include doc *.doctree
 recursive-include doc *.md
 recursive-include doc *.pickle
+recursive-include doc *.png
 recursive-include doc *.py
 recursive-include doc *.rst
 recursive-include doc *.txt
