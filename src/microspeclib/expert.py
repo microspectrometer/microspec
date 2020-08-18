@@ -15,7 +15,7 @@ __all__ = [ "MicroSpecExpertInterface" ]
 
 from microspeclib.internal.stream import MicroSpecSerialIOStream, MicroSpecEmulatedStream
 class MicroSpecExpertInterface(MicroSpecSerialIOStream):
-  def __init__(self, serial_number=None, device=None, timeout=0.01, retry_timeout=0.001, emulation=False, *args, **kwargs):
+  def __init__(self, serial_number=None, device=None, timeout=2.0, retry_timeout=0.001, emulation=False, *args, **kwargs):
     log.info("serial_number=%s, device=%s, timeout=%s, retry_timeout=%s, emulation=%s, args=%s, kwargs=%s",
              serial_number, device, timeout, retry_timeout, emulation, args, kwargs)
     if emulation:
