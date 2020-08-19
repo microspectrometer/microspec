@@ -29,7 +29,7 @@ import sys
 
 # -- Project information -----------------------------------------------------
 
-project = 'microspeclib'
+project = 'microspec'
 copyright = '2020, Chromation Inc'
 author = 'Sean Cusack'
 

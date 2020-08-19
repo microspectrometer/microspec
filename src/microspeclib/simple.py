@@ -8,7 +8,7 @@ from microspeclib.datatypes.command   import CHROMASPEC_COMMAND_NAME
 from microspeclib.internal.docstrings import CHROMASPEC_DYNAMIC_DOC
 import sys
 
-# The Simple interface doesn't retuire creating objects or doing any sending and waiting
+# The Simple interface doesn't require creating objects or doing any sending and waiting
 # loops, instead it simply acts like a hardware object that you query for information
 
 # The names of the methods are the names of the Command objects, but with the first letter

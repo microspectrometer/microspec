@@ -1,5 +1,7 @@
-microspeclib.datatypes.sensor module
-=====================================
+.. _dev-kit-API-reply:
+
+microspeclib.datatypes.sensor module (dev-kit API responses)
+============================================================
 
 .. automodule:: microspeclib.datatypes.sensor
    :members:

@@ -1,5 +1,7 @@
-microspeclib.datatypes.types module
-====================================
+.. _dev-kit-API-const:
+
+microspeclib.datatypes.types module (dev-kit API constants)
+===========================================================
 
 .. automodule:: microspeclib.datatypes.types
    :members:

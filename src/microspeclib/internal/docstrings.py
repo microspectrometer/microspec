@@ -39,15 +39,48 @@ the same things over and over below - they are replaced at the end of the module
 CHROMASPEC_DYNAMIC_DOC = {"command":{}, "bridge":{}, "sensor":{}}
 
 _common = { 
+  "api": "microspeclib.simple.MicroSpecSimpleInterface",
   "dt": "microspeclib.datatypes", 
   "led_status": """led_status: :data:`~{dt}.types.LEDOff`, :data:`~{dt}.types.LEDGreen`, or :data:`~{dt}.types.LEDRed`""" + \
                 """  The color state of the LED""",
-  "status":     """status: :data:`~{dt}.types.StatusOK` or :data:`~{dt}.types.StatusError`""" + \
-                """  If there is an error status, the other attributes are not valid""",
+  "status":     """status : :class:`MicroSpecInteger <microspeclib.internal.util.MicroSpecInteger>`"""
+                """\n\n"""
+                """  0: :data:`~{dt}.types.StatusOK`"""
+                """\n"""
+                """    The dev-kit successfully executed the command."""
+                """\n\n"""
+                """  1: :data:`~{dt}.types.StatusError`"""
+                """\n"""
+                """    The dev-kit failed to execute the command """
+                """for one of the following reasons:"""
+                """\n"""
+                """\n      - serial communication failed"""
+                """\n      - the command is invalid"""
+                """\n      - one or more command parameters are invalid"""
+                """\n\n"""
+                """  If status is :data:`~{dt}.types.StatusError` """
+                """the other attributes are not valid.""",
   "useful":     """see return values under **Parameters**""",
   "noimplement": """NOT IMPLEMENTED. Future: """,
-  "notfinal":   """This is not the final payload for this command type. If the Simple or Expert API returns this object, """ + \
-                """then the command failed in the Bridge and did not even make it to the Sensor."""
+  "notfinal":   """This is not the final payload for this command type. """  + \
+                """If the Simple or Expert API returns this object, """ + \
+                """then the command failed in the Bridge """ + \
+                """and did not even make it to the Sensor.""",
+  "null": """:py:func:`null <{api}.null>`""",
+  "getBridgeLED": """:py:func:`getBridgeLED <{api}.getBridgeLED>`""",
+  "setBridgeLED": """:py:func:`setBridgeLED <{api}.setBridgeLED>`""",
+  "getSensorLED": """:py:func:`getSensorLED <{api}.getSensorLED>`""",
+  "setSensorLED": """:py:func:`setSensorLED <{api}.setSensorLED>`""",
+  "reset": """:py:func:`reset <{api}.reset>`""",
+  "verify": """:py:func:`verify <{api}.verify>`""",
+  "getSensorConfig": """:py:func:`getSensorConfig <{api}.getSensorConfig>`""",
+  "setSensorConfig": """:py:func:`setSensorConfig <{api}.setSensorConfig>`""",
+  "getExposure": """:py:func:`getExposure <{api}.getExposure>`""",
+  "setExposure": """:py:func:`setExposure <{api}.setExposure>`""",
+  "captureFrame": """:py:func:`captureFrame <{api}.captureFrame>`""",
+  "autoExposure": """:py:func:`autoExposure <{api}.autoExposure>`""",
+  "getAutoExposeConfig": """:py:func:`getAutoExposeConfig <{api}.getAutoExposeConfig>`""",
+  "setAutoExposeConfig": """:py:func:`setAutoExposeConfig <{api}.setAutoExposeConfig>`""",
 }
 
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandNull"] = """Null loopback request. The hardware will not reply,
@@ -163,13 +196,12 @@ signal in the configured pixel range to land in the configured target signal
 range.
 
 The autoexpose algorithm runs in the dev-kit firmware. Configure autoexpose
-parameters with command `setAutoExposeConfig()`, see
-:class:`~{dt}.command.CommandSetAutoExposeConfig`.
+parameters with {setAutoExposeConfig}.
 
 Returns success (0 or 1) and number of exposure times attempted.
 
-Does not return the final exposure time. Get exposure time with getExposure(),
-see :class:`~{dt}.command.CommandGetExposure`.
+Does not return the final exposure time. Get exposure time with
+{getExposure}.
 
 Example
 -------
@@ -215,13 +247,25 @@ CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetAutoExposeConfig"] = """Sets the cu
 
 Parameters
 ----------
-max_tries: 1-255
-  Maximum number of exposures to try before giving up.
+max_tries : int
+    Maximum number of exposures to try before giving up.
 
-  Firmware defaults to 10 on power-up.
+    Valid range: 1-255
 
-  If max_tries is 0, status is ERROR and the AutoExposeConfig is
-  not changed.
+    If max_tries is 0:
+
+        - reply status is ERROR
+        - auto-expose configuration is not changed
+
+    Dev-kit firmware defaults to `max_tries` = 10 on power-up.
+
+    The auto-expose algorithm usually terminates after a couple
+    of tries. Typically, therefore, the precise value of
+    `max_tries` is not important.
+
+    Adjusting `max_tries` is useful when troubleshooting why
+    {autoExposure} fails. Also useful is the `iterations`
+    parameter in :class:`~{dt}.sensor.SensorAutoExposure`.
 
 start_pixel: 7-392 if binning on, 14-784 if binning off
   Auto-expose ignores pixels below start_pixel when checking if
@@ -286,8 +330,11 @@ CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetExposure"] = """Set the exposure va
 
 Parameters
 ----------
-cycles: 1-65535
-  Number of cycles to wait to collect pixel strength.
+cycles: int
+  Exposure time in cycles. Each cycle is 20µs. For example, a 1ms
+  exposure time is 50 cycles.
+
+  Valid range: 1-65535
 
 Returns
 -------
@@ -458,14 +505,14 @@ Parameters
 {status}
 
 """
-CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorAutoExposure"] = """Contains the result of a :class:`~{dt}.command.CommandAutoExposure`
-command.
+CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorAutoExposure"] = """
+Contains the result of the {autoExposure} command.
 
 Parameters
 ----------
 {status}
 
-success: 0 or 1
+success : :class:`MicroSpecInteger <microspeclib.internal.util.MicroSpecInteger>`
 
   1: success
     Auto-expose settled on an exposure time that put the sensor

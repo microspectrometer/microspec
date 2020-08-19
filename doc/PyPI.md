@@ -4,7 +4,7 @@ spectrometer dev-kit.
 
 The `microspec` project also includes:
 
-- command line utility `microspec_cmdline` for running basic
+- command line utility `microspec-cmdline` for running basic
   measurements without developing a Python application
 - an emulator (Mac and Linux only) for faking the dev-kit
   hardware in unit tests
@@ -59,23 +59,13 @@ connected USB device.
 Developers may want to install additional packages required for
 running unit tests and rebuilding documentation.
 
-1. Unit tests require `pytest` and `tabulate`. Install these by
-   adding `[test]` to the `install` command:
-
 ```
-$ pip install microspec[test]
+$ pip install microspec[dev]
 ```
 
-2. Many unit tests use the emulator. The emulator requires
-   `psutil`. Install this by adding `[emulator]` to the `install`
-   command:
-
-```
-$ pip install microspec[emulator]
-```
-
-The emulator also requires the utility `socat`, which is only
-available for Mac and Linux.
+Many of the `microspec` unit tests use an emulator to fake the
+dev-kit hardware. The emulator requires utility `socat`, which is
+only available for Mac and Linux.
 
 3. The documentation is built with Sphinx. Developers extending
    the API will need to rebuild the documentation. Install the
