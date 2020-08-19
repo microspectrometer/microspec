@@ -215,27 +215,16 @@ Returns
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandAutoExposure"] = """
-Auto-expose the spectrometer:
+Auto-expose the spectrometer.
 
-Tell dev-kit firmware to adjust spectrometer exposure time until peak
-signal strength hits the auto-expose target.
+Tell dev-kit firmware to adjust spectrometer exposure time until
+peak signal strength hits the auto-expose target.
 
 Returns
 -------
 :class:`~{dt}.sensor.SensorAutoExposure`
-
-    success : :class:`~{int}`
-
-        1: SUCCESS
-            The peak signal is in the target counts range.
-
-        0: FAILURE
-            The peak signal is not in the target counts range.
-
-    iterations : :class:`~{int}`
-
-        Number of exposures tried by auto-expose.
-        Valid range: 1-255
+    - success
+    - iterations
 
 Example
 -------
@@ -250,10 +239,7 @@ Example
 See Also
 --------
 setAutoExposeConfig: configure auto-expose parameters
-{setAutoExposeConfig}
-
 getExposure: get the new exposure time after the auto-expose
-{getExposure}
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetAutoExposeConfig"] = """Retrieves the current auto-expose configuration.
@@ -379,12 +365,26 @@ Returns
 :class:`~{dt}.sensor.SensorSetExposure` ← {useful}
 
 """
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandCaptureFrame"] = """Retrieve one set of captured pixels.
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandCaptureFrame"] = """
+Retrieve one frame of spectrometer data.
+
+Tell dev-kit firmware to:
+
+  - expose the pixels using the current exposure time setting
+  - return the counts (signal strength) at each pixel
 
 Returns
 -------
-:class:`~{dt}.bridge.BridgeCaptureFrame`
-:class:`~{dt}.sensor.SensorCaptureFrame` ← {useful}
+:class:`~{dt}.sensor.SensorCaptureFrame`
+    - num_pixels
+    - pixels
+
+Example
+-------
+>>> from microspeclib.simple import MicroSpecSimpleInterface
+>>> kit = MicroSpecSimpleInterface()
+>>> print(kit.captureFrame())
+SensorCaptureFrame(status=0, num_pixels=392, pixels=[7904, 8295, ...
 
 """
 CHROMASPEC_DYNAMIC_DOC["bridge"]["BridgeNull"] = """This packet doesn't actually exist, as the request for a Null
@@ -543,9 +543,10 @@ Parameters
 
 """
 CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorAutoExposure"] = """
-Contains the result of the {autoExposure} command.
+Contains result of command
+{autoExposure}.
 
-Parameters
+Attributes
 ----------
 {status}
 
@@ -589,18 +590,50 @@ Parameters
 {status}
 
 """
-CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorCaptureFrame"] = """Contains the result of a :class:`~{dt}.command.CommandCaptureFrame`
-command.
+CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorCaptureFrame"] = """
+Contains result of command {captureFrame}.
 
-Parameters
+Attributes
 ----------
 {status}
-num_pixels: 0-784
-  The number of pixels to expect in the pixels parameter.
-  Using the recommended (default) configuration, num_pixels is
-  392.
-pixels: Array of values, each from 0-65535
-  The pixel values for one capture frame.
+num_pixels : :class:`~{int}`
+
+    Number of pixels to expect in the pixels parameter.
+
+    - expect 392 pixels when pixel binning is ON
+
+        - ON is the default value in firmware after dev-kit
+          power-on
+
+    - expect 784 pixels when pixel binning is OFF
+
+pixels : list
+
+    Counts (signal strength) at each pixel.
+    Pixel counts are in the range 0-65535.
+
+"""
+CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorGetSensorConfig"] = """
+Contains result of command {getSensorConfig}.
+
+Attributes
+----------
+{status}
+num_pixels : :class:`~{int}`
+
+    Number of pixels to expect in the pixels parameter.
+
+    - expect 392 pixels when pixel binning is ON
+
+        - ON is the default value in firmware after dev-kit
+          power-on
+
+    - expect 784 pixels when pixel binning is OFF
+
+pixels : list
+
+    Counts (signal strength) at each pixel.
+    Pixel counts are in the range 0-65535.
 
 """
 
