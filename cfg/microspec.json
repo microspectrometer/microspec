@@ -6,7 +6,7 @@
     "LEDOff": "0x00",
     "LEDGreen": "0x01",
     "LEDRed": "0x02",
-    "BinningDefault": false,
+    "BinningDefault": true,
     "Gain1x": "0x01",
     "Gain2_5x": "0x25",
     "Gain4x": "0x04",
