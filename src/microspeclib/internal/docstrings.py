@@ -34,6 +34,29 @@ The CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetBridgeLED"] contains that docst
 And the _common global is used to hold common replacement patterns, to eliminate having to type
 the same things over and over below - they are replaced at the end of the module.
 
+What is the ~ for in ~{dt}.blah?
+--------------------------------
+The "~" is short-hand to use the class name as the link text in the
+Sphinx HTML documentation.
+
+Without the ~, the link text is the fully qualified class name:
+microspeclib.blah.blah.classname.
+
+~ is shorthand compared with the usual syntax to specify link text:
+:class:`classname <microspeclib.blah.blah.classname>`
+
+    - the link text is "classname"
+    - the actual link (the matching identifier) is in the "<>"
+    - the link text and <> must be separated by a space
+
+":class:" is a cross-reference to a Python class. A hyperlink to that
+class's documentation is created if the documentation exists.
+
+":py:class:" and ":class:" are identical because Sphinx assumes the
+language is Python.
+
+Same goes for ":func:".
+
 """
 
 CHROMASPEC_DYNAMIC_DOC = {"command":{}, "bridge":{}, "sensor":{}}
@@ -41,6 +64,7 @@ CHROMASPEC_DYNAMIC_DOC = {"command":{}, "bridge":{}, "sensor":{}}
 _common = { 
   "api": "microspeclib.simple.MicroSpecSimpleInterface",
   "dt": "microspeclib.datatypes", 
+  "int": "microspeclib.internal.util.MicroSpecInteger",
   "led_status": """led_status: :data:`~{dt}.types.LEDOff`, :data:`~{dt}.types.LEDGreen`, or :data:`~{dt}.types.LEDRed`""" + \
                 """  The color state of the LED""",
   "status":     """status : :class:`MicroSpecInteger <microspeclib.internal.util.MicroSpecInteger>`"""
@@ -66,21 +90,21 @@ _common = {
                 """If the Simple or Expert API returns this object, """ + \
                 """then the command failed in the Bridge """ + \
                 """and did not even make it to the Sensor.""",
-  "null": """:py:func:`null <{api}.null>`""",
-  "getBridgeLED": """:py:func:`getBridgeLED <{api}.getBridgeLED>`""",
-  "setBridgeLED": """:py:func:`setBridgeLED <{api}.setBridgeLED>`""",
-  "getSensorLED": """:py:func:`getSensorLED <{api}.getSensorLED>`""",
-  "setSensorLED": """:py:func:`setSensorLED <{api}.setSensorLED>`""",
-  "reset": """:py:func:`reset <{api}.reset>`""",
-  "verify": """:py:func:`verify <{api}.verify>`""",
-  "getSensorConfig": """:py:func:`getSensorConfig <{api}.getSensorConfig>`""",
-  "setSensorConfig": """:py:func:`setSensorConfig <{api}.setSensorConfig>`""",
-  "getExposure": """:py:func:`getExposure <{api}.getExposure>`""",
-  "setExposure": """:py:func:`setExposure <{api}.setExposure>`""",
-  "captureFrame": """:py:func:`captureFrame <{api}.captureFrame>`""",
-  "autoExposure": """:py:func:`autoExposure <{api}.autoExposure>`""",
-  "getAutoExposeConfig": """:py:func:`getAutoExposeConfig <{api}.getAutoExposeConfig>`""",
-  "setAutoExposeConfig": """:py:func:`setAutoExposeConfig <{api}.setAutoExposeConfig>`""",
+  "null": """:func:`~{api}.null`""",
+  "getBridgeLED": """:py:func:`~{api}.getBridgeLED`""",
+  "setBridgeLED": """:py:func:`~{api}.setBridgeLED`""",
+  "getSensorLED": """:py:func:`~{api}.getSensorLED`""",
+  "setSensorLED": """:py:func:`~{api}.setSensorLED`""",
+  "reset": """:py:func:`~{api}.reset`""",
+  "verify": """:py:func:`~{api}.verify`""",
+  "getSensorConfig": """:py:func:`~{api}.getSensorConfig`""",
+  "setSensorConfig": """:py:func:`~{api}.setSensorConfig`""",
+  "getExposure": """:py:func:`~{api}.getExposure`""",
+  "setExposure": """:py:func:`~{api}.setExposure`""",
+  "captureFrame": """:py:func:`~{api}.captureFrame`""",
+  "autoExposure": """:py:func:`~{api}.autoExposure`""",
+  "getAutoExposeConfig": """:py:func:`~{api}.getAutoExposeConfig`""",
+  "setAutoExposeConfig": """:py:func:`~{api}.setAutoExposeConfig`""",
 }
 
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandNull"] = """Null loopback request. The hardware will not reply,
@@ -191,32 +215,45 @@ Returns
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandAutoExposure"] = """
-Autoexpose the spectrometer: find the exposure time that results in the peak
-signal in the configured pixel range to land in the configured target signal
-range.
+Auto-expose the spectrometer:
 
-The autoexpose algorithm runs in the dev-kit firmware. Configure autoexpose
-parameters with {setAutoExposeConfig}.
+Tell dev-kit firmware to adjust spectrometer exposure time until peak
+signal strength hits the auto-expose target.
 
-Returns success (0 or 1) and number of exposure times attempted.
+Returns
+-------
+:class:`~{dt}.sensor.SensorAutoExposure`
 
-Does not return the final exposure time. Get exposure time with
-{getExposure}.
+    success : :class:`~{int}`
+
+        1: SUCCESS
+            The peak signal is in the target counts range.
+
+        0: FAILURE
+            The peak signal is not in the target counts range.
+
+    iterations : :class:`~{int}`
+
+        Number of exposures tried by auto-expose.
+        Valid range: 1-255
 
 Example
 -------
 >>> from microspeclib.simple import MicroSpecSimpleInterface
 >>> kit = MicroSpecSimpleInterface()
 >>> reply = kit.autoExposure()
->>> print(reply.success) # 1 means success
+>>> print(reply.success)
 1
->>> print(reply.iterations) # number of exposure times before success/give-up
+>>> print(reply.iterations)
 3
 
-Returns
--------
-:class:`~{dt}.bridge.BridgeAutoExposure`
-:class:`~{dt}.sensor.SensorAutoExposure` ← {useful}
+See Also
+--------
+setAutoExposeConfig: configure auto-expose parameters
+{setAutoExposeConfig}
+
+getExposure: get the new exposure time after the auto-expose
+{getExposure}
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetAutoExposeConfig"] = """Retrieves the current auto-expose configuration.
@@ -512,24 +549,26 @@ Parameters
 ----------
 {status}
 
-success : :class:`MicroSpecInteger <microspeclib.internal.util.MicroSpecInteger>`
+success : :class:`~{int}`
 
-  1: success
-    Auto-expose settled on an exposure time that put the sensor
-    peak value within the target range.
+  1: SUCCESS
+    The peak signal is in the target counts range.
 
-  0: failure
-    Auto-expose gave up on finding an exposure time, either
-    because it reached the maximum number of tries or the
-    exposure time is already at the maximum allowed value.
+  0: FAILURE
+    The peak signal is not in the target counts range.
+    Fail for any of the following reasons:
 
-iterations: 1-255
+      - reached the maximum number of tries
+      - hit maximum exposure time and signal is below target range
+      - hit minimum exposure time and signal is above target range
+
+iterations : :class:`~{int}`
 
   Number of exposures tried by auto-expose.
+  Valid range: 1-255
 
-  `iterations` never exceeds AutoExposeConfig parameter
-  `max_tries`, as this sets the maximum number of iterations to
-  try.
+  `iterations` never exceeds {setAutoExposeConfig} parameter
+  `max_tries`, the maximum number of iterations to try.
 
 """
 CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorGetExposure"] = """Contains the result of a :class:`~{dt}.command.CommandGetExposure`
