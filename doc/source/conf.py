@@ -15,6 +15,14 @@ import sys
 # I commented these out because they look like the wrong path.
 # sys.path.insert(0, os.path.abspath('../src'))
 # sys.path.insert(1, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('../../src'))
+sys.path.insert(1, os.path.abspath('../../tests'))
+sys.path.insert(2, os.path.abspath('../../bin'))
+sys.path.insert(3, os.path.abspath('../..'))
+print(sys.path[0])
+print(sys.path[1])
+print(sys.path[2])
+print(sys.path[3])
 
 # Adding these causes RTD built to fail with AttributeError: 'Sphinx' object has
 # no attribute 'warn'
