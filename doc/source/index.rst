@@ -181,6 +181,7 @@ Build the docs:
 View the docs:
 
 .. code-block:: bash
+
    cd microspec
    browse doc/build/html/index.html
 
