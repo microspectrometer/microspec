@@ -35,6 +35,8 @@ microspec_emulator.py -s -p
 
 """
 
+from sphinxcontrib.argdoc import noargdoc
+@noargdoc
 def main():
   import sys
   import argparse

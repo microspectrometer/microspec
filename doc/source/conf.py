@@ -12,33 +12,25 @@
 #
 import os
 import sys
-# I commented these out because they look like the wrong path.
+# Sean's paths. I don't think these do anything.
 # sys.path.insert(0, os.path.abspath('../src'))
 # sys.path.insert(1, os.path.abspath('../'))
 #
-# The following replaces PYTHONPATH=../src
+# The following works to replace PYTHONPATH=../src
 # It works both on my local build and the RTD build.
 sys.path.insert(0, os.path.abspath('../../src'))
-# These work on my local machine but still fail on RTD automated build
+# The following works to replace PYTHONPATH=../tests (finds modules inside tests)
+sys.path.insert(0, os.path.abspath('../../tests'))
+# The following works to replace PYTHONPATH=../ (finds module tests and bin)
+sys.path.insert(0, os.path.abspath('../../'))
+# Proof that the above line makes bin.microspec_cmdline visible to import:
+# import bin.microspec_cmdline
+# print(bin.microspec_cmdline.__doc__)
 # On local, I still need PYTHONPATH=../ make clean html
-sys.path.insert(1, os.path.abspath('../../tests'))
-# sys.path.insert(2, os.path.abspath('../../bin'))
-# sys.path.insert(3, os.path.abspath('../..'))
-# print(sys.path[0])
-# print(sys.path[1])
-# print(sys.path[2])
-# print(sys.path[3])
-
-# Adding these causes RTD built to fail with AttributeError: 'Sphinx' object has
-# no attribute 'warn'
-# sys.path.insert(0, os.path.abspath('../../tests/'))
-# sys.path.insert(0, os.path.abspath('../../'))
-# These also do not help.
-# sys.path.insert(0, os.path.abspath('../../src/'))
-# sys.path.insert(0, os.path.abspath('../../bin/'))
-#
-# Trying to avoid "PYTHONPATH=../tests:../" before "make clean html"
-
+# The final fix to eliminate adjusting PYTHONPATH is to add the @noargdoc
+# decorator to the two scripts with main-like functions:
+# bin.microspec_cmdline
+# bin.microspec_emulator
 
 # -- Project information -----------------------------------------------------
 

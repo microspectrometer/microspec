@@ -37,6 +37,17 @@ microspec_cmdline.py -e ...
 
 """
 
+# noargdoc skips Sphinx post process for main-like functions
+# sphinxcontrib.argdoc.ext.post_process_automodule() inserts a
+# table listing an executable script's command-line arguments in
+# :automodule: documentation, but this is causing the HTML build
+# to fail.
+# To see the error, delete these two lines, and in the Makefile
+# run sphinx-build with option -vvv, like this:
+# SPHINXOPTS    ?= -vvv
+#
+from sphinxcontrib.argdoc import noargdoc
+@noargdoc
 def main():
   import subprocess, sys
   subprocess.call(["python", "-m", "microspeclib.cmdline"] + sys.argv[1:])

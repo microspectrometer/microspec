@@ -1,3 +1,4 @@
+microspec
 alabaster==0.7.12
 attrs==19.3.0
 autodoc==0.5.0
@@ -14,7 +15,6 @@ iniconfig==1.0.1
 Jinja2==2.11.2
 m2r==0.2.1
 MarkupSafe==1.1.1
-microspec==0.1.1a5
 mistune==0.8.4
 more-itertools==8.4.0
 packaging==20.4
