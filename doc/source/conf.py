@@ -16,10 +16,12 @@ import sys
 # sys.path.insert(0, os.path.abspath('../src'))
 # sys.path.insert(1, os.path.abspath('../'))
 #
+# The following replaces PYTHONPATH=../src
+# It works both on my local build and the RTD build.
+sys.path.insert(0, os.path.abspath('../../src'))
 # These work on my local machine but still fail on RTD automated build
 # On local, I still need PYTHONPATH=../ make clean html
-sys.path.insert(0, os.path.abspath('../../src'))
-# sys.path.insert(1, os.path.abspath('../../tests'))
+sys.path.insert(1, os.path.abspath('../../tests'))
 # sys.path.insert(2, os.path.abspath('../../bin'))
 # sys.path.insert(3, os.path.abspath('../..'))
 # print(sys.path[0])
