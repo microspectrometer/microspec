@@ -12,25 +12,60 @@
 #
 import os
 import sys
-# Sean's paths. I don't think these do anything.
-# sys.path.insert(0, os.path.abspath('../src'))
-# sys.path.insert(1, os.path.abspath('../'))
-#
-# The following works to replace PYTHONPATH=../src
-# It works both on my local build and the RTD build.
+# For doc/source files:
+#   microspeclib.rst
+#   microspeclib.*.rst
+# Tell argdoc where to find "automodule:: microspeclib"
 sys.path.insert(0, os.path.abspath('../../src'))
-# The following works to replace PYTHONPATH=../tests (finds modules inside tests)
-sys.path.insert(0, os.path.abspath('../../tests'))
-# The following works to replace PYTHONPATH=../ (finds module tests and bin)
+# For doc/source files:
+#   tests.rst
+#   bin.rst
+#   tests.*.rst
+#   bin.*.rst
+# Tell argdoc where to find "automodule:: tests" and "automodule:: bin"
 sys.path.insert(0, os.path.abspath('../../'))
-# Proof that the above line makes bin.microspec_cmdline visible to import:
-# import bin.microspec_cmdline
-# print(bin.microspec_cmdline.__doc__)
-# On local, I still need PYTHONPATH=../ make clean html
-# The final fix to eliminate adjusting PYTHONPATH is to add the @noargdoc
-# decorator to the two scripts with main-like functions:
-# bin.microspec_cmdline
-# bin.microspec_emulator
+# At some point argdoc looks for scripts inside "tests" without the
+# `tests` namespace prefix
+sys.path.insert(0, os.path.abspath('../../tests'))
+
+# argdoc does an extra post process step on scripts with main-like
+# functions. Skip this extra step because it causes the build to fail.
+# To skip, Add the `@noargdoc` decorator to the main-like function def.
+#
+# argdoc finds two scripts with main-like functions:
+#
+#   bin/microspec_cmdline.py
+#   bin/microspec_emulator.py
+#
+# Add these two lines above `def main()`:
+#
+#   from sphinxcontrib.argdoc import noargdoc
+#   @noargdoc
+#   def main():
+#
+# The above tells `sphinxcontrib.argdoc.ext.post_process_automodule()`
+# to skip generating an argument list for the main-like function.
+#
+# `post_process_automodule()` runs the script with `--help` to get the
+# arguments. This causes the script to return with a non-zero exit
+# status which is interpreted by the build process as an error. Skip
+# this step with `@noargdoc` to avoid the error.
+#
+# Use sphinx-build -vvv (maximum verbosity) to see the actual error. At
+# default verbosity, the reported error is `No module named 'bin'`
+# which mistakenly sounds like a `sys.path` problem. This problem has
+# nothing to do `sys.path`.
+#
+# The alternative is to do the build as
+#
+#   $ PYTHONPATH=../ make clean html
+#
+# It is not clear why this works or how it is different from editing
+# sys.path in this conf.py.
+#
+# This is not a viable solution since there is no way to tell "Read the
+# Docs" to add to PYTHONPATH (other than the conf.py file). Use
+# the @noargdoc solution instead.
 
 # -- Project information -----------------------------------------------------
 
