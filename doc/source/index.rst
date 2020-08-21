@@ -6,13 +6,11 @@ Overview
 
 ``microspec`` is Chromation's Spectrometer dev-kit interface. It contains:
 
-* Python package ``microspeclib``
+- Python package :py:mod:`microspeclib <microspeclib.simple>`
+    a collection of dev-kit interface functions
 
-    * a collection of dev-kit interface functions
-
-* command line utility ``microspec-cmdline``
-
-    * run basic measurements without developing a Python application
+- command line utility :py:mod:`microspec-cmdline <bin.microspec_cmdline>`
+    run basic measurements without developing a Python application
 
 How the documentation is organized
 ----------------------------------

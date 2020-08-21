@@ -35,8 +35,6 @@ microspec_emulator.py -s -p
 
 """
 
-from sphinxcontrib.argdoc import noargdoc
-@noargdoc
 def main():
   import sys
   import argparse
@@ -51,7 +49,7 @@ def main():
   parser.add_argument("-f", "--file",    help="File to use as a pipe - default create anew and print location", 
                                                                                                     default=None)
   args = parser.parse_args()
-  
+
   from microspeclib.internal.emulator import MicroSpecEmulator
   from microspeclib.internal.stream   import MicroSpecEmulatedStream
   from microspeclib.logger            import debug
@@ -85,6 +83,6 @@ def main():
         serial.sendReply(packet)
     else:
       log.info("No reply to send")
-  
+
 if __name__ == "__main__":
   main()

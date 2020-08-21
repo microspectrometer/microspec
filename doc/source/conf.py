@@ -15,57 +15,18 @@ import sys
 # For doc/source files:
 #   microspeclib.rst
 #   microspeclib.*.rst
-# Tell argdoc where to find "automodule:: microspeclib"
+# Tell autodoc where to find "automodule:: microspeclib"
 sys.path.insert(0, os.path.abspath('../../src'))
 # For doc/source files:
 #   tests.rst
 #   bin.rst
 #   tests.*.rst
 #   bin.*.rst
-# Tell argdoc where to find "automodule:: tests" and "automodule:: bin"
+# Tell autodoc where to find "automodule:: tests" and "automodule:: bin"
 sys.path.insert(0, os.path.abspath('../../'))
-# At some point argdoc looks for scripts inside "tests" without the
-# `tests` namespace prefix
+# At some point autodoc looks for scripts inside "tests" without the
+# `tests` namespace prefix, so add this to the path too:
 sys.path.insert(0, os.path.abspath('../../tests'))
-
-# argdoc does an extra post process step on scripts with main-like
-# functions. Skip this extra step because it causes the build to fail.
-# To skip, Add the `@noargdoc` decorator to the main-like function def.
-#
-# argdoc finds two scripts with main-like functions:
-#
-#   bin/microspec_cmdline.py
-#   bin/microspec_emulator.py
-#
-# Add these two lines above `def main()`:
-#
-#   from sphinxcontrib.argdoc import noargdoc
-#   @noargdoc
-#   def main():
-#
-# The above tells `sphinxcontrib.argdoc.ext.post_process_automodule()`
-# to skip generating an argument list for the main-like function.
-#
-# `post_process_automodule()` runs the script with `--help` to get the
-# arguments. This causes the script to return with a non-zero exit
-# status which is interpreted by the build process as an error. Skip
-# this step with `@noargdoc` to avoid the error.
-#
-# Use sphinx-build -vvv (maximum verbosity) to see the actual error. At
-# default verbosity, the reported error is `No module named 'bin'`
-# which mistakenly sounds like a `sys.path` problem. This problem has
-# nothing to do `sys.path`.
-#
-# The alternative is to do the build as
-#
-#   $ PYTHONPATH=../ make clean html
-#
-# It is not clear why this works or how it is different from editing
-# sys.path in this conf.py.
-#
-# This is not a viable solution since there is no way to tell "Read the
-# Docs" to add to PYTHONPATH (other than the conf.py file). Use
-# the @noargdoc solution instead.
 
 # -- Project information -----------------------------------------------------
 
@@ -86,7 +47,7 @@ extensions = [
 # 'm2r', incompatible with Sphinx
 #        see https://github.com/sphinx-doc/sphinx/issues/7420
 "recommonmark", # replaces m2r
-"sphinxcontrib.argdoc",
+# "sphinxcontrib.argdoc", # Causes sphinx-build error: (ModuleNotFoundError: No module named 'bin')
 "sphinx_rtd_theme", # use the readthedocs theme
 ]
 
