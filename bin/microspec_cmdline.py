@@ -56,7 +56,6 @@ Get help
       SetAutoExposeConfig max_tries=xxx start_pixel=xxx stop_pixel=xxx
                           target=xxx target_tolerance=xxx max_exposure=xxx
 
-
 --------------------
 Blink the debug LEDs
 --------------------

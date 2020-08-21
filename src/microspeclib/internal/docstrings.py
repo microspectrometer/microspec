@@ -55,7 +55,7 @@ class's documentation is created if the documentation exists.
 ":py:class:" and ":class:" are identical because Sphinx assumes the
 language is Python.
 
-Same goes for ":func:".
+Same goes for ":func:", ":mod:", etc.
 
 """
 
@@ -65,8 +65,10 @@ _common = {
   "api": "microspeclib.simple.MicroSpecSimpleInterface",
   "dt": "microspeclib.datatypes", 
   "int": "microspeclib.internal.util.MicroSpecInteger",
-  "led_status": """led_status: :data:`~{dt}.types.LEDOff`, :data:`~{dt}.types.LEDGreen`, or :data:`~{dt}.types.LEDRed`""" + \
-                """  The color state of the LED""",
+  "led_settings": """:data:`~{dt}.types.LEDOff`, """
+                """:data:`~{dt}.types.LEDGreen`, or """
+                """:data:`~{dt}.types.LEDRed`""",
+  "led_setting": """led_setting : :class:`~{int}`""",
   "status":     """status : :class:`MicroSpecInteger <microspeclib.internal.util.MicroSpecInteger>`"""
                 """\n\n"""
                 """  0: :data:`~{dt}.types.StatusOK`"""
@@ -107,26 +109,63 @@ _common = {
   "setAutoExposeConfig": """:py:func:`~{api}.setAutoExposeConfig`""",
 }
 
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandNull"] = """Null loopback request. The hardware will not reply,
-but the API will still return a null reply object. This is primarily used to flush the line
-in case of desynchronization.
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandNull"] = """
+Send ``Null`` to flush serial communication.
+
+Notes
+-----
+The Null command is a loopback request: the dev-kit ignores
+``Null`` and does not send a reply, but the API returns empty
+object :class:`~{dt}.bridge.BridgeNull`.
+
+Call {null} to flush the serial line in case of
+desynchronization. This is a way to synchronize serial
+communication with the dev-kit without exiting the application.
+
 
 Returns
 -------
 :class:`~{dt}.bridge.BridgeNull`
+    - empty object
+
+Example
+-------
+>>> from microspeclib.simple import MicroSpecSimpleInterface
+>>> kit = MicroSpecSimpleInterface()
+>>> print(kit.null())
+BridgeNull()
 
 """
-CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetBridgeLED"] = """Retrieves the current state of an LED on
-the Bridge board.
+CHROMASPEC_DYNAMIC_DOC["command"]["CommandGetBridgeLED"] = """
+Retrieve current state of the LED on the*Bridge* board:
+:data:`~{dt}.types.LEDOff`,
+:data:`~{dt}.types.LEDGreen`, or
+:data:`~{dt}.types.LEDRed)`
 
 Parameters
 ----------
-led_num: 0
-  The index of the LED on the Bridge
+led_num: int
+    Valid input: 0
+
+Notes
+-----
+The Bridge board is the top PCB in the dev-kit. There is only one
+LED on the Bridge.
 
 Returns
 -------
-:class:`~{dt}.bridge.BridgeGetBridgeLED` ← {useful}
+:class:`~{dt}.bridge.BridgeGetBridgeLED`
+    - {led_setting}
+
+      Valid Range:
+      {led_settings}
+
+Example
+-------
+>>> from microspeclib.simple import MicroSpecSimpleInterface
+>>> kit = MicroSpecSimpleInterface()
+>>> print(kit.getBridgeLED(led_num=0))
+BridgeGetBridgeLED(status=0, led_setting=1)
 
 """
 CHROMASPEC_DYNAMIC_DOC["command"]["CommandSetBridgeLED"] = """Sets the current state of an LED on the Bridge board.
@@ -135,7 +174,7 @@ Parameters
 ----------
 led_num: 0
   The index of the LED on the Bridge
-{led_status}
+{led_setting}
 
 Returns
 -------
@@ -162,7 +201,7 @@ Parameters
 ----------
 led_num: 0, 1
   The index of the LED on the Sensor
-{led_status}
+{led_setting}
 
 Returns
 -------
@@ -392,15 +431,23 @@ has no reply. However, to distinguish between an error, when a :class:`~{dt}.com
 API returns this object rather than None.
 
 """
-CHROMASPEC_DYNAMIC_DOC["bridge"]["BridgeGetBridgeLED"] = """Contains the result of a :class:`~{dt}.command.CommandGetBridgeLED`
-command.
+CHROMASPEC_DYNAMIC_DOC["bridge"]["BridgeGetBridgeLED"] = """
+Contains result of command
+{getBridgeLED}.
 
-Parameters
+Attributes
 ----------
 {status}
-led_num: 0
-  Which LED the status applies to
-{led_status}
+
+led_num : :class:`~{int}`
+
+  Which LED the setting applies to.
+  Valid range: 0
+
+{led_setting}
+
+  State of the LED:
+  {led_settings}
 
 """
 CHROMASPEC_DYNAMIC_DOC["bridge"]["BridgeSetBridgeLED"] = """Contains the status of the :class:`~{dt}.command.CommandSetBridgeLED`
@@ -492,15 +539,23 @@ Parameters
 
 """
 
-CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorGetSensorLED"] = """Contains the result of a :class:`~{dt}.command.CommandGetSensorLED`
-command.
+CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorGetSensorLED"] = """
+Contains result of command
+{getSensorLED}.
 
-Parameters
+Attributes
 ----------
 {status}
-led_num: 0 or 1
-  Which LED the status applies to
-{led_status}
+
+led_num : :class:`~{int}`
+
+  Which LED the setting applies to.
+  Valid range: 0, 1
+
+{led_setting}
+
+  State of the LED:
+  {led_settings}
 
 """
 CHROMASPEC_DYNAMIC_DOC["sensor"]["SensorSetSensorLED"] = """Contains the status of the :class:`~{dt}.command.CommandSetSensorLED`
