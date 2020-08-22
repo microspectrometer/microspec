@@ -1,5 +1,5 @@
-How ``microspeclib`` Works (Under The Hood)
-===========================================
+Under The Hood (How microspeclib works)
+=======================================
 
 Every API function call **sends a command** to the dev-kit and **receives a
 reply** from the dev-kit.
@@ -20,8 +20,8 @@ and a ``Bridge`` board that provides the USB interface to ``Sensor``. Most API
 calls are commands for ``Sensor``. There are a few ``Bridge`` commands, but
 applications do not need to use them.
 
-Two APIs under the hood
-^^^^^^^^^^^^^^^^^^^^^^^
+Two APIs: simple and expert
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``microspec`` actually has two APIs:
 
@@ -32,10 +32,11 @@ Two APIs under the hood
   - represents each command as its own API function calls, e.g.,
     ``setExposure(500)`` and ``reply=captureFrame()``
 
-- ``microspeclib.expert``:
+- ``microspeclib.expert``
 
+  - *low-level* API for developers
   - applications *never* need to use this API
-  - this is a *low-level* API for troubleshooting communication
+  - this API is helpful when troubleshooting USB communication
   - all commands are explicitly passed to ``sendAndReceive()``, e.g.,
     ``sendAndReceive(CommandSetExposure(cycles=500))`` and
     ``reply=sendAndReceive(CommandCaptureFrame())``

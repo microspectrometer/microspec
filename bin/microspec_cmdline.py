@@ -67,27 +67,59 @@ Turn Bridge LED red
     $ microspec-cmdline setbridgeled led_num=0 led_setting=2
     2020-08-20T22:08:46.530318,BridgeSetBridgeLED(status=0)
 
-Turn one Sensor LED red
-^^^^^^^^^^^^^^^^^^^^^^^
-::
+.. note::
 
-    $ microspec-cmdline setsensorled led_num=1 led_setting=2
-    2020-08-20T22:11:42.458425,SensorSetSensorLED(status=0)
+    Bridge ``led0`` is meant for the application to signal events
+    during a measurement.
 
-*Try* to turn the other Sensor LED red... it stays green
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    For example, an application might turn ``led0`` red while the
+    measurement suite is in progress and green when the suite is
+    finished.
+
+    Bridge ``led0`` defaults to **on** and **green** when the
+    dev-kit powers on.
+
+    If Bridge ``led0`` seems to change state on its own, please
+    contact Chromation for a dev-kit firmware update.
+
+Turn Sensor LED0 and LED1 red
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
     $ microspec-cmdline setsensorled led_num=0 led_setting=2
-    2020-08-20T22:13:01.087770,SensorSetSensorLED(status=0)
+    2020-08-20T22:11:42.458425,SensorSetSensorLED(status=0)
 
-Notes
------
-    Sensor ``led0`` indicates when the Sensor microcontoller is
-    busy.
+    $ microspec-cmdline setsensorled led_num=1 led_setting=2
+    2020-08-20T22:11:44.279106,SensorSetSensorLED(status=0)
 
-    - ``led0`` is **red** while **busy** executing a command
-    - ``led0`` is **green** when execution is **done**
+.. note::
+
+    Sensor ``led0`` and ``led1`` are used by the dev-kit
+    firmware. The API provides control over these LEDs, but
+    controlling them in a *real* application is confusing because
+    the dev-kit firmware is also using them to indicate status.
+    Chromation recommends applications do not control these LEDs.
+
+    Sensor ``led1`` indicates auto-expose status:
+
+    - ``led1`` is **red** while auto-expose is **busy**
+    - ``led1`` stays **red** if auto-expose **fails**
+    - ``led1`` turns **green** if auto-expose **succeeds**
+
+    Sensor ``led0`` indicates when the microcontroller is busy:
+
+    - ``led0`` is **off** while **busy** executing a command
+    - ``led0`` is **on** when execution is **done**
+
+    .. warning::
+
+       *new as of dev-kit firmware v0.1.2*
+
+       Sensor ``led0`` should always be **green** when it is on.
+
+       ``led0`` is **red** if the SPI Rx buffer is full.
+       This is a serial communication error. Please contact
+       Chromation if you encounter this condition.
 
 ------------
 Measurements
@@ -120,6 +152,26 @@ Capture a frame and print results in csv
     $ microspec-cmdline captureframe -c
     2020-08-20T22:35:21.376177,SensorCaptureFrame,status,0,
     num_pixels,392,pixels,7898,7518,7172,7435,7847,7768,...,0
+
+Specify timeout for commands that take a long time
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+    Use a 200ms exposure time. This will make captureFrame take
+    longer than the default timeout.
+    $ microspec-cmdline setexposure cycles=10000
+    2020-08-20T22:37:18.051165,SensorSetExposure(status=0)
+
+    $ microspec-cmdline captureframe
+    2020-08-20T22:40:44.181047,None
+
+    The reply is None because the timeout triggered before the
+    dev-kit hardware finished executing the command.
+
+    Try again with a 5-second timeout.
+    $ microspec-cmdline captureframe -t 5
+    2020-08-20T22:45:10.383067,SensorCaptureFrame(status=0,
+    num_pixels=392, pixels=[7856, 3890, 6240, 5478, 4966, ..., 0])
 
 -----------------------------
 Configure spectrometer pixels
