@@ -7,4 +7,4 @@ microspeclib.simple module (dev-kit API commands)
    :members:
    :undoc-members:
    :inherited-members:
-   :exclude-members: consume, flush, pushback, read, receiveCommand, receiveReply, sendAndReceive, sendCommand, sendReply, write
+   :exclude-members: consume, flush, pushback, read, receiveCommand, receiveReply, sendAndReceive, sendCommand, sendReply, write, verify, reset
