@@ -1,5 +1,5 @@
-MicroSpec Dev
-=============
+Contributing to MicroSpec
+=========================
 
 Here is a short guide for contributing to ``microspec`` (or modifying for your
 own purposes). Skip this section if you are only interested in writing
@@ -20,9 +20,19 @@ Install all the packages required for development:
 
   pip install microspec[dev]
 
-To run tests using the hardware emulator, also install ``socat`` (Linux/Mac
-only). If ``socat`` is not installed, ``pytest`` skips unit tests using the
-emulator (so Windows users can still do most of the development work).
+Also install ``socat`` (Linux/Mac only) to run **unit tests** using
+the **hardware emulator**:
+
+.. code-block:: bash
+
+    sudo apt install socat
+
+If ``socat`` is not installed, ``pytest`` skips unit tests using
+the emulator.
+
+Windows users can still run unit tests on actual hardware and
+rebuild the documentation. Windows users only need access to
+Linux/Mac to run the unit tests that use the emulator.
 
 Workflow
 ^^^^^^^^

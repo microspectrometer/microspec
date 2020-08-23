@@ -138,7 +138,6 @@ Capture a frame 50 times with 2 seconds inbetween
 ::
 
     $ microspec-cmdline captureframe -r 50 -w 2
-    $ microspec-cmdline captureframe -r 2 -w 2
     2020-08-20T22:37:26.765253,SensorCaptureFrame(status=0,
     num_pixels=392, pixels=[7888, 7461, 7376, 7388, ..., 0])
     ...
@@ -153,22 +152,32 @@ Capture a frame and print results in csv
     2020-08-20T22:35:21.376177,SensorCaptureFrame,status,0,
     num_pixels,392,pixels,7898,7518,7172,7435,7847,7768,...,0
 
+--------------------------------------------------
 Specify timeout for commands that take a long time
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------------------
+
+Send a command that takes longer than the default timeout
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Use a 200ms exposure time. This will make ``captureFrame`` take
+longer than the default timeout.
 ::
 
-    Use a 200ms exposure time. This will make captureFrame take
-    longer than the default timeout.
     $ microspec-cmdline setexposure cycles=10000
     2020-08-20T22:37:18.051165,SensorSetExposure(status=0)
 
     $ microspec-cmdline captureframe
     2020-08-20T22:40:44.181047,None
 
-    The reply is None because the timeout triggered before the
-    dev-kit hardware finished executing the command.
+The reply is None because the timeout triggered before the
+dev-kit hardware finished executing the command.
 
-    Try again with a 5-second timeout.
+Set a timeout so the command has time to execute
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Try again with a 5-second timeout.
+::
+
     $ microspec-cmdline captureframe -t 5
     2020-08-20T22:45:10.383067,SensorCaptureFrame(status=0,
     num_pixels=392, pixels=[7856, 3890, 6240, 5478, 4966, ..., 0])
@@ -188,6 +197,8 @@ pixel binning ON, pixel gain 1x, all rows on (full pixel height)
 Specify USB port
 ----------------
 
+This is handy if more than one dev-kit is connected.
+
 Connect to a specific port on Linux/Mac
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
@@ -201,9 +212,18 @@ Connect to a specific COM port on Windows
 
     $ microspec-cmdline -f COM4 setbridgeled led_num=0 led_setting=1
 
+.. note::
 
+    When communicating with multiple connected dev-kits *in a
+    Python script*, specify the kit by serial number when
+    instantiating ``MicroSpecSimpleInterface``. It is unnecessary
+    for the Python script to determine which port the kit is
+    connected to.
+
+---------------------------------------
 Connect to emulator instead of hardware
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------
+
 ::
 
     $ microspec-cmdline -e captureframe
