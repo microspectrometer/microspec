@@ -3,7 +3,9 @@
 __pycache__/
 *.pyc
 .pytest_cache
+build/
 doc/build/doctrees/
+doc/build/html/
 doc/source/README.*
 dist/
 *.egg-info/
