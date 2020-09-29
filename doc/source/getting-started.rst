@@ -3,7 +3,7 @@ Getting Started
 
 Tutorials are coming soon! Until then, the easiest way to get
 started is to look at the example applications in
-https://github.com/microspectrometer/dev-kit-2020.
+https://github.com/microspectrometer/dev-kit-2020/tree/master/python.
 
 Another good starting point for **writing applications** is to
 jump to the :ref:`dev-kit-API-guide`.
