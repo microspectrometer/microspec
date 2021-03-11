@@ -44,7 +44,7 @@ if __name__ == "__main__":
     formatter_class=argparse.RawDescriptionHelpFormatter )
   parser.add_argument("-d", "--debug",    help="Internal debugging trace",           action="count", default=0    )
   parser.add_argument("-v", "--verbose",  help="Verbose trace",                      action="count", default=0    )
-  parser.add_argument("-t", "--timeout",  help="Timeout (seconds)",                  type=float,     default=0.1  )
+  parser.add_argument("-t", "--timeout",  help="Timeout (seconds)",                  type=float,     default=0.3  )
   parser.add_argument("-r", "--repeat",   help="Repeat N times, 1=once, 0=forever",  type=int,       default=1    )
   parser.add_argument("-w", "--wait",     help="Wait inbetween repeats (seconds)",   type=float,     default=1.0  )
   parser.add_argument("-e", "--emulator", help="Spawn emulator and connect to that", action="count", default=0    )
