@@ -131,7 +131,18 @@ class MicroSpecExpertInterface(MicroSpecSerialIOStream):
     self.sendCommand(CommandNull())
     old_timeout = self.timeout
     self.timeout = timeout
-    self.stream.read(None)
+    # TODO(sustainablelab): serialwin32.py line 270 `if size > 0`
+    # throws TypeError: `>` not supported betwen instances of
+    # `NoneType` and `int`. Change read(None) to read_all() ?
+    # The goal is to empty the buffer. reset_input_buffer does
+    # that, so I'm not sure what the purpose of the read is. But
+    # a read_all() won't fail, whereas a read(None) isn't
+    # supported.
+    # self.stream.read(None) # <----------- This line removed 2021-03-11
+    self.stream.read_all() # <------------- This line added 2021-03-11
+    # TODO(sustainablelab): this reset is happening before the
+    # firmware has a chance to fill the read buffer. So flush is
+    # not flushing out the read buffer.
     self.stream.reset_input_buffer()
     self.buffer = b''
     self.timeout = old_timeout
