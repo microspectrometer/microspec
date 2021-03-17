@@ -116,6 +116,11 @@ these cannot be replicated at the REPL when using the
       parameter values, but the bytes were corrupted (in a way
       that did not cause serial communication to fail)
 
+In either of those cases, microspec flushes serial communication
+by sending several null commands and clearing the resulting
+garbage data from the read buffer by reading values from the
+buffer until a short timeout elapses.
+
 See Also
 --------
 OK

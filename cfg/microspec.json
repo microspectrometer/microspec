@@ -33,6 +33,7 @@
       ,"12": { "name": "AutoExposure",    "variables": [ "command_id"                                  ], "sizes": [1] }
       ,"13": { "name": "GetAutoExposeConfig", "variables": [ "command_id"                              ], "sizes": [1] }
       ,"14": { "name": "SetAutoExposeConfig", "variables": [ "command_id", "max_tries", "start_pixel", "stop_pixel", "target", "target_tolerance", "max_exposure" ], "sizes": [1,1,2,2,2,2,2] }
+      ,"15": { "name": "GetSensorHash",   "variables": [ "command_id"                                  ], "sizes": [1] }
     },
     "bridge":
     {
@@ -51,6 +52,7 @@
       ,"12": { "name": "AutoExposure",    "variables": [ "status"                ], "sizes": [1] }
       ,"13": { "name": "GetAutoExposeConfig", "variables": [ "status"            ], "sizes": [1] }
       ,"14": { "name": "SetAutoExposeConfig", "variables": [ "status"            ], "sizes": [1] }
+      ,"15": { "name": "GetSensorHash",   "variables": [ "status"                ], "sizes": [1] }
     },
     "sensor":
     {
@@ -65,6 +67,7 @@
       ,"12": { "name": "AutoExposure",    "variables": [ "status", "success", "iterations"         ], "sizes": [1,1,1] }
       ,"13": { "name": "GetAutoExposeConfig", "variables": [ "status", "max_tries", "start_pixel", "stop_pixel", "target", "target_tolerance", "max_exposure" ], "sizes": [1,1,2,2,2,2,2] }
       ,"14": { "name": "SetAutoExposeConfig", "variables": [ "status"                              ], "sizes": [1] }
+      ,"15": { "name": "GetSensorHash",   "variables": [ "status", "first_byte", "second_byte", "third_byte"], "sizes": [1,1,1,1] }
     }
   }
 }

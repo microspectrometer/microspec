@@ -7,6 +7,15 @@ Example
 >>> import microspec
 >>> kit = microspec.Devkit()
 
+If ``status=='ERROR'`` it means the command or its arguments are
+invalid.
+
+TODO(sustainablelab): after receiving an ERROR, flush
+serial communication. The flush involves a short timeout (I can't
+think of a better way without implementing packets). This is
+a serial-flush-timeout is intentional. It is NOT the general
+timeout case I cover next.
+
 If ``status=='TIMEOUT'`` it means the command timed out before a
 response was received.
 
@@ -249,6 +258,69 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         self.exposure_time_cycles = exposure_time.cycles
         self.exposure_time_ms     = exposure_time.ms
 
+        # Get the sensor hash to figure out LIS or S13131
+        reply = self.getSensorHash()
+        # TODO(slab): put all of this in the getSensorHash wrapper
+        # """
+        # >>> import microspec as usp;
+        # >>> kit = usp.Devkit()
+        # >>> kit.sensor_name
+        # 'LIS-770i'
+        # """
+        b1 = reply.first_byte
+        b2 = reply.second_byte
+        b3 = reply.third_byte
+        self.sensor_hash = (b1<<16) | (b2<<8) | b3
+        if self.sensor_hash == 0x351ea9:
+            self.sensor_name = "LIS-770i"
+        elif self.sensor_hash == 0x91d318:
+            self.sensor_name = "S13131-512"
+        else:
+            self.sensor_name = "Unknown"
+
+    def warn_sensor_is_not_LIS(self, command_name : str):
+        """Warn user they sent getSensorConfig to a dev-kit that does not use the LIS-770i.
+        """
+        warnings.warn(
+            f"Command {command_name} returned ERROR because "
+            "this dev-kit does not use the LIS-770i.",
+            stacklevel=2
+            )
+
+    def warn_sensor_is_not_LIS_or_config_is_invalid(self, command_name : str):
+        """Warn user they failed to set the config.
+
+        The user either sent invalid config values, or the
+        dev-kit does not use the LIS-770i.
+        """
+        warnings.warn(
+            f"Command {command_name} returned ERROR because it "
+            "failed to set the config, i.e., this command had no "
+            "effect on the spectrometer. "
+            "Either the config values are invalid or "
+            "this dev-kit does not use the LIS-770i.",
+            stacklevel=2
+            )
+
+    def flush_read_buffer(self):
+        self.null()
+        self.null()
+        self.null()
+        self.null()
+        self.null()
+        self.null()
+        self.null()
+        self.null()
+        self.null()
+        self.null()
+        # print("sent 10 nulls - ya happy now?")
+        _timeout = self.timeout
+        self.timeout = 0.1
+        # TODO(sustainablelab): Use serialutil Timeout to replace
+        # read_until with my own read_until_timeout
+        self.serial.read_until()
+        self.timeout = _timeout
+
     def getBridgeLED(
             self,
             led_num: int = 0 # LED0 is the only Bridge LED
@@ -283,6 +355,16 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
             status = status_dict.get(_reply.status),
             led_setting = led_dict.get(_reply.led_setting)
             )
+        # TODO(sustainablelab): add this to *every* command?
+        # Except what I *really* want to do is only follow this
+        # branch when the usb-bridge replies ERROR. If the
+        # usb-bridge is OK and the vis-spi-out replies ERROR,
+        # that's fine because the usb-bridge sends PADDING bytes
+        # back to the host. In other words, serial communication
+        # is still in sync.
+        #
+        # if reply.status == 'ERROR':
+        #     self.flush_read_buffer()
         return reply
 
     def setBridgeLED(
@@ -497,6 +579,12 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
                     )
                 )
 
+        # Handle case where vis-spi-out does not recognize this
+        # command because it is not programmed for the LIS.
+
+        if reply.status == 'ERROR':
+            self.warn_sensor_is_not_LIS("getSensorConfig")
+
         return reply
 
     def setSensorConfig(
@@ -539,6 +627,8 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         reply = replies.setSensorConfig_response(
                 status_dict.get(_reply.status)
                 )
+        if reply.status == 'ERROR':
+            self.warn_sensor_is_not_LIS_or_config_is_invalid("setSensorConfig")
         return reply
 
     def setExposure(
@@ -701,7 +791,7 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         return reply
 
     def captureFrame(self):
-        """One-liner
+        """Expose the detector and readout one frame.
 
         Return
         ------
@@ -1045,7 +1135,9 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         # 800
         # 900
         if self.getAutoExposeConfig().max_exposure == 4112:
+            # max exposure is 4096+16 (0x1010) (0b 0001 0000 0001 0000)
             # Re-Send command and get low-level reply.
+            # print("Gotta fix this bug man!")
             _reply = super().setAutoExposeConfig(
                                 max_tries,
                                 start_pixel,
