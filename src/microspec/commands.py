@@ -253,10 +253,10 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
             and setExposure() are called.
         """
         super().__init__()
-        # Sync exposure_time attrs with dev-kit state:
-        exposure_time = self.getExposure()
-        self.exposure_time_cycles = exposure_time.cycles
-        self.exposure_time_ms     = exposure_time.ms
+        # Initialize exposure_time_ attrs (sync with dev-kit)
+        self.getExposure()
+        # Initialize autoexpos_ attrs (sync with dev-kit)
+        self.getAutoExposeConfig()
 
         # Get the sensor hash to figure out LIS or S13131
         reply = self.getSensorHash()
@@ -636,7 +636,13 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
             ms : float = None,  # specify time in milliseconds
             cycles : int = None # OR time in cycles
             ):
-        """One-liner
+        """Tell the dev-kit how long to expose the detector.
+
+        This updates exposure time attrs ``exposure_time_cycles``
+        and ``exposure_time_ms`` using the input argument. If you
+        want to be certain the exposure time attrs are synced
+        with the dev-kit, follow this with a ``getExposure()``
+        call.
 
         Examples
         --------
@@ -745,7 +751,13 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         return reply
 
     def getExposure(self):
-        """One-liner
+        """Ask the dev-kit how long it exposes the detector.
+
+        In addition to returning exposure time in the reply, this
+        call updates the exposure time attrs
+        ``exposure_time_cycles`` and ``exposure_time_ms`` as a
+        convenient alternative to parsing the reply and storing
+        these values yourself.
 
         Examples
         --------
@@ -1000,7 +1012,21 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         return reply
 
     def getAutoExposeConfig(self):
-        """One-liner
+        """Ask the dev-kit how it's auto-expose is configured.
+
+        In addition to returning the autoexpose config in the
+        reply, this call updates the autoexpose attrs as a
+        convenient alternative to parsing the reply and storing
+        these values yourself.
+
+        These are the autoexpose attrs:
+
+            - ``autoexpose_max_tries``
+            - ``autoexpose_start_pixel``
+            - ``autoexpose_stop_pixel``
+            - ``autoexpose_target``
+            - ``autoexpose_target_tolerance``
+            - ``autoexpose_max_exposure``
 
         Examples
         --------
@@ -1009,6 +1035,13 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
 
         >>> import microspec as usp
         >>> kit = usp.Devkit()
+
+        See what the auto-expose parameters are:
+        >>> kit.getAutoExposeConfig()
+        getAutoExposeConfig_response(status='OK', max_tries=12,
+                                    start_pixel=7, stop_pixel=392,
+                                    target=46420, target_tolerance=3277,
+                                    max_exposure=10000)
 
         """
 
@@ -1038,6 +1071,14 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
                 max_exposure     = _reply.max_exposure
                 )
 
+        # Update Devkit autoexpose attrs
+        if reply.status == 'OK':
+            self.autoexpose_max_tries = reply.max_tries
+            self.autoexpose_start_pixel = reply.start_pixel
+            self.autoexpose_stop_pixel = reply.stop_pixel
+            self.autoexpose_target = reply.target
+            self.autoexpose_target_tolerance = reply.target_tolerance
+            self.autoexpose_max_exposure = reply.max_exposure
         return reply
 
     def setAutoExposeConfig(
@@ -1049,7 +1090,22 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
             target_tolerance : int = 3277,
             max_exposure : int = 10000
             ):
-        """One-liner
+        """Write a new autoexpose configuration to the dev-kit.
+
+        This updates autoexpose attrs using the input arguments.
+
+        These are the autoexpose attrs:
+
+            - ``autoexpose_max_tries``
+            - ``autoexpose_start_pixel``
+            - ``autoexpose_stop_pixel``
+            - ``autoexpose_target``
+            - ``autoexpose_target_tolerance``
+            - ``autoexpose_max_exposure``
+
+        If you want to be certain the autoexpose attrs are synced
+        with the dev-kit, follow this with a
+        ``getAutoExposeConfig()`` call.
 
         Examples
         --------
@@ -1059,20 +1115,13 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         >>> import microspec as usp
         >>> kit = usp.Devkit()
 
-        Configure auto-expose with ...:
+        Configure auto-expose with the default parameters...:
 
         >>> kit.setAutoExposeConfig()
         setAutoExposeConfig_response(status='OK')
-        >>> kit.getAutoExposeConfig()
-        getAutoExposeConfig_response(status='OK', max_tries=12,
-                                     start_pixel=7, stop_pixel=392,
-                                     target=46420, target_tolerance=3277,
-                                     max_exposure=10000)
 
-        Configure the dev-kit with the default auto-expose parameters:
+        See what the new auto-expose parameters are:
 
-        >>> kit.setAutoExposeConfig()
-        setAutoExposeConfig_response(status='OK')
         >>> kit.getAutoExposeConfig()
         getAutoExposeConfig_response(status='OK', max_tries=12,
                                     start_pixel=7, stop_pixel=392,
@@ -1153,4 +1202,14 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
                 ) if TIMEOUT else replies.setAutoExposeConfig_response(
                     status_dict.get(_reply.status)
                 )
+
+        # Update Devkit autoexpose attrs
+        if reply.status == 'OK':
+            self.autoexpose_max_tries = max_tries
+            self.autoexpose_start_pixel = start_pixel
+            self.autoexpose_stop_pixel = stop_pixel
+            self.autoexpose_target = target
+            self.autoexpose_target_tolerance = target_tolerance
+            self.autoexpose_max_exposure = max_exposure
+
         return reply
