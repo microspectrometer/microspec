@@ -259,24 +259,32 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         self.getAutoExposeConfig()
 
         # Get the sensor hash to figure out LIS or S13131
-        reply = self.getSensorHash()
-        # TODO(slab): put all of this in the getSensorHash wrapper
-        # """
-        # >>> import microspec as usp;
-        # >>> kit = usp.Devkit()
-        # >>> kit.sensor_name
-        # 'LIS-770i'
-        # """
-        b1 = reply.first_byte
-        b2 = reply.second_byte
-        b3 = reply.third_byte
-        self.sensor_hash = (b1<<16) | (b2<<8) | b3
-        if self.sensor_hash == 0x351ea9:
-            self.sensor_name = "LIS-770i"
-        elif self.sensor_hash == 0x91d318:
-            self.sensor_name = "S13131-512"
-        else:
-            self.sensor_name = "Unknown"
+        # Here's a quick kludge for backwards compatibility
+        self.sensor_name = "Unknown"
+        self.sensor_hash = 0x123456
+        try:
+            reply = self.getSensorHash()
+            # TODO(slab): put all of this in the getSensorHash wrapper
+            # """
+            # >>> import microspec as usp;
+            # >>> kit = usp.Devkit()
+            # >>> kit.sensor_name
+            # 'LIS-770i'
+            # """
+            b1 = reply.first_byte
+            b2 = reply.second_byte
+            b3 = reply.third_byte
+            self.sensor_hash = (b1<<16) | (b2<<8) | b3
+            if self.sensor_hash == 0x351ea9:
+                self.sensor_name = "LIS-770i"
+            elif self.sensor_hash == 0x91d318:
+                self.sensor_name = "S13131-512"
+            else:
+                self.sensor_name = "Unknown"
+        except AttributeError:
+            self.sensor_name = "OldFirmware"
+            self.sensor_hash = 0x123456
+
 
     def warn_sensor_is_not_LIS(self, command_name : str):
         """Warn user they sent getSensorConfig to a dev-kit that does not use the LIS-770i.
