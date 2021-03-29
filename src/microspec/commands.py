@@ -255,7 +255,7 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         super().__init__()
         # Initialize exposure_time_ attrs (sync with dev-kit)
         self.getExposure()
-        # Initialize autoexpos_ attrs (sync with dev-kit)
+        # Initialize autoexpose_ attrs (sync with dev-kit)
         self.getAutoExposeConfig()
 
         # Get the sensor hash to figure out LIS or S13131

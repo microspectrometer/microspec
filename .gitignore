@@ -9,3 +9,4 @@ doc/build/html/
 doc/source/README.*
 dist/
 *.egg-info/
+tags

@@ -1,43 +1,49 @@
-# MicroSpecLib README
+# Overview
 
-This library provides a number of interfaces for Chromation Spectrometer hardware, both in Python code, executables, servers, and emulators.
+[microspec](https://pypi.org/project/microspec/) is a Python
+package for USB communication with the spectrometer dev-kit.
 
-## Getting Started
+- *module* `microspec`:
+    - a Python API to talk to the dev-kit hardware
+    - it is a very thin wrapper on `microspeclib` for the purpose
+      of adding docstrings and simplifying the
+      command-and-response UI
+    - use this module if you just want to write Python
+      applications that talk to the Chromation dev-kit
+    - [view source code on GitHub](https://github.com/microspectrometer/microspec/tree/master/src/microspec)
+- *module* `microspeclib`:
+    - lower-level Python API
+    - this is auto-generated from the communication protocol
+      defined by the [JSON config
+      file](https://github.com/microspectrometer/microspec/blob/master/cfg/microspec.json)
+    - changing the JSON file changes the API
+    - so if you are writing your own firmware (or want to modify
+      our dev-kit firmware) and are writing Python applications,
+      you can re-purpose this module
+    - [view source code on GitHub](https://github.com/microspectrometer/microspec/tree/master/src/microspeclib)
+- *utility* `microspec_cmdline.py`:
+    - a simple command line utility for collecting data
+    - use `microspec_cmdline` to take measurements without
+      needing to first develop your own Python application
+    - I use this utility for quick tests because it avoids the
+      overhead of opening a REPL, importing the package, and
+      instantiating the kit
+        - for example, I send commands to the dev-kit directly
+          from Vim (my text editor) by making a shell command
+          shortcut that sends `microspec-cmdline.exe` followed by
+          the dev-kit command and arguments
 
-The following instructions will get you going in a flash.
+# Install
 
-### Prerequisites
-
-Since everything is Python in this library, with the exception of some documentation and configuration files, make sure that Python 3.7 or later is installed, as well as "pip". Then, use that to install some more Python modules:
-
-* `python -m pip install pyserial`
-* `python -m pip install pytest`
-* `python -m pip install psutil`
-* `python -m pip install tabulate`
-* `python -m pip install sphinx`
-* `python -m pip install recommonmark`
-* `python -m pip install m2r`
-* `python -m pip install sphinxcontrib-argdoc`
-
-NOTE: The prerequisite for the emulator is to be running on Linux or MacOSX and installing the `socat` executable. The emulator does not work on other platforms.
-
-### Installing
-
-First, download microspeclib in the appropriate python location, and make sure that the src/ directory is in your PYTHONPATH and the bin/ directory is in your PATH. 
-
-*NOTE: Include github download instructions.*
-
-*NOTE: Pip install instructions will be in a future release.*
-
-If you do not update your paths, you may need to specify them every time you use tools that utilize microspeclib, including the microspeclib executables themselves, for example:
+Install the `microspec` project with `pip`:
 
 ```
-cd microspeclib_install_dir
-PATH=$PATH:bin PYTHONPATH=$PYTHONPATH:src python /my/script/dir/tool.py
-PATH=$PATH:bin PYTHONPATH=$PYTHONPATH:src microspec_cmdline.py captureframe -e --csv
+$ pip install microspec
 ```
 
-### File Locations
+# Microspeclib
+
+## File Locations
 
 The breakdown of the installed files is thus:
 

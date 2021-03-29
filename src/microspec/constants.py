@@ -211,7 +211,7 @@ Similarly, ``row_bitmap=7`` means only use rows 1, 2, and 3:
 # TODO: add to JSON config file
 MAX_CYCLES = 65500 # 1310 milliseconds
 """int: Longest exposure time (integration time)."""
-MIN_CYCLES = 1 # 0.02 milliseconds
+MIN_CYCLES = 2 # 0.04 milliseconds
 """int: Shortest exposure time (integration time)."""
 HIT_TARGET = 1
 """int: Auto-expose hit the target signal range."""

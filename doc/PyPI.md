@@ -1,15 +1,81 @@
+[microspec](https://pypi.org/project/microspec/) is a Python
+package for USB communication with the [Chromation spectrometer
+dev-kit](https://microspectrometer.github.io/dev-kit-2020/).
+
+# Install
+
+
+Install `microspec` with `pip`:
+
+```
+$ pip install microspec
+```
+
+REPL Example:
+
+```
+>>> import microspec as usp
+>>> kit = usp.Devkit()
+>>> reply = kit.captureFrame()
+>>> print(reply)
+captureFrame_response(status='OK', num_pixels=392,
+                      pixels=[...], frame={...})
+```
+
+Command-line example:
+
+```
+$ microspec-cmdline.exe captureframe
+2021-02-11T22:56:17.133290,SensorCaptureFrame(status=0, num_pixels=392, pixels=[...])
+```
+
+Full documentation here:
+https://microspec-api.readthedocs.io/en/latest/microspec.commands.html
+
+(Documentation is a work-in-progress -- contact Chromation with
+questions).
+
+To extend or customize the spectrometer API, clone the repository
+from the project homepage:
+<https://github.com/microspectrometer/microspec> and install in
+`--editable` mode.
+
 # MicroSpec Overview
-Package `microspeclib` is a Python API for the Chromation
-spectrometer dev-kit.
+
+The API is two modules:
+
+- *module* `microspec`:
+    - API to talk to the dev-kit hardware
+    - it is a very thin wrapper on `microspeclib` for the purpose
+      of adding docstrings and simplifying the
+      command-and-response UI
+    - use this module if you just want to write Python
+      applications that talk to the Chromation dev-kit
+    - [view source code on GitHub](https://github.com/microspectrometer/microspec/tree/master/src/microspec)
+    - [view documentation on Read the Docs](https://microspec-api.readthedocs.io/en/latest)
+- *module* `microspeclib`:
+    - lower-level API
+    - use this if you are writing your own firmware (or want to
+      modify the Chromation dev-kit firmware) and would rather
+      modify a JSON file than write your own USB interface
+    - the dev-kit interface defined by this module is
+      auto-generated from the communication protocol defined by
+      the [JSON config
+      file](https://github.com/microspectrometer/microspec/blob/master/cfg/microspec.json)
+    - changing the JSON file changes the API (so `microspeclib`
+      works but `microspec` breaks and needs to be revised
+      manually)
+    - [view source code on GitHub](https://github.com/microspectrometer/microspec/tree/master/src/microspeclib)
+    - [view documentation on Read the Docs](https://microspec.readthedocs.io/en/latest/)
 
 The `microspec` project also includes:
 
-- command line utility `microspec-cmdline` for running basic
-  measurements without developing a Python application
+- command line utility `microspec-cmdline` for sending command to
+  the dev-kit without writing any Python
 - an emulator (Mac and Linux only) for faking the dev-kit
   hardware in unit tests
 
-## Spectrometer Hardware
+# Chromation dev-kit hardware
 
 The Chromation spectrometer is a surface-mount PCB package
 consisting of a linear photodiode array and optical components.
@@ -18,26 +84,14 @@ The Python API communicates with firmware on the two
 microcontrollers in the dev-kit, one on each of the stacked PCBs.
 
 - The microcontroller on the bottom of the stack provides a SPI
-interface to the Chromation spectrometer.
+  interface to the Chromation spectrometer.
 - The microcontroller on the PCB stacked above provides a USB
   bridge that turns the SPI interface into a USB interface.
 
 `microspeclib` accesses this USB interface using `pyserial`.
 
-# Install the Python API
+# Load VCP to use the dev-kit on Windows
 
-Install the `microspec` project with `pip`:
-
-```
-$ pip install microspec
-```
-
-To extend/customize/repurpose the API, clone the repository from
-the project homepage:
-<https://github.com/microspectrometer/microspec> and install in
-`--editable` mode.
-
-## Windows Load VCP
 On Windows, when connecting the dev-kit for the first time:
 
 - Open Device Manager:
@@ -54,10 +108,10 @@ If "Load VCP" is not enabled, `pyserial` cannot communicate with
 the dev-kit and `microspec` will report that it does not see a
 connected USB device.
 
-## Install extra requirements for testing and documentation
+# Install extra requirements for testing and documentation
 
 Developers may want to install additional packages required for
-running unit tests and rebuilding documentation.
+running unit tests (pytest) and rebuilding documentation (Sphinx).
 
 ```
 $ pip install microspec[dev]
@@ -66,15 +120,6 @@ $ pip install microspec[dev]
 Many of the `microspec` unit tests use an emulator to fake the
 dev-kit hardware. The emulator requires utility `socat`, which is
 only available for Mac and Linux.
-
-3. The documentation is built with Sphinx. Developers extending
-   the API will need to rebuild the documentation. Install the
-   Sphinx-related requirements by adding `[dev]` to the `install`
-   command:
-
-```
-$ pip install microspec[dev]
-```
 
 # Use the Python API
 
