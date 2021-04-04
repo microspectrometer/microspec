@@ -241,8 +241,24 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
     """
 
     def __init__(self):
-        """Add attributes to Devkit.
+        """Add attributes to Devkit. Sync status. Comm check.
         
+        - Add some convenience attributes (see Attributes below).
+        - Get exposure time.
+        - Get autoexpose configuration.
+        
+        Check communications: if the first attempt at
+        communication (get exposure time) timeouts, something is
+        wrong. Close communication and tell the user how to
+        troubleshoot. Client code tests for this condition by
+        checking `if timedout is True`::
+
+            import microspec as usp
+            kit = usp.Devkit()
+            if kit.timedout is True:
+                # Tell user something useful
+                print(kit.trouble_msg)
+
         Attributes
         ----------
         exposure_time_cycles: int
@@ -251,39 +267,87 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         exposure_time_ms: ms
             Exposure time in ms. Updated every time getExposure()
             and setExposure() are called.
+        timedout: bool
+            True if the most recent command timedout.
+        trouble_msg: string
+            This is the troubleshooting message printed to
+            stdout. This message is also stored as attribute
+            ``trouble_msg`` as a convenience for the client
+            application to use this message (e.g., status text in
+            a GUI).
         """
         super().__init__()
+        self.timedout = False
+        self.trouble_msg = ""
         # Initialize exposure_time_ attrs (sync with dev-kit)
-        self.getExposure()
-        # Initialize autoexpose_ attrs (sync with dev-kit)
-        self.getAutoExposeConfig()
+        reply = self.getExposure()
 
-        # Get the sensor hash to figure out LIS or S13131
-        # Here's a quick kludge for backwards compatibility
-        self.sensor_name = "Unknown"
-        self.sensor_hash = 0x123456
+        # If this first attempt at communication timeouts,
+        # there's probably something wrong with the serial
+        # connection.
+        #
+        # Either the usb-bridge is not connected to the
+        # vis-spi-out board,
+        # OR they are connected but the slider switch is set to
+        # ISP (firmware programming) instead of SPI (serial communication).
+
         try:
-            reply = self.getSensorHash()
-            # TODO(slab): put all of this in the getSensorHash wrapper
-            # """
-            # >>> import microspec as usp;
-            # >>> kit = usp.Devkit()
-            # >>> kit.sensor_name
-            # 'LIS-770i'
-            # """
-            b1 = reply.first_byte
-            b2 = reply.second_byte
-            b3 = reply.third_byte
-            self.sensor_hash = (b1<<16) | (b2<<8) | b3
-            if self.sensor_hash == 0x351ea9:
+            assert reply.status != 'TIMEOUT'
+
+            # We did not TIMEOUT, so communication is good. Yay.
+            # Go ahead and finish initilization: sync dev-kit
+            # info with this instance of Devkit.
+
+            # Initialize autoexpose_ attrs (sync with dev-kit)
+            self.getAutoExposeConfig()
+
+            # Get the sensor hash to figure out LIS or S13131.
+            # I'm using AttributeError as a quick kludge for
+            # backwards compatibility.
+            try:
+                reply = self.getSensorHash()
+                # TODO(slab): put all of this in the getSensorHash wrapper
+                # """
+                # >>> import microspec as usp;
+                # >>> kit = usp.Devkit()
+                # >>> kit.sensor_name
+                # 'LIS-770i'
+                # """
+                b1 = reply.first_byte
+                b2 = reply.second_byte
+                b3 = reply.third_byte
+                self.sensor_hash = (b1<<16) | (b2<<8) | b3
+                if self.sensor_hash == 0x351ea9:
+                    self.sensor_name = "LIS-770i"
+                elif self.sensor_hash == 0x91d318:
+                    self.sensor_name = "S13131-512"
+                else:
+                    self.sensor_name = "Unknown"
+                    self.sensor_hash = 0x123456
+            except AttributeError:
+                # 'tis the old firmware. Therefore, it's a LIS.
                 self.sensor_name = "LIS-770i"
-            elif self.sensor_hash == 0x91d318:
-                self.sensor_name = "S13131-512"
-            else:
-                self.sensor_name = "Unknown"
-        except AttributeError:
-            self.sensor_name = "OldFirmware"
-            self.sensor_hash = 0x123456
+                self.sensor_hash = 0x351ea9
+        except AssertionError:
+            # Initial attempt at communication TIMEDOUT.
+            # Set timedout True so caller code can check for this case.
+            # Output a useful troubleshooting message.
+            self.serial.close()
+            self.timedout = True
+            self.trouble_msg = (
+                "ERROR: usb-bridge cannot communicate with vis-spi-out.\n"
+                "STATUS: Serial communication is closed.\n"
+                "TROUBLESHOOT:\n"
+                "Please check:\n"
+                "  1. usb-bridge board is CONNECTED to a vis-spi-out board\n"
+                "  2. The BLACK slide switch on the usb-bridge is SET TO `SPI`\n"
+                "    - slide the black switch TOWARDS the big shrouded header\n"
+                "    - the position of the white switch does not matter\n"
+                "After you fix the hardware:\n"
+                "  - cycle power to the dev-kit\n"
+                "  - try instantiating Devkit() again"
+                )
+            print(self.trouble_msg)
 
 
     def warn_sensor_is_not_LIS(self, command_name : str):
