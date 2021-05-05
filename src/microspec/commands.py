@@ -635,21 +635,41 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
         TIMEOUT = self.is_out_of_time(_reply)
 
         # Create high-level reply. Use bad data if there was a timeout.
-        reply = replies.getSensorConfig_response(
-                status     = 'TIMEOUT',
-                binning    = '', # <--- bad data
-                gain       = '', # <--- bad data
-                row_bitmap = ''  # <--- bad data
-            ) if TIMEOUT else replies.getSensorConfig_response(
-                status     = status_dict.get(_reply.status),
-                binning    = binning_dict.get(_reply.binning),
-                gain       = gain_dict.get(_reply.gain),
-                row_bitmap = (
-                    row_dict.get(_reply.row_bitmap)
-                    if _reply.row_bitmap == ALL_ROWS
-                    else _reply.row_bitmap
+        if TIMEOUT:
+            reply = replies.getSensorConfig_response(
+                    status     = 'TIMEOUT',
+                    binning    = '', # <--- bad data
+                    gain       = '', # <--- bad data
+                    row_bitmap = ''  # <--- bad data
                     )
-                )
+        else:
+            # Return the rows as a string by converting the 5-bit
+            # bitmask to a str such as "ROW1 | ROW2 | ROW3"
+            # and if all rows are on, just return str "ALL_ROWS"
+            if _reply.row_bitmap == ALL_ROWS:
+                rows_str = row_dict.get(_reply.row_bitmap)
+            else:
+                # Build str array of the rows that are on
+                rows = [ROW1, ROW2, ROW3, ROW4, ROW5] # int array
+                rows_on = [] # str array
+                for row in rows:
+                    if _reply.row_bitmap & row:
+                        rows_on.append(row_dict.get(row))
+                # Convert array to a single string
+                rows_str = "|".join(rows_on)
+            reply = replies.getSensorConfig_response(
+                    status     = status_dict.get(_reply.status),
+                    binning    = binning_dict.get(_reply.binning),
+                    gain       = gain_dict.get(_reply.gain),
+                    row_bitmap = rows_str
+                    # No, returning a str or an int is confusing
+                    # row_bitmap = _reply.row_bitmap
+                    # row_bitmap = (
+                    #     row_dict.get(_reply.row_bitmap)
+                    #     if _reply.row_bitmap == ALL_ROWS
+                    #     else _reply.row_bitmap
+                    #     )
+                    )
 
         # Handle case where vis-spi-out does not recognize this
         # command because it is not programmed for the LIS.
