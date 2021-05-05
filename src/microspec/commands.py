@@ -624,7 +624,8 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
 
         >>> kit.getSensorConfig()
         getSensorConfig_response(status='OK', binning='BINNING_ON',
-                                 gain='GAIN1X', row_bitmap='ALL_ROWS')
+                                 gain='GAIN1X', row_bitmap='ALL_ROWS',
+                                 row_bitmap_int=31)
         """
 
         # Send command and get low-level reply.
@@ -661,9 +662,10 @@ class Devkit(MicroSpecSimpleInterface, TimeoutHandler):
                     status     = status_dict.get(_reply.status),
                     binning    = binning_dict.get(_reply.binning),
                     gain       = gain_dict.get(_reply.gain),
-                    row_bitmap = rows_str
-                    # No, returning a str or an int is confusing
-                    # row_bitmap = _reply.row_bitmap
+                    row_bitmap = rows_str,
+                    row_bitmap_int = _reply.row_bitmap
+                    # Return as str AND int as a convenience.
+                    # Returning a str OR an int is confusing.
                     # row_bitmap = (
                     #     row_dict.get(_reply.row_bitmap)
                     #     if _reply.row_bitmap == ALL_ROWS

@@ -159,7 +159,7 @@ See Also
 
 getSensorConfig_response = namedtuple(
         'getSensorConfig_response',
-        ['status', 'binning', 'gain', 'row_bitmap']
+        ['status', 'binning', 'gain', 'row_bitmap', 'row_bitmap_int']
         )
 getSensorConfig_response.__doc__ = """
 Response to command :func:`~microspec.commands.Devkit.getSensorConfig`.
