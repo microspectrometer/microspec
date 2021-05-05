@@ -12,6 +12,11 @@
     "Gain4x": "0x04",
     "Gain5x": "0x05",
     "GainDefault": "0x01",
+    "Row1": "0x01",
+    "Row2": "0x02",
+    "Row3": "0x04",
+    "Row4": "0x08",
+    "Row5": "0x10",
     "RowsDefault": "0x1F"
   },
   "protocol":

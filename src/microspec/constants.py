@@ -189,6 +189,16 @@ GAIN5X = _constants['Gain5x']
 """int: Pixel analog voltage gain is 5x."""
 
 # row_bitmap
+ROW1 = _constants['Row1']
+"""int: Only use first row of pixels."""
+ROW2 = _constants['Row2']
+"""int: Only use second row of pixels."""
+ROW3 = _constants['Row3']
+"""int: Only use third row of pixels."""
+ROW4 = _constants['Row4']
+"""int: Only use fourth row of pixels."""
+ROW5 = _constants['Row5']
+"""int: Only use fifth row of pixels."""
 ALL_ROWS = _constants['RowsDefault']
 """int: Use all five rows of pixels.
 
@@ -205,6 +215,22 @@ configuration.
 Similarly, ``row_bitmap=7`` means only use rows 1, 2, and 3:
 
 >>> 0b00000111
+7
+
+Most of the time, ALL_ROWS is the best choice. For
+troubleshooting optics it's sometimes useful to look at
+individual rows.
+
+For convenience, ROW1, ROW2, ROW3, ROW4, and ROW5 are provided as
+constants for the five rows. Since these correspond to a single
+bit in the five-bit value, these can also be combined with a
+bit-wise OR to make any combination of rows.
+
+For example, here is an alternative way to express
+``row_bitmap=7``, which means only use rows 1, 2, and 3:
+
+>>> import microspec as usp
+>>> usp.constants.ROW1 | usp.constants.ROW2 | usp.constants.ROW3
 7
 """
 
@@ -236,7 +262,9 @@ _gain_constants  = [ GAIN1X,   GAIN2_5X,   GAIN4X,   GAIN5X ]
 _gain_names      = ['GAIN1X', 'GAIN2_5X', 'GAIN4X', 'GAIN5X']
 gain_dict = dict(zip(_gain_constants, _gain_names))
 """ """
-row_dict = {ALL_ROWS: 'ALL_ROWS'}
+_row_constants = [  ROW1,   ROW2,   ROW3,   ROW4,   ROW5,   ALL_ROWS  ]
+_row_names     = [ 'ROW1', 'ROW2', 'ROW3', 'ROW4', 'ROW5', 'ALL_ROWS' ]
+row_dict = dict(zip(_row_constants, _row_names))
 """ """
 success_dict = {GAVE_UP: 'GAVE_UP', HIT_TARGET: 'HIT_TARGET'}
 """ """
