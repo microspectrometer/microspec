@@ -183,7 +183,11 @@ class MicroSpecSerialIOStream(MicroSpecStream):
       self.serial.port = device
       log.info("using device=%s", device)
     else:
-      ports = list(list_ports.grep("CHROMATION"))
+      # NOTE: 2021-06-23 (sustainablelab)
+        # Long serial numbers are no longer supported
+        # Change "CHROMATION" to "CH"
+      # ports = list(list_ports.grep("CHROMATION"))
+      ports = list(list_ports.grep("CH"))
       if ports:
         self.serial.port = ports[0].device
         self.serial.serial_number = ports[0].serial_number
